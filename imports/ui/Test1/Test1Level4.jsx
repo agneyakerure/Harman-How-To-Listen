@@ -11,7 +11,7 @@ import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory({forceRefresh: true});
 var wrongNumber = 0;
 var correctNumber = 0;
-incompleteLevel = 3;
+incompleteLevel = 4;
 var Test1Attempts;
 var Test1TotalCorrect;
 var Test1TotalWrong;
@@ -36,7 +36,7 @@ function shuffle(array) {
 var check = [];
 var divstyle = [];
 var simpleArray = [];
-var answer =[3,2,1,0];
+var answer =[4,3,2,1,0];
 
 var tracks = ['./audio/track1.wav', './audio/track2.wav', './audio/track3.wav', './audio/track4.wav'];
 var startOffset = 0;
@@ -52,7 +52,7 @@ var filter = audioContext.createBiquadFilter();
 filter.frequency.value=22050;
 gain.gain.value = 0.5;
 
-export default class Test1Level3 extends Component {
+export default class Test1Level4 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -60,7 +60,8 @@ export default class Test1Level3 extends Component {
 			secondSlider: 0,
 			thirdSlider: 0,
 			fourthSlider: 0,
-			level: 3,
+			fifthSlider: 0,
+			level: 4,
 			values:[],
 			slidervals: [{
 		       index: 0,
@@ -76,6 +77,10 @@ export default class Test1Level3 extends Component {
 		    },
 		    {
 		    	index: 3,
+		    	value: 0
+		    },
+		    {
+		    	index: 4,
 		    	value: 0
 		    }]
 		};
@@ -103,10 +108,12 @@ export default class Test1Level3 extends Component {
 		const value2 = this.state.slidervals[1].value;
 		const value3 = this.state.slidervals[2].value;
 		const value4 = this.state.slidervals[3].value;
+		const value5 = this.state.slidervals[4].value;
 		var a = document.getElementById('Level1Slider1');
 		var b = document.getElementById('Level1Slider2');
 		var c = document.getElementById('Level1Slider3');
 		var d = document.getElementById('Level1Slider4');
+		var e = document.getElementById('Level1Slider5');
 		correctNumber=0
 		wrongNumber = 0;
 		var newArr = _.sortBy(this.state.slidervals, 'value', function(n) {
@@ -121,32 +128,33 @@ export default class Test1Level3 extends Component {
 	    if(_.isEqual(check, answer)) {
 	    	Test1TotalCorrect +=1;
 			// console.log("Big Correct Value which is being checked: ",this.state.values[(this.state.values.length)-1].Test1Level1CorrectNumber);
-			if(this.state.values[(this.state.values.length)-1].Test1Level3CorrectNumber >= 2) {
+			if(this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber >= 2) {
 				console.log("Answer is correct :-D");
 				incompleteLevel = 0;
-				if(this.state.values[(this.state.values.length)-1].Test1Level3CorrectNumber == null)
+				if(this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber == null)
 				{
 					correctNumber = 1;
 					wrongNumber = 0;
 				} else {
-					correctNumber=Number(this.state.values[(this.state.values.length)-1].Test1Level3CorrectNumber) +1;
+					correctNumber=Number(this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber) +1;
 					wrongNumber = 0;
 				}
-				Meteor.call('links.insert4',value1, value2, value3, value4, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
+				Meteor.call('links.insert5',value1, value2, value3, value4, value5, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
 				this.setState({wrongNumber: 0});
-				setTimeout(() => history.push('/Test1Level4'), 0);
+				setTimeout(() => history.push('/Dashboard'), 0);
 			} else {
+				incompleteLevel = 4;
 				console.log("Answer is correct :-D");
 				// this.setState({attemptNumber: this.state.attemptNumber + 1});
-				if(this.state.values[(this.state.values.length)-1].Test1Level3CorrectNumber == null)
+				if(this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber == null)
 				{
 					correctNumber = 1;
 					wrongNumber = 0;
 				} else {
-					correctNumber=Number(this.state.values[(this.state.values.length)-1].Test1Level3CorrectNumber) +1;
+					correctNumber=Number(this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber) +1;
 					wrongNumber = 0;
 				}
-				Meteor.call('links.insert4',value1, value2, value3, value4, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
+				Meteor.call('links.insert5',value1, value2, value3, value4, value5, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
 				this.setState({wrongNumber: 0});
 			}
 			setTimeout(() => window.location.reload(), 0);
@@ -156,32 +164,33 @@ export default class Test1Level3 extends Component {
 			// console.log("WrongNumber: ",this.state.values[(this.state.values.length)-1].Test1Level1WrongNumber);
 			// setTimeout(() => window.location.reload(), 0);
 			// window.location.reload();	
-			if(this.state.values[(this.state.values.length)-1].Test1Level3WrongNumber >= 2) {
+			if(this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber >= 2) {
 				console.log("Answer is incorrect :-(");
 				incompleteLevel = 3;
-				if(this.state.values[(this.state.values.length)-1].Test1Level3WrongNumber == null)
+				if(this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber == null)
 				{
 					correctNumber = 0;
 					wrongNumber = 1;
 				} else {
-					wrongNumber=Number(this.state.values[(this.state.values.length)-1].Test1Level3WrongNumber) +1;
+					wrongNumber=Number(this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber) +1;
 					correctNumber = 0;
 				}
-				Meteor.call('links.insert4',value1, value2, value3, value4, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
+				Meteor.call('links.insert5',value1, value2, value3, value4, value5, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
 				this.setState({correctNumber: 0});
-				setTimeout(() => history.push('/Test1Level2'), 0);
+				setTimeout(() => history.push('/Test1Level3'), 0);
 			} else {
+				incompleteLevel = 4;
 				console.log("Answer is incorrect :-(");
 				// this.setState({attemptNumber: this.state.attemptNumber + 1});
-				if(this.state.values[(this.state.values.length)-1].Test1Level3WrongNumber == null)
+				if(this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber == null)
 				{
 					correctNumber = 0;
 					wrongNumber = 1;
 				} else {
-					wrongNumber=Number(this.state.values[(this.state.values.length)-1].Test1Level3WrongNumber) +1;
+					wrongNumber=Number(this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber) +1;
 					correctNumber = 0;
 				}
-				Meteor.call('links.insert4',value1, value2, value3, value4, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
+				Meteor.call('links.insert5',value1, value2, value3, value4, value5, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
 				this.setState({wrongNumber: 0});
 			}
 			setTimeout(() => window.location.reload(), 0);
@@ -208,28 +217,34 @@ export default class Test1Level3 extends Component {
 	    var b = document.getElementById('greenSlider');
 	    var c = document.getElementById('blueSlider');
 	    var d = document.getElementById('yellowSlider');
+	    var e = document.getElementById('purpleSlider');
 	    a.style.display = 'none';
 	    b.style.display = 'none';
 	    c.style.display = 'none';
 	    d.style.display = 'none';
+	    e.style.display = 'none';
 	    simpleArray[0] = {
 	    	bar: a,
-	    	effect: this.lowpass4
+	    	effect: this.lowpass5
 	    };
 	    simpleArray[1] = {
 	    	bar: b,
-	    	effect: this.lowpass3
+	    	effect: this.lowpass4
 	    };
 	    simpleArray[2] = {
 	    	bar: c,
-	    	effect: this.lowpass2
+	    	effect: this.lowpass3
 	    };
 	    simpleArray[3] = {
 	    	bar: d,
-	    	effect: this.lowpass1
+	    	effect: this.lowpass2
 	    };
+	    simpleArray[4] = {
+	    	bar: e,
+	    	effect: this.lowpass1
+	    }
 	    shuffle(simpleArray);
-	    incompleteLevel = 3;
+	    incompleteLevel = 4;
 
 	}
 
@@ -329,14 +344,29 @@ export default class Test1Level3 extends Component {
   	lowpass4 = (event) => {
 	    if(isConnectedToFilter) {
 	      filter.type = 'lowpass';
-	      filter.frequency.value = 4000;
+	      filter.frequency.value = 3500;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
 	      filter.type = 'lowpass';
-	      filter.frequency.value = 4000;
+	      filter.frequency.value = 3500;
+	      isConnectedToFilter = true;
+	    	}
+  	}
+
+  	lowpass5 = (event) => {
+	    if(isConnectedToFilter) {
+	      filter.type = 'lowpass';
+	      filter.frequency.value = 4200;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = 'lowpass';
+	      filter.frequency.value = 4200;
 	      isConnectedToFilter = true;
 	    	}
   	}
@@ -385,6 +415,7 @@ export default class Test1Level3 extends Component {
     	stateCopy[2].value = Number(this.state.thirdSlider);
     	this.setState(stateCopy);
   	};
+
   	handleFourthSlider = (event, value) => {
 		const value4 = this.refs.slider4.value;
     	this.setState({
@@ -395,12 +426,23 @@ export default class Test1Level3 extends Component {
     	this.setState(stateCopy);
   	};
 
+  	handleFifthSlider = (event, value) => {
+		const value5 = this.refs.slider5.value;
+    	this.setState({
+    		fifthSlider: Number(value5), 
+    	});
+    	var stateCopy = Object.assign({}, this.state.slidervals);
+    	stateCopy[4].value = Number(this.state.fifthSlider);
+    	this.setState(stateCopy);
+  	};
+
   	clickRed = (event) => {
   		simpleArray[0].effect();
     	simpleArray[0].bar.style.display = 'block';
     	simpleArray[1].bar.style.display = 'none';
     	simpleArray[2].bar.style.display = 'none';
     	simpleArray[3].bar.style.display = 'none';
+    	simpleArray[4].bar.style.display = 'none';
  	};
   	clickGreen = (event) => {
   		simpleArray[1].effect();
@@ -408,6 +450,7 @@ export default class Test1Level3 extends Component {
     	simpleArray[0].bar.style.display = 'none';
     	simpleArray[2].bar.style.display = 'none';
     	simpleArray[3].bar.style.display = 'none';
+    	simpleArray[4].bar.style.display = 'none';
  	};
   	clickBlue = (event) => {
   		simpleArray[2].effect();
@@ -415,6 +458,7 @@ export default class Test1Level3 extends Component {
     	simpleArray[1].bar.style.display = 'none';
     	simpleArray[0].bar.style.display = 'none';
     	simpleArray[3].bar.style.display = 'none';
+    	simpleArray[4].bar.style.display = 'none';
  	};
   	clickYellow = (event) => {
   		simpleArray[3].effect();
@@ -422,39 +466,51 @@ export default class Test1Level3 extends Component {
     	simpleArray[1].bar.style.display = 'none';
     	simpleArray[0].bar.style.display = 'none';
     	simpleArray[2].bar.style.display = 'none';
+    	simpleArray[4].bar.style.display = 'none';
+ 	};
+ 	clickPurple = (event) => {
+  		simpleArray[4].effect();
+    	simpleArray[4].bar.style.display = 'block';
+    	simpleArray[1].bar.style.display = 'none';
+    	simpleArray[0].bar.style.display = 'none';
+    	simpleArray[2].bar.style.display = 'none';
+    	simpleArray[3].bar.style.display = 'none';
  	};
 
 
   	clickZZZ = (event) => {
-  		if(this.state.values[(this.state.values.length)-1].Test1Level3CorrectNumber == null || this.state.values[(this.state.values.length)-1].Test1Level3WrongNumber == null) {
+  		if(this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber == null || this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber == null) {
 			var correctNumber = 0;
 			var wrongNumber = 0;
 			console.log("CorrectNumber: ",correctNumber);
 			console.log("WrongNumber  : ",wrongNumber);
 		} else {
-			console.log("CorrectNumber: ",this.state.values[(this.state.values.length)-1].Test1Level3CorrectNumber);
-			console.log("WrongNumber  : ",this.state.values[(this.state.values.length)-1].Test1Level3WrongNumber);
+			console.log("CorrectNumber: ",this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber);
+			console.log("WrongNumber  : ",this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber);
 		}
 		console.log("incompleteLevel: ",this.state.values[(this.state.values.length)-1].incompleteLevel);
 	}
   	render() {
   		return(
 			<div>
-				<PrivateHeader title="Level 3"/>
+				<PrivateHeader title="Level 4"/>
 				<div>
 					<p>Use Slider</p>
 					<form onSubmit={this.onSubmit.bind(this)} id="form">
 						<div className = "slider1" id="redSlider">
-							<input type="range" ref="slider1" min="0" max="10" id="Level3Slider1" className="Level3Slider1" value={this.state.firstSlider, this.state.slidervals[0].value} onChange={this.handleFirstSlider.bind(this)}/>
+							<input type="range" ref="slider1" min="0" max="10" id="Level4Slider1" className="Level4Slider1" value={this.state.firstSlider, this.state.slidervals[0].value} onChange={this.handleFirstSlider.bind(this)}/>
 						</div>
 						<div className = "slider2" id="greenSlider">
-							<input type="range" ref="slider2" min="0" max="10" id="Level3Slider2" className="Level3Slider2" value={this.state.secondSlider, this.state.slidervals[1].value} onChange={this.handleSecondSlider.bind(this)}/>
+							<input type="range" ref="slider2" min="0" max="10" id="Level4Slider2" className="Level4Slider2" value={this.state.secondSlider, this.state.slidervals[1].value} onChange={this.handleSecondSlider.bind(this)}/>
 						</div>
 						<div className = "slider3" id="blueSlider">
-							<input type="range" ref="slider3" min="0" max="10" id="Level3Slider3" className="Level3Slider3" value={this.state.thirdSlider, this.state.slidervals[2].value} onChange={this.handleThirdSlider.bind(this)}/>
+							<input type="range" ref="slider3" min="0" max="10" id="Level4Slider3" className="Level4Slider3" value={this.state.thirdSlider, this.state.slidervals[2].value} onChange={this.handleThirdSlider.bind(this)}/>
 						</div>
 						<div className = "slider4" id="yellowSlider">
-							<input type="range" ref="slider4" min="0" max="10" id="Level3Slider4" className="Level3Slider4" value={this.state.fourthSlider, this.state.slidervals[3].value} onChange={this.handleFourthSlider.bind(this)}/>
+							<input type="range" ref="slider4" min="0" max="10" id="Level4Slider4" className="Level4Slider4" value={this.state.fourthSlider, this.state.slidervals[3].value} onChange={this.handleFourthSlider.bind(this)}/>
+						</div>
+						<div className = "slider5" id="purpleSlider">
+							<input type="range" ref="slider5" min="0" max="10" id="Level4Slider5" className="Level4Slider5" value={this.state.fifthSlider, this.state.slidervals[4].value} onChange={this.handleFifthSlider.bind(this)}/>
 						</div>
 						<button id="submit">Submit!</button>
 					</form>
@@ -463,6 +519,7 @@ export default class Test1Level3 extends Component {
 					<button onClick={this.clickGreen}>Green</button>
 					<button onClick={this.clickBlue}>Blue</button>	
 					<button onClick={this.clickYellow}>Yellow</button>
+					<button onClick={this.clickPurple}>Purple</button>
 					<button onClick={this.flat}>Flat</button>
 					<button onClick={this.play}>Play/Pause</button>
 					<button onClick={this.stop}>Stop</button>

@@ -28,10 +28,10 @@ var isPlaying = false;
 var isConnectedToFilter = false;
 var biquadFilter = audioContext.createBiquadFilter();
 biquadFilter = audioContext.createBiquadFilter(); 
-biquadFilter.type = "notch";
-biquadFilter.frequency.value = 20000;
-biquadFilter.Q.value = 5;
-biquadFilter.gain.value =6;
+biquadFilter.type = "lowpass";
+biquadFilter.frequency.value = 18000;
+biquadFilter.Q.value = 1;
+biquadFilter.gain.value =0;
 var canvas = document.getElementById("canvas");
 
 export default class Graph extends Component {
@@ -74,7 +74,7 @@ export default class Graph extends Component {
 		var canvas = document.getElementById("canvas");
 		var canvasContext = canvas.getContext("2d");
 	    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-	    var barWidth = 1500 / frequencyBars;
+	    var barWidth = 600 / frequencyBars;
 	    
 	    // Magnitude
 	    canvasContext.strokeStyle = "blue";
@@ -85,7 +85,7 @@ export default class Graph extends Component {
 	        	canvas.height - mag[frequencyStep]*90
 	        );
 	    }
-	    canvasContext.fillText("A", 400,50);
+	    // canvasContext.fillText("A", 400,50);
 	    canvasContext.stroke();
 	}
 
@@ -106,7 +106,7 @@ export default class Graph extends Component {
     	return (
 	        <div>
 	          <h1>Graph</h1>
-	          <canvas id="canvas" width="1200" height ="200"></canvas>
+	          <canvas id="canvas" width="500" height ="200"></canvas>
 	          <div>
 	          	<button onClick={this.play}>Play/Pause</button>
 	          </div>

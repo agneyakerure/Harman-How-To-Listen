@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Links } from '../api/links';
 import PrivateHeader from './PrivateHeader';
 
-Test1Links = ['/Test1Level0', '/Test1Level1', '/Test1Level2', '/Test1Level3'];
+Test1Links = ['/Test1Level0', '/Test1Level1', '/Test1Level2', '/Test1Level3', '/Test1Level4'];
 var a;
 export default class Dashboard extends Component {
 
@@ -62,6 +62,9 @@ export default class Dashboard extends Component {
 					this.setState({level: " 3 "});
 					break;
 					
+			case 4: this.setState({link: Test1Links[4]});
+					this.setState({level: " 4 "});
+					break;
 			default: this.setState({link: Test1Links[0]});
 					this.setState({level: " 0 "});
 					

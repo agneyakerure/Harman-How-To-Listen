@@ -251,7 +251,7 @@ export default class Test1Level0 extends Component {
 	render() {
 		return(
 			<div>
-				<PrivateHeader title="Values1!"/>
+				<PrivateHeader title="Level 0"/>
 				<div>
 					<p>Use Slider</p>
 					<form onSubmit={this.onSubmit.bind(this)}>
