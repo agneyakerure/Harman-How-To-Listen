@@ -19,7 +19,9 @@ import Test1Level1 from '../ui/Test1/Test1Level1';
 import Test1Level2 from '../ui/Test1/Test1Level2';
 import Test1Level3 from '../ui/Test1/Test1Level3';
 import Test1Level4 from '../ui/Test1/Test1Level4';
+import Test2Level1 from '../ui/Graph/Test2Level1';
 import Graph from '../ui/Graph/Graph';
+
 
 const history = createBrowserHistory({forceRefresh: true});
 const unauthenticatedPages = ['/','/signup','/login','/Login','/SignUp', '/Home'];
@@ -57,6 +59,8 @@ export const routes =
           <Route exact path='/Test1Level2' component={Test1Level2}/>
           <Route exact path='/Test1Level3' component={Test1Level3}/>
           <Route exact path='/Test1Level4' component={Test1Level4}/>
+
+          <Route exact path='/Test2Level1' component={Test2Level1}/>
           <Route exact path='/Graph' component={Graph}/>
         </div>
       </Router>

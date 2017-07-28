@@ -278,6 +278,7 @@ export default class Test1Level3 extends Component {
 	}
 
 	componentWillUnmount() {
+		audioContext.close();
 		this.linksTracker.stop();
 	}
 

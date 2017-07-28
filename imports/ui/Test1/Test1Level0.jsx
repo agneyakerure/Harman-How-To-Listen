@@ -106,6 +106,11 @@ export default class Test1Level0 extends Component {
 		}
 	}
 
+	componentWillUnmount() {
+		
+		audioContext.close();
+	}
+
 	buttonBoy = (event) => {
 		event.preventDefault();
 		dist.curve = this.makeDistortionCurve(0);

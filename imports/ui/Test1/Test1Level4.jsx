@@ -294,6 +294,7 @@ export default class Test1Level4 extends Component {
 
 	componentWillUnmount() {
 		this.linksTracker.stop();
+		audioContext.close();
 	}
 
 	lowpass1 = (event) => {

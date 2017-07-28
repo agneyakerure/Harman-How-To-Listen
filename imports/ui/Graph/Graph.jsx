@@ -3,36 +3,51 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom';
-
-
-var frequencyBars = 100;
-var myFrequencyArray = new Float32Array(frequencyBars);
-for(var i = 0; i < frequencyBars; ++i) {
-    myFrequencyArray[i] = 25000/frequencyBars*(i+1);
-}
-var magResponseOutput = new Float32Array(frequencyBars); // magnitude
-var phaseResponseOutput = new Float32Array(frequencyBars); 
-
-// var canvasContext = canvas.getContext("2d");
-
+// import Chart from 'chart.js';
+import {Line} from 'react-chartjs-2';
 
 var tracks = ['./audio/track1.wav', './audio/track2.wav', './audio/track3.wav', './audio/track4.wav'];
 var startOffset = 0;
 var startTime = 0;
-var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+export const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 var gain = audioContext.createGain();
 var source;
 var request = new XMLHttpRequest();
 var buf;
 var isPlaying = false;
 var isConnectedToFilter = false;
-var biquadFilter = audioContext.createBiquadFilter();
-biquadFilter = audioContext.createBiquadFilter(); 
-biquadFilter.type = "lowpass";
-biquadFilter.frequency.value = 1000;
-biquadFilter.Q.value = 1;
-biquadFilter.gain.value =0;
-var canvas = document.getElementById("canvas");
+var biquadFilter1 = audioContext.createBiquadFilter();
+var biquadFilter2 = audioContext.createBiquadFilter();
+var nyquist = 0.5 * audioContext.sampleRate;
+var curveColor = "rgb(192,192,192)";
+var playheadColor = "rgb(80, 100, 80)";
+var gridColor = "rgb(100,100,100)";
+
+var dbScale = 60;
+var pixelsPerDb;
+var width = 500;
+var height = 400;
+
+var data;
+
+var label = [];
+var datain = [];
+biquadFilter1 = audioContext.createBiquadFilter(); 
+biquadFilter1.type = "peaking";
+biquadFilter1.frequency.value = 2000;
+biquadFilter1.Q.value = 5;
+biquadFilter1.gain.value =6;
+
+biquadFilter2 = audioContext.createBiquadFilter(); 
+biquadFilter2.type = "peaking";
+biquadFilter2.frequency.value = 5000;
+biquadFilter2.Q.value = 14;
+biquadFilter2.gain.value =20;
+
+function dbToY(db) {
+    var y = (0.5 * height) - pixelsPerDb * db;
+    return y;
+}
 
 export default class Graph extends Component {
 
@@ -55,8 +70,8 @@ export default class Graph extends Component {
 				audioContext.decodeAudioData(audioData, function(buffer) {
 					source.buffer = buffer;
 					source.loop = true;
-					//source.connect(biquadFilter);
-					biquadFilter.connect(gain);
+					//source.connect(biquadFilter1);
+					biquadFilter1.connect(gain);
 					gain.connect(audioContext.destination);
 					setTimeout(() => source.start(0, startOffset % buffer.duration), 0);
 					isConnectedToFilter = false;
@@ -70,43 +85,103 @@ export default class Graph extends Component {
 		}
 	}
 
-	drawFrequencyResponse(mag, phase) {
+	drawFrequencyResponse() {
 		var canvas = document.getElementById("canvas");
 		var canvasContext = canvas.getContext("2d");
-	    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-	    var barWidth = 600 / frequencyBars;
-	    
-	    // Magnitude
-	    canvasContext.strokeStyle = "blue";
+	    canvasContext.fillStyle = "rgb(0, 0, 0)";
+	    canvasContext.fillRect(0, 0, width, height);
+
+	    canvasContext.strokeStyle = curveColor;
+	    canvasContext.lineWidth = 3;
+
 	    canvasContext.beginPath();
-	    for(var frequencyStep = 0; frequencyStep < frequencyBars; ++frequencyStep) {
-	      	canvasContext.lineTo(
-	        	frequencyStep * barWidth, 
-	        	canvas.height - mag[frequencyStep]*90
-	        );
+	    canvasContext.moveTo(0, 0);
+
+	    pixelsPerDb = (0.5 * height) / dbScale;
+	    
+	    var noctaves = 5;
+	    
+	    var frequencyHz1 = new Float32Array(width);
+	    var magResponse1 = new Float32Array(width);
+	    var phaseResponse1 = new Float32Array(width);
+	    var nyquist = 0.5 * audioContext.sampleRate;
+	    // First get response.
+	    for (var i = 0; i < width; ++i) {
+	        var f = i / width;
+	        
+	        // Convert to log frequency scale (octaves).
+	        f = nyquist * Math.pow(2.0, noctaves * (f - 1.0));
+	        
+	        frequencyHz1[i] = f;
 	    }
-	    // canvasContext.fillText("A", 400,50);
+
+    	biquadFilter1.getFrequencyResponse(frequencyHz1, magResponse1, phaseResponse1);
+	    for (var i = 0; i < width; ++i) {
+	        var f = magResponse1[i];
+	        var response = magResponse1[i];
+	        var dbResponse = 20.0 * Math.log(response) / Math.LN10;
+	        // dbResponse *= 2; // simulate two chained Biquads (for 4-pole lowpass)
+	        
+	        var x = i;
+	    
+	        var y = dbToY(dbResponse);
+	        
+	        canvasContext.lineTo(x, y);
+	    }
 	    canvasContext.stroke();
+	    
+	    canvasContext.beginPath();
+	    
+	    canvasContext.lineWidth = 1;
+	    
+	    canvasContext.strokeStyle = gridColor;
+
+	    for (var octave = 0; octave <= noctaves; octave++) {
+	        var x = octave * width / noctaves;
+	        
+	        canvasContext.strokeStyle = gridColor;
+	        canvasContext.moveTo(x, 20);
+	        canvasContext.lineTo(x, height);
+	        canvasContext.stroke();
+
+	        var f = nyquist * Math.pow(2.0, octave - noctaves);
+	        canvasContext.textAlign = "center";
+	        canvasContext.strokeStyle = curveColor;
+	        canvasContext.strokeText(f.toFixed(0) + "Hz", x, 20);
+	    }
+
+	    // Draw 0dB line.
+	    canvasContext.beginPath();
+	    canvasContext.moveTo(0, 0.5 * height);
+	    canvasContext.lineTo(width, 0.5 * height);
+	    canvasContext.stroke();
+	    
+	    // Draw decibel scale.
+	    
+	    for (var db = -dbScale; db < dbScale; db += 5) {
+	        var y = dbToY(db);
+	        canvasContext.strokeStyle = curveColor;
+	        canvasContext.strokeText(db.toFixed(0) + "dB", width , y);
+
+	        canvasContext.strokeStyle = gridColor;
+	        canvasContext.beginPath();
+	        canvasContext.moveTo(0, y);
+	        canvasContext.lineTo(width, y);
+	        canvasContext.stroke();
+	    }
 	}
 
-
-
 	componentDidMount() {
-		
 		this.play();
- 		biquadFilter.getFrequencyResponse(
-      		myFrequencyArray, 
-      		magResponseOutput,
-      		phaseResponseOutput
-      	);
-		this.drawFrequencyResponse(magResponseOutput, phaseResponseOutput);
+		this.drawFrequencyResponse();
 	}
 
   	render() {
     	return (
 	        <div>
 	          <h1>Graph</h1>
-	          <canvas id="canvas" width="500" height ="200"></canvas>
+	          <canvas id="canvas" width="600" height ="200"></canvas>
+	          
 	          <div>
 	          	<button onClick={this.play}>Play/Pause</button>
 	          </div>
