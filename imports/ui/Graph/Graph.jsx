@@ -29,7 +29,7 @@ var isConnectedToFilter = false;
 var biquadFilter = audioContext.createBiquadFilter();
 biquadFilter = audioContext.createBiquadFilter(); 
 biquadFilter.type = "lowpass";
-biquadFilter.frequency.value = 18000;
+biquadFilter.frequency.value = 1000;
 biquadFilter.Q.value = 1;
 biquadFilter.gain.value =0;
 var canvas = document.getElementById("canvas");
@@ -55,7 +55,7 @@ export default class Graph extends Component {
 				audioContext.decodeAudioData(audioData, function(buffer) {
 					source.buffer = buffer;
 					source.loop = true;
-					source.connect(biquadFilter);
+					//source.connect(biquadFilter);
 					biquadFilter.connect(gain);
 					gain.connect(audioContext.destination);
 					setTimeout(() => source.start(0, startOffset % buffer.duration), 0);
