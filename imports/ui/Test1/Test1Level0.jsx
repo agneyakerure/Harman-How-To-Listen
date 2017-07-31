@@ -7,14 +7,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import ValuesList2 from '../ValueList2';
 import { createContainer } from 'meteor/react-meteor-data';
 import PrivateHeader from '../PrivateHeader';
-
+import { audioContext } from '../Dashboard';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 
 
 var startOffset = 0;
 var startTime = 0;
-var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 var gain = audioContext.createGain();
 var source;
 var request = new XMLHttpRequest();
@@ -192,6 +191,7 @@ export default class Test1Level0 extends Component {
 		isPlaying = false;
 		startTime = 0;
 		startOffset = 0;
+		audioContext.close();
 
 	}
 

@@ -5,11 +5,12 @@ import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom';
 // import Chart from 'chart.js';
 import {Line} from 'react-chartjs-2';
+import { audioContext } from '../Dashboard';
 
 var tracks = ['./audio/track1.wav', './audio/track2.wav', './audio/track3.wav', './audio/track4.wav'];
 var startOffset = 0;
 var startTime = 0;
-export const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+// const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 var gain = audioContext.createGain();
 var source;
 var request = new XMLHttpRequest();
@@ -25,17 +26,15 @@ var gridColor = "rgb(100,100,100)";
 
 var dbScale = 60;
 var pixelsPerDb;
-var width = 500;
+var width = 800;
 var height = 400;
-
-var data;
 
 var label = [];
 var datain = [];
 biquadFilter1 = audioContext.createBiquadFilter(); 
-biquadFilter1.type = "peaking";
-biquadFilter1.frequency.value = 2000;
-biquadFilter1.Q.value = 5;
+biquadFilter1.type = "lowpass";
+biquadFilter1.frequency.value = 9000;
+biquadFilter1.Q.value = 1;
 biquadFilter1.gain.value =6;
 
 biquadFilter2 = audioContext.createBiquadFilter(); 
@@ -70,7 +69,7 @@ export default class Graph extends Component {
 				audioContext.decodeAudioData(audioData, function(buffer) {
 					source.buffer = buffer;
 					source.loop = true;
-					//source.connect(biquadFilter1);
+					source.connect(biquadFilter1);
 					biquadFilter1.connect(gain);
 					gain.connect(audioContext.destination);
 					setTimeout(() => source.start(0, startOffset % buffer.duration), 0);
@@ -136,19 +135,19 @@ export default class Graph extends Component {
 	    
 	    canvasContext.strokeStyle = gridColor;
 
-	    for (var octave = 0; octave <= noctaves; octave++) {
-	        var x = octave * width / noctaves;
+	    // for (var octave = 0; octave <= noctaves; octave++) {
+	    //     var x = octave * width / noctaves;
 	        
-	        canvasContext.strokeStyle = gridColor;
-	        canvasContext.moveTo(x, 20);
-	        canvasContext.lineTo(x, height);
-	        canvasContext.stroke();
+	    //     canvasContext.strokeStyle = gridColor;
+	    //     canvasContext.moveTo(x, 20);
+	    //     canvasContext.lineTo(x, height);
+	    //     canvasContext.stroke();
 
-	        var f = nyquist * Math.pow(2.0, octave - noctaves);
-	        canvasContext.textAlign = "center";
-	        canvasContext.strokeStyle = curveColor;
-	        canvasContext.strokeText(f.toFixed(0) + "Hz", x, 20);
-	    }
+	    //     var f = nyquist * Math.pow(2.0, octave - noctaves);
+	    //     canvasContext.textAlign = "center";
+	    //     canvasContext.strokeStyle = curveColor;
+	    //     canvasContext.strokeText(f.toFixed(0) + "Hz", x, 20);
+	    // }
 
 	    // Draw 0dB line.
 	    canvasContext.beginPath();
@@ -156,19 +155,19 @@ export default class Graph extends Component {
 	    canvasContext.lineTo(width, 0.5 * height);
 	    canvasContext.stroke();
 	    
-	    // Draw decibel scale.
+	    // // Draw decibel scale.
 	    
-	    for (var db = -dbScale; db < dbScale; db += 5) {
-	        var y = dbToY(db);
-	        canvasContext.strokeStyle = curveColor;
-	        canvasContext.strokeText(db.toFixed(0) + "dB", width , y);
+	    // for (var db = -dbScale; db < dbScale; db += 5) {
+	    //     var y = dbToY(db);
+	    //     canvasContext.strokeStyle = curveColor;
+	    //     canvasContext.strokeText(db.toFixed(0) + "dB", width , y);
 
-	        canvasContext.strokeStyle = gridColor;
-	        canvasContext.beginPath();
-	        canvasContext.moveTo(0, y);
-	        canvasContext.lineTo(width, y);
-	        canvasContext.stroke();
-	    }
+	    //     canvasContext.strokeStyle = gridColor;
+	    //     canvasContext.beginPath();
+	    //     canvasContext.moveTo(0, y);
+	    //     canvasContext.lineTo(width, y);
+	    //     canvasContext.stroke();
+	    // }
 	}
 
 	componentDidMount() {
@@ -180,7 +179,7 @@ export default class Graph extends Component {
     	return (
 	        <div>
 	          <h1>Graph</h1>
-	          <canvas id="canvas" width="600" height ="200"></canvas>
+	          <canvas id="canvas" width="800" height ="400"></canvas>
 	          
 	          <div>
 	          	<button onClick={this.play}>Play/Pause</button>

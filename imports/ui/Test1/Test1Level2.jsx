@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { createContainer } from 'meteor/react-meteor-data';
 import PrivateHeader from '../PrivateHeader';
 import createBrowserHistory from 'history/createBrowserHistory';
+import { audioContext } from '../Dashboard';
 
 const history = createBrowserHistory({forceRefresh: true});
 var wrongNumber = 0;
@@ -41,7 +42,7 @@ var answer =[2,1,0];
 var tracks = ['./audio/track1.wav', './audio/track2.wav', './audio/track3.wav', './audio/track4.wav'];
 var startOffset = 0;
 var startTime = 0;
-var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+// var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 var gain = audioContext.createGain();
 var source;
 var request = new XMLHttpRequest();
@@ -263,6 +264,7 @@ export default class Test1Level2 extends Component {
 		isPlaying = false;
 		startTime = 0;
 		startOffset = 0;
+		audioContext.close();
 
 	}
 

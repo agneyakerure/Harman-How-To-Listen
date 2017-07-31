@@ -7,7 +7,8 @@ import { Links } from '../api/links';
 import PrivateHeader from './PrivateHeader';
 
 Test1Links = ['/Test1Level0', '/Test1Level1', '/Test1Level2', '/Test1Level3', '/Test1Level4'];
-var a;
+
+export var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 export default class Dashboard extends Component {
 

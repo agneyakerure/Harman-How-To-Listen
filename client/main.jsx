@@ -11,6 +11,7 @@ import { routes, onAuthChange } from '../imports/routes/routes';
 import { Meteor } from 'meteor/meteor';
 // import { Links } from '../imports/api/links';
 
+
 Tracker.autorun(() => {
   	const isAuthenticated = !!Meteor.userId();
   	onAuthChange(isAuthenticated);
