@@ -18,7 +18,7 @@ var incompleteLevel = 1;
 var Test2Attempts = 0;
 var Test2TotalCorrect = 0;
 var Test2TotalWrong = 0;
-var a = 2;
+//var a = 2;
 
 //Function to randomize
 function shuffle(array) {
@@ -44,9 +44,9 @@ var check = [];
 var divstyle = [];
 var simpleArray = [];
 var answer =[ 1,0 ];
-// './audio/track1.wav', './audio/track2.wav', './audio/track3.wav', 
+// 
 //Audio variables - Web Audio API
-var tracks = ['./audio/track4.wav'];
+var tracks = ['./audio/track1.wav', './audio/track2.wav', './audio/track3.wav', './audio/track4.wav'];
 var startOffset = 0;
 var startTime = 0;
 // var audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -82,14 +82,14 @@ function shuffle(array) {
 var array = [
 	{	
 		name: "A",
-		type: "lowpass",
+		type: "peaking",
 		frequency: 500,
 		q: 1,
 		gain: 6
 	}, 
 	{
 		name: "B",
-		type: "lowpass",
+		type: "peaking",
 		frequency: 5000,
 		q: 1,
 		gain: 6
@@ -225,7 +225,7 @@ export default class Test2Level1 extends Component {
 
     	}
   	}
-
+  	
 	
   	render() {
   		return(

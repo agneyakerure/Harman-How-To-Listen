@@ -27,10 +27,29 @@
 	transform-origin: 75px 75px;
 	transform: rotate(-90deg);
 }
-/*#redSlider {
-	-webkit-appearance: slider-vertical;
-}*/
-#canvas {
+path {
+				stroke: black;
+				stroke-width: 1;
+				fill: none;
+			}
+svg {
     border: 2px solid black;
     background-color: rgba(128, 128, 128, 0.16);
+}
+.axis {
+	font-size: 10;
+	shape-rendering: crispEdges;
+}
+.label {
+	font-size: 13;
+	font-weight: bold;
+}
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: red;
+  stroke: black;
 }

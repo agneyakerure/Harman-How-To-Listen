@@ -22,3 +22,4 @@ Meteor.startup(() => {
   render(routes,document.getElementById('render-target'));
 
 });
+

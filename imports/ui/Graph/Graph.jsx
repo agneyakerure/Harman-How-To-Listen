@@ -7,184 +7,142 @@ import { Link } from 'react-router-dom';
 import {Line} from 'react-chartjs-2';
 import { audioContext } from '../Dashboard';
 
-var tracks = ['./audio/track1.wav', './audio/track2.wav', './audio/track3.wav', './audio/track4.wav'];
-var startOffset = 0;
-var startTime = 0;
-// const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+// var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 var gain = audioContext.createGain();
-var source;
-var request = new XMLHttpRequest();
-var buf;
-var isPlaying = false;
-var isConnectedToFilter = false;
-var biquadFilter1 = audioContext.createBiquadFilter();
-var biquadFilter2 = audioContext.createBiquadFilter();
-var nyquist = 0.5 * audioContext.sampleRate;
-var curveColor = "rgb(192,192,192)";
-var playheadColor = "rgb(80, 100, 80)";
-var gridColor = "rgb(100,100,100)";
+var biquadFilter = audioContext.createBiquadFilter();
+//filter properties - play with this to set filter
+biquadFilter = audioContext.createBiquadFilter(); 
+biquadFilter.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
+biquadFilter.frequency.value = 90; //most important - change this to see if filter working properly - it is
+biquadFilter.Q.value = 1;
+biquadFilter.gain.value =6; // gain should be 6 when used in peaking/notch
+biquadFilter.connect(gain);
+gain.connect(audioContext.destination);
 
-var dbScale = 60;
-var pixelsPerDb;
 var width = 800;
-var height = 400;
 
-var label = [];
-var datain = [];
-biquadFilter1 = audioContext.createBiquadFilter(); 
-biquadFilter1.type = "lowpass";
-biquadFilter1.frequency.value = 9000;
-biquadFilter1.Q.value = 1;
-biquadFilter1.gain.value =6;
+var w = 700;
+var h = 400;
+var ymargin = 50;
+var xmargin = 50;
 
-biquadFilter2 = audioContext.createBiquadFilter(); 
-biquadFilter2.type = "peaking";
-biquadFilter2.frequency.value = 5000;
-biquadFilter2.Q.value = 14;
-biquadFilter2.gain.value =20;
 
-function dbToY(db) {
-    var y = (0.5 * height) - pixelsPerDb * db;
-    return y;
-}
+
 
 export default class Graph extends Component {
 
-	play = (event) =>{
-		
-		if(isPlaying == true) {
-			isPlaying = false;
-			startOffset += audioContext.currentTime - startTime;
-			source.stop();
-		} 
-		else {
-
-			startTime = audioContext.currentTime;
-			source = audioContext.createBufferSource();
-			request.open('GET', './audio/traction.wav',  true);
-			request.responseType = 'arraybuffer';
-			request.onload = function() {
-				var audioData = request.response;
-
-				audioContext.decodeAudioData(audioData, function(buffer) {
-					source.buffer = buffer;
-					source.loop = true;
-					source.connect(biquadFilter1);
-					biquadFilter1.connect(gain);
-					gain.connect(audioContext.destination);
-					setTimeout(() => source.start(0, startOffset % buffer.duration), 0);
-					isConnectedToFilter = false;
-				},
-				function(e){
-					console.log("Error with decoding audio data" + e.err); 
-				});
-			}
-			request.send();
-			isPlaying = true;
-		}
-	}
-
-	drawFrequencyResponse() {
-		var canvas = document.getElementById("canvas");
-		var canvasContext = canvas.getContext("2d");
-	    canvasContext.fillStyle = "rgb(0, 0, 0)";
-	    canvasContext.fillRect(0, 0, width, height);
-
-	    canvasContext.strokeStyle = curveColor;
-	    canvasContext.lineWidth = 3;
-
-	    canvasContext.beginPath();
-	    canvasContext.moveTo(0, 0);
-
-	    pixelsPerDb = (0.5 * height) / dbScale;
-	    
-	    var noctaves = 5;
-	    
-	    var frequencyHz1 = new Float32Array(width);
-	    var magResponse1 = new Float32Array(width);
-	    var phaseResponse1 = new Float32Array(width);
-	    var nyquist = 0.5 * audioContext.sampleRate;
-	    // First get response.
-	    for (var i = 0; i < width; ++i) {
-	        var f = i / width;
-	        
-	        // Convert to log frequency scale (octaves).
-	        f = nyquist * Math.pow(2.0, noctaves * (f - 1.0));
-	        
-	        frequencyHz1[i] = f;
-	    }
-
-    	biquadFilter1.getFrequencyResponse(frequencyHz1, magResponse1, phaseResponse1);
-	    for (var i = 0; i < width; ++i) {
-	        var f = magResponse1[i];
-	        var response = magResponse1[i];
-	        var dbResponse = 20.0 * Math.log(response) / Math.LN10;
-	        // dbResponse *= 2; // simulate two chained Biquads (for 4-pole lowpass)
-	        
-	        var x = i;
-	    
-	        var y = dbToY(dbResponse);
-	        
-	        canvasContext.lineTo(x, y);
-	    }
-	    canvasContext.stroke();
-	    
-	    canvasContext.beginPath();
-	    
-	    canvasContext.lineWidth = 1;
-	    
-	    canvasContext.strokeStyle = gridColor;
-
-	    // for (var octave = 0; octave <= noctaves; octave++) {
-	    //     var x = octave * width / noctaves;
-	        
-	    //     canvasContext.strokeStyle = gridColor;
-	    //     canvasContext.moveTo(x, 20);
-	    //     canvasContext.lineTo(x, height);
-	    //     canvasContext.stroke();
-
-	    //     var f = nyquist * Math.pow(2.0, octave - noctaves);
-	    //     canvasContext.textAlign = "center";
-	    //     canvasContext.strokeStyle = curveColor;
-	    //     canvasContext.strokeText(f.toFixed(0) + "Hz", x, 20);
-	    // }
-
-	    // Draw 0dB line.
-	    canvasContext.beginPath();
-	    canvasContext.moveTo(0, 0.5 * height);
-	    canvasContext.lineTo(width, 0.5 * height);
-	    canvasContext.stroke();
-	    
-	    // // Draw decibel scale.
-	    
-	    // for (var db = -dbScale; db < dbScale; db += 5) {
-	    //     var y = dbToY(db);
-	    //     canvasContext.strokeStyle = curveColor;
-	    //     canvasContext.strokeText(db.toFixed(0) + "dB", width , y);
-
-	    //     canvasContext.strokeStyle = gridColor;
-	    //     canvasContext.beginPath();
-	    //     canvasContext.moveTo(0, y);
-	    //     canvasContext.lineTo(width, y);
-	    //     canvasContext.stroke();
-	    // }
-	}
-
+	
 	componentDidMount() {
-		this.play();
-		this.drawFrequencyResponse();
+		// this.play();
+		// drawFrequencyResponse();
+		
+		var noctaves = 11;
+		var svg = d3.select("#container") //append svg element to body
+		.append("svg")
+		.attr("width", w)
+		.attr("height", h);
+
+		var x = d3.scaleLog()
+          .base(10) //scale for x values
+          .range([xmargin,w-xmargin/2]);
+
+        var getIndex= d3.bisector(function(d){return d.x}).left;
+
+        var frequencyHz = new Float32Array(width);
+        var magResponse = new Float32Array(width);
+        var phaseResponse = new Float32Array(width);
+        var nyquist = 0.5 * audioContext.sampleRate;
+		    // First get response.
+		for (var i = 0; i < width; ++i) {
+		    var f = i / width;
+
+		        // Convert to log frequency scale (octaves).
+		    f = nyquist * Math.pow(2.0, noctaves * (f - 1.0));
+		        
+		    frequencyHz[i] = f;
+		}
+
+	    biquadFilter.getFrequencyResponse(frequencyHz, magResponse, phaseResponse);
+
+	    var data2 = []
+
+	    for(var i=0; i<width; ++i){
+	    	data2.push({x:frequencyHz[i], y:20*Math.log(magResponse[i])/Math.log(10)});
+	    }
+
+	    range = 10; //can be changed
+	    //data2.unshift({x:10,y:0});
+	    console.log(data2);
+	    data = data2.filter(function(d,i){
+	    	return d.y > -range && d.y < range; 
+	    })
+
+	    x.domain([ d3.min(data, function(d){
+	    	return(d.x);
+	    }), 
+	    d3.max(data, function(d){
+	    	return(d.x);
+	    })]);
+
+		var ydb = d3.scaleLinear() //scale for y axis 
+		.domain([-range, range])
+		.range([h-ymargin,ymargin]);
+
+
+		var line = d3.line() //create line and assign cordinates
+		.x(function(d,i){
+			return x(d.x);
+		})
+		.y(function(d,i){
+			return ydb(d.y);
+		});
+
+		g = svg.append("g");
+
+	
+		g.append("g")
+		.attr("class", "axis")
+		.attr("transform", "translate(0, "+ (h-ymargin) +")")
+		.call(d3.axisBottom(x)
+			.tickValues([1, 10, 100, 1000, 10000, 20000, biquadFilter.frequency.value])
+			.tickFormat(d3.format(",.0f")));
+
+		g.append("g")
+		.attr("class", "axis")
+		.attr("transform", "translate("+ xmargin +", 0)")
+		.call(d3.axisLeft(ydb));
+
+		g.append("text")
+		.attr("class", "label")
+		.attr("x", w / 2 )
+		.attr("y",  h-10)
+		.style("text-anchor", "middle")
+		.text("Frequency (Hz)");
+
+		g.append("text")
+		.attr("class", "label")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 15)
+		.attr("x",0 - (h / 2))
+		.text("Amplitude (dB)"); 
+
+		g.append("path")
+		.datum(data)
+		.style("stroke", "steelblue")
+		.style("stroke-width", 2)
+		.attr("d", line);
+
 	}
 
-  	render() {
-    	return (
-	        <div>
-	          <h1>Graph</h1>
-	          <canvas id="canvas" width="800" height ="400"></canvas>
-	          
-	          <div>
-	          	<button onClick={this.play}>Play/Pause</button>
-	          </div>
-	        </div>
-   		);
-  	}
+render() {
+
+	return (
+		<div>
+		<h1>Graph</h1>
+
+		<div id="container"></div>
+
+		</div>
+		);
+}
 }
