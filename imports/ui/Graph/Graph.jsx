@@ -16,8 +16,14 @@ biquadFilter.type = "peaking"; //most important - can be highpass, lowpass, peak
 biquadFilter.frequency.value = 90; //most important - change this to see if filter working properly - it is
 biquadFilter.Q.value = 1;
 biquadFilter.gain.value =6; // gain should be 6 when used in peaking/notch
-biquadFilter.connect(gain);
-gain.connect(audioContext.destination);
+biquadFilter.connect(audioContext.destination);
+
+biquadFilter2 = audioContext.createBiquadFilter(); 
+biquadFilter2.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
+biquadFilter2.frequency.value = 490; //most important - change this to see if filter working properly - it is
+biquadFilter2.Q.value = 1;
+biquadFilter2.gain.value =6; // gain should be 6 when used in peaking/notch
+biquadFilter2.connect(audioContext.destination);
 
 var width = 800;
 
@@ -26,22 +32,22 @@ var h = 400;
 var ymargin = 50;
 var xmargin = 50;
 
-
-
-
 export default class Graph extends Component {
 
+	constructor(props, el) {
+		super(props);
+		this.el = el;
+		
+	}
 	
 	componentDidMount() {
-		// this.play();
-		// drawFrequencyResponse();
 		
 		var noctaves = 11;
 		var svg = d3.select("#container") //append svg element to body
 		.append("svg")
 		.attr("width", w)
 		.attr("height", h);
-
+		console.log("Value passed is: ", this.props.filter);
 		var x = d3.scaleLog()
           .base(10) //scale for x values
           .range([xmargin,w-xmargin/2]);
@@ -51,6 +57,7 @@ export default class Graph extends Component {
         var frequencyHz = new Float32Array(width);
         var magResponse = new Float32Array(width);
         var phaseResponse = new Float32Array(width);
+
         var nyquist = 0.5 * audioContext.sampleRate;
 		    // First get response.
 		for (var i = 0; i < width; ++i) {
@@ -64,15 +71,14 @@ export default class Graph extends Component {
 
 	    biquadFilter.getFrequencyResponse(frequencyHz, magResponse, phaseResponse);
 
-	    var data2 = []
+	    var data2 = [];
 
 	    for(var i=0; i<width; ++i){
 	    	data2.push({x:frequencyHz[i], y:20*Math.log(magResponse[i])/Math.log(10)});
 	    }
 
 	    range = 10; //can be changed
-	    //data2.unshift({x:10,y:0});
-	    console.log(data2);
+	    
 	    data = data2.filter(function(d,i){
 	    	return d.y > -range && d.y < range; 
 	    })
@@ -104,7 +110,7 @@ export default class Graph extends Component {
 		.attr("class", "axis")
 		.attr("transform", "translate(0, "+ (h-ymargin) +")")
 		.call(d3.axisBottom(x)
-			.tickValues([1, 10, 100, 1000, 10000, 20000, biquadFilter.frequency.value])
+			.tickValues([1, 10, 100, 1000, 10000, 22050, biquadFilter.frequency.value])
 			.tickFormat(d3.format(",.0f")));
 
 		g.append("g")
@@ -134,15 +140,19 @@ export default class Graph extends Component {
 
 	}
 
-render() {
+	componentWillUnmount() {
+		this.el.close();
+	}
 
-	return (
-		<div>
-		<h1>Graph</h1>
+	render() {
 
-		<div id="container"></div>
+		return (
+			<div>
+			<h1>Graph</h1>
 
-		</div>
-		);
-}
+			<div id="container"></div>
+			
+			</div>
+			);
+	}
 }

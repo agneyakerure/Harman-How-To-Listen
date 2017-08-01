@@ -8,6 +8,8 @@ import { createContainer } from 'meteor/react-meteor-data';
 import PrivateHeader from '../PrivateHeader';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { audioContext } from '../Dashboard';
+import  Graph  from './Graph.jsx';
+import Modal from 'react-modal';
 //For React Router
 const history = createBrowserHistory({forceRefresh: true});
 
@@ -39,7 +41,7 @@ function shuffle(array) {
 
   return array;
 }
-
+var value2 = 2;
 var check = [];
 var divstyle = [];
 var simpleArray = [];
@@ -225,13 +227,14 @@ export default class Test2Level1 extends Component {
 
     	}
   	}
-  	
+
 	
   	render() {
   		return(
 			<div>
 				<PrivateHeader title="Level 1"/>
 				<div>
+					<Graph filter={filter}/>
 					<p>Use Radio!</p>
 
 					<form id="form" onSubmit = {this.onSubmit}>
@@ -248,6 +251,9 @@ export default class Test2Level1 extends Component {
 
 				</div>
 				<button onClick = {this.stop}><Link to='/Dashboard'>Dashboard</Link></button>
+				<Modal isOpen = {false} contentLabel = "Success/Failure">
+					<p>HELLO WORLD!</p>
+				</Modal>
 			</div>
 		)
   	}
