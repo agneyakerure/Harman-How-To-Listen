@@ -19,13 +19,14 @@ import Test1Level1 from '../ui/Test1/Test1Level1';
 import Test1Level2 from '../ui/Test1/Test1Level2';
 import Test1Level3 from '../ui/Test1/Test1Level3';
 import Test1Level4 from '../ui/Test1/Test1Level4';
+
+import Test2Level0 from '../ui/Graph/Test2Level0';
 import Test2Level1 from '../ui/Graph/Test2Level1';
-import Graph from '../ui/Graph/Graph';
 
 
 const history = createBrowserHistory({forceRefresh: true});
 const unauthenticatedPages = ['/','/signup','/login','/Login','/SignUp', '/Home'];
-const authenticatedPages = ['/Dashboard', '/Test1Level0','/Test1Level1', '/Test1Level2', '/Test1Level3', '/Test1Level4'];
+const authenticatedPages = ['/Dashboard', '/Test1Level0','/Test1Level1', '/Test1Level2', '/Test1Level3', '/Test1Level4','/Test2Level0','/Test2Level1'];
 export const onAuthChange = (isAuthenticated) => {
   const pathname = history.location.pathname;
   // const pathname = location.pathname;
@@ -52,16 +53,17 @@ export const routes =
           <Route exact path='/' component={Home}/>
           <Route path='/Home' component={Home}/>
           <Route path='/Dashboard' component={Dashboard}/>
-          <Route path="/login" render={() => {return Meteor.userId() ? <Redirect to="/Test1Level0" /> : <Login />}} />
-          <Route path="/SignUp" render={() => {return Meteor.userId() ? <Redirect to="/Test1Level0" /> : <SignUp />}} />
+          <Route path="/login" render={() => {return Meteor.userId() ? <Redirect to="/Dashboard" /> : <Login />}} />
+          <Route path="/SignUp" render={() => {return Meteor.userId() ? <Redirect to="/Dashboard" /> : <SignUp />}} />
           <Route exact path='/Test1Level0' component={Test1Level0}/>
           <Route exact path='/Test1Level1' component={Test1Level1}/>
           <Route exact path='/Test1Level2' component={Test1Level2}/>
           <Route exact path='/Test1Level3' component={Test1Level3}/>
           <Route exact path='/Test1Level4' component={Test1Level4}/>
 
+          <Route exact path='/Test2Level0' component={Test2Level0}/>
           <Route exact path='/Test2Level1' component={Test2Level1}/>
-          <Route exact path='/Graph' component={Graph}/>
+          
         </div>
       </Router>
     );

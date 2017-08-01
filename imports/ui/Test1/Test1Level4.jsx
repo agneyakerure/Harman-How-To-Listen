@@ -129,7 +129,7 @@ export default class Test1Level4 extends Component {
 	    if(_.isEqual(check, answer)) {
 	    	Test1TotalCorrect +=1;
 			// console.log("Big Correct Value which is being checked: ",this.state.values[(this.state.values.length)-1].Test1Level1CorrectNumber);
-			if(this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber >= 2) {
+			if((this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber%3)==1) {
 				console.log("Answer is correct :-D");
 				incompleteLevel = 0;
 				if(this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber == null)
@@ -141,7 +141,7 @@ export default class Test1Level4 extends Component {
 					wrongNumber = 0;
 				}
 				Meteor.call('links.insert5',value1, value2, value3, value4, value5, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
-				this.setState({wrongNumber: 0});
+				//this.setState({wrongNumber: 0});
 				setTimeout(() => history.push('/Dashboard'), 0);
 			} else {
 				incompleteLevel = 4;
@@ -156,7 +156,7 @@ export default class Test1Level4 extends Component {
 					wrongNumber = 0;
 				}
 				Meteor.call('links.insert5',value1, value2, value3, value4, value5, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
-				this.setState({wrongNumber: 0});
+				//this.setState({wrongNumber: 0});
 			}
 			setTimeout(() => window.location.reload(), 0);
 			
@@ -165,7 +165,7 @@ export default class Test1Level4 extends Component {
 			// console.log("WrongNumber: ",this.state.values[(this.state.values.length)-1].Test1Level1WrongNumber);
 			// setTimeout(() => window.location.reload(), 0);
 			// window.location.reload();	
-			if(this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber >= 2) {
+			if((this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber%3)==1) {
 				console.log("Answer is incorrect :-(");
 				incompleteLevel = 3;
 				if(this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber == null)
@@ -177,7 +177,7 @@ export default class Test1Level4 extends Component {
 					correctNumber = 0;
 				}
 				Meteor.call('links.insert5',value1, value2, value3, value4, value5, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
-				this.setState({correctNumber: 0});
+				//this.setState({correctNumber: 0});
 				setTimeout(() => history.push('/Test1Level3'), 0);
 			} else {
 				incompleteLevel = 4;
@@ -192,7 +192,7 @@ export default class Test1Level4 extends Component {
 					correctNumber = 0;
 				}
 				Meteor.call('links.insert5',value1, value2, value3, value4, value5, correctNumber, wrongNumber, incompleteLevel, Test1Attempts, Test1TotalCorrect, Test1TotalWrong);
-				this.setState({wrongNumber: 0});
+				//this.setState({wrongNumber: 0});
 			}
 			setTimeout(() => window.location.reload(), 0);
 	    }
@@ -295,7 +295,7 @@ export default class Test1Level4 extends Component {
 
 	componentWillUnmount() {
 		this.linksTracker.stop();
-		audioContext.close();
+		//audioContext.close();
 	}
 
 	lowpass1 = (event) => {

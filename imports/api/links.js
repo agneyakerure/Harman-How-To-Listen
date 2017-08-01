@@ -12,12 +12,12 @@ if(Meteor.isServer) {
 }
 
 Meteor.methods({
-	'links.insert'(value1, incompleteLevel) {
+	'links.insert'(value0, incompleteLevel) {
 		if(!this.userId) {
 			throw new Meteor.Error('Not Authorized');
 		}
 		Links.insert({
-			Test1Level1Value1: value1,
+			Test1Level1Value0: value0,
 			incompleteLevel,
 			userId: this.userId,
 			createdAt: new Date()
