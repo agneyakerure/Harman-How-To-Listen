@@ -179,13 +179,21 @@ export default class Dashboard extends Component {
     	return (
         	<div>
         		<PrivateHeader title="DashBoard"/>
-        		<div>
-          			<Link to={this.state.Test1Link}>Test1</Link> <span>Level: {this.state.Test1Level}</span><span>Trials: {this.state.Test1Attempts}</span> <span> Accuracy: {100*(this.state.Test1Correct)/(this.state.Test1Attempts)}% </span>
-          		</div>	
+        		<div className = "page-content">
+	        		<div className = "item">
+	          			<Link className = "button button--pill" to={this.state.Test1Link}>Test1</Link> 
+	          			<span className = "item--level">Level: {this.state.Test1Level}</span>
+	          			<span className = "item--trials">Trials: {this.state.Test1Attempts}</span> 
+	          			<span className = "item--accuracy"> Accuracy: {100*(this.state.Test1Correct)/(this.state.Test1Attempts)}% </span>
+	          		</div>	
 
-          		<div>
-          			<Link to={this.state.Test2Link}>Test2</Link> <span>Level: {this.state.Test2Level}</span><span>Trials: {this.state.Test2Attempts}</span> <span> Accuracy: {100*(this.state.Test2Correct)/(this.state.Test2Attempts)}% </span>
-          		</div>	
+	          		<div className = "item">
+	          			<Link className = "button button--pill" to={this.state.Test2Link}>Test2</Link> 
+	          			<span className = "item--level">Level: {this.state.Test2Level}</span>
+	          			<span className = "item--trials">Trials: {this.state.Test2Attempts}</span> 
+	          			<span className = "item--accuracy"> Accuracy: {100*(this.state.Test2Correct)/(this.state.Test2Attempts)}% </span>
+	          		</div>	
+          		</div>
 
         	</div>
     );

@@ -1,0 +1,29 @@
+.item {
+	background: $item-bg;
+	border: 1px solid $item-border;
+	margin-top: $space;
+	margin-bottom: $space;
+	padding: $space;
+}
+
+.item--level {
+	//border: 2px solid;
+	display: inline-block;
+	margin: $space;
+	margin-left: 3rem;
+	width: 5rem;
+}
+
+.item--trials {
+	//border: 2px solid;
+	display: inline-block;
+	margin: $space;
+	width: 5rem;
+}
+
+.item--accuracy {
+	//border: 2px solid;
+	display: inline-block;
+	margin: $space;
+	width: 10rem;
+}

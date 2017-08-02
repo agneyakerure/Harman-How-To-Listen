@@ -60,6 +60,7 @@ export const routes =
           <Route path='/Dashboard' component={Dashboard}/>
           <Route path="/login" render={() => {return Meteor.userId() ? <Redirect to="/Dashboard" /> : <Login />}} />
           <Route path="/SignUp" render={() => {return Meteor.userId() ? <Redirect to="/Dashboard" /> : <SignUp />}} />
+
           <Route exact path='/Test1Level0' component={Test1Level0}/>
           <Route exact path='/Test1Level1' component={Test1Level1}/>
           <Route exact path='/Test1Level2' component={Test1Level2}/>
