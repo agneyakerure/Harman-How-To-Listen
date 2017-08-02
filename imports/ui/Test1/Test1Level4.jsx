@@ -129,7 +129,7 @@ export default class Test1Level4 extends Component {
 	    if(_.isEqual(check, answer)) {
 	    	Test1TotalCorrect +=1;
 			// console.log("Big Correct Value which is being checked: ",this.state.values[(this.state.values.length)-1].Test1Level1CorrectNumber);
-			if((this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber%3)==1) {
+			if((this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber%4)==2) {
 				console.log("Answer is correct :-D");
 				incompleteLevel = 0;
 				if(this.state.values[(this.state.values.length)-1].Test1Level4CorrectNumber == null)
@@ -165,7 +165,7 @@ export default class Test1Level4 extends Component {
 			// console.log("WrongNumber: ",this.state.values[(this.state.values.length)-1].Test1Level1WrongNumber);
 			// setTimeout(() => window.location.reload(), 0);
 			// window.location.reload();	
-			if((this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber%3)==1) {
+			if((this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber%4)==2) {
 				console.log("Answer is incorrect :-(");
 				incompleteLevel = 3;
 				if(this.state.values[(this.state.values.length)-1].Test1Level4WrongNumber == null)

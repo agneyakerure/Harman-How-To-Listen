@@ -8,15 +8,15 @@ import { createContainer } from 'meteor/react-meteor-data';
 import PrivateHeader from '../PrivateHeader';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { audioContext } from '../Dashboard';
-import  Test2Level1Graph  from './Test2Level1Graph.jsx';
+import  Test2Level2Graph  from './Test2Level2Graph.jsx';
 import Modal from 'react-modal';
 //For React Router
 const history = createBrowserHistory({forceRefresh: true});
 
 //Level Variables
-var Test2Level1CorrectNumber = 0;
-var Test2Level1WrongNumber = 0;
-var incompleteLevel = 1;
+var Test2Level2CorrectNumber = 0;
+var Test2Level2WrongNumber = 0;
+var incompleteLevel = 2;
 var Test2Attempts = 0;
 var Test2TotalCorrect = 0;
 var Test2TotalWrong = 0;
@@ -42,7 +42,7 @@ function shuffle(array) {
 
   return array;
 }
-
+// 
 //Audio variables - Web Audio API
 var tracks = ['./audio/track1.wav', './audio/track2.wav', './audio/track3.wav', './audio/track4.wav'];
 var startOffset = 0;
@@ -91,6 +91,13 @@ var array = [
 		frequency: 2000,
 		q: 1,
 		gain: 6
+	},
+	{
+		name: "C",
+		type: "peaking",
+		frequency: 8000,
+		q: 1,
+		gain: 6
 	}
 ]
 
@@ -99,13 +106,15 @@ var array = [
 shuffle(array);
 
 console.log(array[0].frequency);
-export default class Test2Level1 extends Component {
+
+
+export default class Test2Level2 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isOpen: false,
+			
 			isCorrect: "Correct!",
-			level: 1,
+			level: 2,
 			test2:[]
 			
 		};
@@ -242,6 +251,26 @@ export default class Test2Level1 extends Component {
 	   	}
   	}
 
+  	filterC = (event) => {
+		console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = "peaking";
+	      filter.frequency.value = 8000;
+	      filter.Q.value = 1;
+	      filter.gain.value = 6;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = "peaking";
+	      filter.frequency.value = 8000;
+	      filter.Q.value = 1;
+	      filter.gain.value = 6;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
   	flat = (event) => {
 	    if(isConnectedToFilter) {
 	      filter.type = 'allpass';
@@ -274,52 +303,57 @@ export default class Test2Level1 extends Component {
 		} else {
 			Test2TotalWrong = this.state.test2[(this.state.test2.length)-1].Test2TotalWrong;
 		}
-		if(this.state.test2[(this.state.test2.length)-1].Test2Level1CorrectNumber == null) {
-			Test2Level1CorrectNumber = 0;
+		if(this.state.test2[(this.state.test2.length)-1].Test2Level2CorrectNumber == null) {
+			Test2Level2CorrectNumber = 0;
 		} else {
-			Test2Level1CorrectNumber = this.state.test2[(this.state.test2.length)-1].Test2Level1CorrectNumber;
+			Test2Level2CorrectNumber = this.state.test2[(this.state.test2.length)-1].Test2Level2CorrectNumber;
 		}
-		if(this.state.test2[(this.state.test2.length)-1].Test2Level1WrongNumber == null) {
-			Test2Level1WrongNumber = 0;
+		if(this.state.test2[(this.state.test2.length)-1].Test2Level2WrongNumber == null) {
+			Test2Level2WrongNumber = 0;
 		} else {
-			Test2Level1WrongNumber = this.state.test2[(this.state.test2.length)-1].Test2Level1WrongNumber;
+			Test2Level2WrongNumber = this.state.test2[(this.state.test2.length)-1].Test2Level2WrongNumber;
 		}
   		Test2Attempts += 1;
     	if(this.state.isCorrect == "Correct") {
     		Test2TotalCorrect += 1;
-    		Test2Level1WrongNumber = 0;
-    		if(this.state.test2[(this.state.test2.length)-1].Test2Level1CorrectNumber == undefined) {
-				Test2Level1CorrectNumber = 1;
+    		Test2Level2WrongNumber = 0;
+    		if(this.state.test2[(this.state.test2.length)-1].Test2Level2CorrectNumber == undefined) {
+				Test2Level2CorrectNumber = 1;
 			} else {
 				console.log("here");
-				Test2Level1CorrectNumber=(this.state.test2[(this.state.test2.length)-1].Test2Level1CorrectNumber) +1;
+				Test2Level2CorrectNumber=(this.state.test2[(this.state.test2.length)-1].Test2Level2CorrectNumber) +1;
 			}
 
-			if((Test2Level1CorrectNumber % 3) == 0) {
-				Meteor.call('test2.Test2Level1Insert',Test2Level1CorrectNumber, Test2Level1WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
-				setTimeout(() => history.push('/Test2Level2'), 0); //go forward here
+			if((Test2Level2CorrectNumber % 3) == 0) {
+				incompleteLevel = 3;
+				Meteor.call('test2.Test2Level2Insert',Test2Level2CorrectNumber, Test2Level2WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				setTimeout(() => history.push('/Dashboard'), 0); //go forward here
 			} else {
-				Meteor.call('test2.Test2Level1Insert',Test2Level1CorrectNumber, Test2Level1WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				incompleteLevel = 2;
+				Meteor.call('test2.Test2Level2Insert',Test2Level2CorrectNumber, Test2Level2WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
 				setTimeout(() => window.location.reload(), 0);
 			}
     	} else {
     		Test2TotalWrong += 1;
-    		Test2Level1CorrectNumber = 0;
-    		if(this.state.test2[(this.state.test2.length)-1].Test2Level1WrongNumber == undefined) {
-				Test2Level1WrongNumber = 1;
+    		Test2Level2CorrectNumber = 0;
+    		if(this.state.test2[(this.state.test2.length)-1].Test2Level2WrongNumber == undefined) {
+				Test2Level2WrongNumber = 1;
 			} else {
 				console.log("here");
-				Test2Level1WrongNumber=(this.state.test2[(this.state.test2.length)-1].Test2Level1WrongNumber) +1;
+				Test2Level2WrongNumber=(this.state.test2[(this.state.test2.length)-1].Test2Level2WrongNumber) +1;
 			}
 
-			if((Test2Level1WrongNumber % 3) == 0) {
-				Meteor.call('test2.Test2Level1Insert',Test2Level1CorrectNumber, Test2Level1WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
-				setTimeout(() => window.location.reload(), 0); //go back here
+			if((Test2Level2WrongNumber % 3) == 0) {
+				incompleteLevel = 1;
+				Meteor.call('test2.Test2Level2Insert',Test2Level2CorrectNumber, Test2Level2WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				setTimeout(() => history.push('/Test2Level1'), 0); //go back here
 			} else {
-				Meteor.call('test2.Test2Level1Insert',Test2Level1CorrectNumber, Test2Level1WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				incompleteLevel = 2;
+				Meteor.call('test2.Test2Level2Insert',Test2Level2CorrectNumber, Test2Level2WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
 				setTimeout(() => window.location.reload(), 0);
 			}
     	}
+    	
   	}
 
   	onSubmit = (event) => {
@@ -346,7 +380,7 @@ export default class Test2Level1 extends Component {
     	}
   	}
 
-  	test2how = (event) => {
+  	test2show = (event) => {
   		console.log(this.state.test2[(this.state.test2.length)-1]);
   	}
 
@@ -356,20 +390,21 @@ export default class Test2Level1 extends Component {
 			<div>
 				<PrivateHeader title="Level 1"/>
 				<button onClick = {this.stop}><Link to='/Dashboard'>Dashboard</Link></button>
-				<Test2Level1Graph/>
+				<Test2Level2Graph/>
 					<div id="entryDiv">
 						
 						<p>Use Radio!</p>
 						<form id="form" onSubmit = {this.onSubmit}>
 							<input type = "radio" name = "choice" value= "A"/>A
 							<input type = "radio" name = "choice" value= "B"/>B
+							<input type = "radio" name = "choice" value= "C"/>C
 							<button id = "submit"> Submit! </button>
 						</form>
 						<button onClick={this.correct}>EQ</button>
 						<button onClick={this.flat}>Flat</button>
 						<button onClick={this.play}>Play/Pause</button>
 						<button onClick={this.stop}>Stop</button>
-						<button onClick={this.test2how}>Values</button>
+						<button onClick={this.test2show}>Values</button>
 					</div>
 						
 					<div id="submitDiv">
@@ -377,10 +412,11 @@ export default class Test2Level1 extends Component {
 						
 						<button onClick = {this.filterA}>A</button>
 						<button onClick = {this.filterB}>B</button>
+						<button onClick = {this.filterC}>C</button>
 						<button onClick={this.flat}>Flat</button>
 						<button onClick={this.play}>Play/Pause</button>
 						<button onClick={this.stop}>Stop</button>
-						<button onClick={this.test2how}>Values</button>
+						<button onClick={this.test2show}>Values</button>
 						<div>
 							<button onClick={this.onModalOk}>OK</button>
 						</div>

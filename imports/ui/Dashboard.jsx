@@ -19,6 +19,7 @@ export default class Dashboard extends Component {
 		this.state = {
 			values: [],
 			test2: [],
+			test3: [],
 			Test1Link: Test1Links[0],
 			Test2Link: Test2Links[0],
 			Test1Level: 0,
@@ -34,10 +35,13 @@ export default class Dashboard extends Component {
 		this.linksTracker = Tracker.autorun(() => {
 			Meteor.subscribe('values');
 			Meteor.subscribe('test2');
+			Meteor.subscribe('test3');
 			const values = Links.find({userId: Meteor.userId()}).fetch();
 			const test2 = Test2.find({userId: Meteor.userId()}).fetch();
+			const test3 = Test2.find({userId: Meteor.userId()}).fetch();
 			this.setState({ values });
 			this.setState({ test2 });
+			this.setState({ test3 });
 		});
 		setTimeout(() => this.clickme(), 350);
 	}
@@ -50,10 +54,13 @@ export default class Dashboard extends Component {
 		if(this.state.values[(this.state.values.length)-1]) {
 			this.setState({Test1Attempts: this.state.values[(this.state.values.length)-1].Test1Attempts});
 			this.setState({Test1Correct: this.state.values[(this.state.values.length)-1].Test1TotalCorrect});
-			
+		}
+		if(this.state.test2[(this.state.test2.length)-1]) {
 			this.setState({Test2Attempts: this.state.test2[(this.state.test2.length)-1].Test2Attempts});
 			this.setState({Test2Correct: this.state.test2[(this.state.test2.length)-1].Test2TotalCorrect});
 		}
+
+		//START ADDING TEST 3 HERE
 
 
 		if(!this.state.values[(this.state.values.length)-1]) {
@@ -128,6 +135,36 @@ export default class Dashboard extends Component {
 						this.setState({Test2Level: " 4 "});
 						console.log("Case 4");
 						break;
+				case 5: this.setState({Test2Link: Test2Links[5]});
+						this.setState({Test2Level: " 5 "});
+						//console.log("Case 4");
+						break;
+
+				case 6: this.setState({Test2Link: Test2Links[6]});
+						this.setState({Test2Level: " 6 "});
+						//console.log("Case 4");
+						break;
+
+				case 7: this.setState({Test2Link: Test2Links[7]});
+						this.setState({Test2Level: " 7 "});
+						//console.log("Case 4");
+						break;
+
+				case 8: this.setState({Test2Link: Test2Links[8]});
+						this.setState({Test2Level: " 8 "});
+						//console.log("Case 4");
+						break;
+
+				case 9: this.setState({Test2Link: Test2Links[9]});
+						this.setState({Test2Level: " 9 "});
+						//console.log("Case 4");
+						break;
+
+				case 10: this.setState({Test2Link: Test2Links[10]});
+						this.setState({Test2Level: " 10 "});
+						//console.log("Case 4");
+						break;
+
 				default: this.setState({Test2Link: Test2Links[0]});
 						 this.setState({Test2Level: " 0 "});
 						 console.log("Case default");

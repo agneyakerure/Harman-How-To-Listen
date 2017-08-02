@@ -40,4 +40,148 @@ Meteor.methods({
 			createdAt: new Date()
 		});
 	},
+
+	'test2.Test2Level2Insert'(correctNumber, wrongNumber, Test2IncompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong) {
+		if(!this.userId) {
+			throw new Meteor.Error('Not Authorized');
+		}
+		Test2.insert({
+			Test2Level2CorrectNumber: correctNumber,
+			Test2Level2WrongNumber: wrongNumber,
+			Test2IncompleteLevel,
+			Test2Attempts,
+			Test2TotalCorrect,
+			Test2TotalWrong,
+			userId: this.userId,
+			createdAt: new Date()
+		});
+	},
+
+	'test2.Test2Level3Insert'(correctNumber, wrongNumber, Test2IncompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong) {
+		if(!this.userId) {
+			throw new Meteor.Error('Not Authorized');
+		}
+		Test2.insert({
+			Test2Level3CorrectNumber: correctNumber,
+			Test2Level3WrongNumber: wrongNumber,
+			Test2IncompleteLevel,
+			Test2Attempts,
+			Test2TotalCorrect,
+			Test2TotalWrong,
+			userId: this.userId,
+			createdAt: new Date()
+		});
+	},
+
+	'test2.Test2Level4Insert'(correctNumber, wrongNumber, Test2IncompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong) {
+		if(!this.userId) {
+			throw new Meteor.Error('Not Authorized');
+		}
+		Test2.insert({
+			Test2Level4CorrectNumber: correctNumber,
+			Test2Level4WrongNumber: wrongNumber,
+			Test2IncompleteLevel,
+			Test2Attempts,
+			Test2TotalCorrect,
+			Test2TotalWrong,
+			userId: this.userId,
+			createdAt: new Date()
+		});
+	},
+
+	'test2.Test2Level5Insert'(correctNumber, wrongNumber, Test2IncompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong) {
+		if(!this.userId) {
+			throw new Meteor.Error('Not Authorized');
+		}
+		Test2.insert({
+			Test2Level5CorrectNumber: correctNumber,
+			Test2Level5WrongNumber: wrongNumber,
+			Test2IncompleteLevel,
+			Test2Attempts,
+			Test2TotalCorrect,
+			Test2TotalWrong,
+			userId: this.userId,
+			createdAt: new Date()
+		});
+	},
+
+	'test2.Test2Level6Insert'(correctNumber, wrongNumber, Test2IncompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong) {
+		if(!this.userId) {
+			throw new Meteor.Error('Not Authorized');
+		}
+		Test2.insert({
+			Test2Level6CorrectNumber: correctNumber,
+			Test2Level6WrongNumber: wrongNumber,
+			Test2IncompleteLevel,
+			Test2Attempts,
+			Test2TotalCorrect,
+			Test2TotalWrong,
+			userId: this.userId,
+			createdAt: new Date()
+		});
+	},
+
+	'test2.Test2Level7Insert'(correctNumber, wrongNumber, Test2IncompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong) {
+		if(!this.userId) {
+			throw new Meteor.Error('Not Authorized');
+		}
+		Test2.insert({
+			Test2Level7CorrectNumber: correctNumber,
+			Test2Level7WrongNumber: wrongNumber,
+			Test2IncompleteLevel,
+			Test2Attempts,
+			Test2TotalCorrect,
+			Test2TotalWrong,
+			userId: this.userId,
+			createdAt: new Date()
+		});
+	},
+
+	'test2.Test2Level8Insert'(correctNumber, wrongNumber, Test2IncompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong) {
+		if(!this.userId) {
+			throw new Meteor.Error('Not Authorized');
+		}
+		Test2.insert({
+			Test2Level8CorrectNumber: correctNumber,
+			Test2Level8WrongNumber: wrongNumber,
+			Test2IncompleteLevel,
+			Test2Attempts,
+			Test2TotalCorrect,
+			Test2TotalWrong,
+			userId: this.userId,
+			createdAt: new Date()
+		});
+	},
+
+	'test2.Test2Level9Insert'(correctNumber, wrongNumber, Test2IncompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong) {
+		if(!this.userId) {
+			throw new Meteor.Error('Not Authorized');
+		}
+		Test2.insert({
+			Test2Level9CorrectNumber: correctNumber,
+			Test2Level9WrongNumber: wrongNumber,
+			Test2IncompleteLevel,
+			Test2Attempts,
+			Test2TotalCorrect,
+			Test2TotalWrong,
+			userId: this.userId,
+			createdAt: new Date()
+		});
+	},
+
+	'test2.Test2Level10Insert'(correctNumber, wrongNumber, Test2IncompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong) {
+		if(!this.userId) {
+			throw new Meteor.Error('Not Authorized');
+		}
+		Test2.insert({
+			Test2Level10CorrectNumber: correctNumber,
+			Test2Level10WrongNumber: wrongNumber,
+			Test2IncompleteLevel,
+			Test2Attempts,
+			Test2TotalCorrect,
+			Test2TotalWrong,
+			userId: this.userId,
+			createdAt: new Date()
+		});
+	},
 });
