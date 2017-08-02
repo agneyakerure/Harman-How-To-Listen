@@ -183,7 +183,7 @@ export default class Test2Level1 extends Component {
 	}
 
 	correct = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = array[0].type;
 	      filter.frequency.value = array[0].frequency;
@@ -203,7 +203,7 @@ export default class Test2Level1 extends Component {
   	}
 
   	filterA = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = "peaking";
 	      filter.frequency.value = 200;
@@ -223,7 +223,7 @@ export default class Test2Level1 extends Component {
   	}
 
   	filterB = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = "peaking";
 	      filter.frequency.value = 2000;

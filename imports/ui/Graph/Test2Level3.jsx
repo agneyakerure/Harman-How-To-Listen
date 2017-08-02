@@ -101,7 +101,7 @@ var array = [
 		gain: 6
 	},
 	{
-		name: "C",
+		name: "D",
 		type: "peaking",
 		frequency: 15000,
 		q: 1,
@@ -200,7 +200,7 @@ export default class Test2Level3 extends Component {
 	}
 
 	correct = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = array[0].type;
 	      filter.frequency.value = array[0].frequency;
@@ -220,7 +220,7 @@ export default class Test2Level3 extends Component {
   	}
 
   	filterA = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = "peaking";
 	      filter.frequency.value = 200;
@@ -240,7 +240,7 @@ export default class Test2Level3 extends Component {
   	}
 
   	filterB = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = "peaking";
 	      filter.frequency.value = 2000;
@@ -260,7 +260,7 @@ export default class Test2Level3 extends Component {
   	}
 
   	filterC = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = "peaking";
 	      filter.frequency.value = 8000;
@@ -280,7 +280,7 @@ export default class Test2Level3 extends Component {
   	}
 
   	filterD = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = "peaking";
 	      filter.frequency.value = 15000;
@@ -355,7 +355,7 @@ export default class Test2Level3 extends Component {
 			if((Test2Level3CorrectNumber % 3) == 0) {
 				incompleteLevel = 4;
 				Meteor.call('test2.Test2Level3Insert',Test2Level3CorrectNumber, Test2Level3WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
-				setTimeout(() => history.push('/Dashboard'), 0); //go forward here
+				setTimeout(() => history.push('/Test2Level4'), 0); //go forward here
 			} else {
 				incompleteLevel = 3;
 				Meteor.call('test2.Test2Level3Insert',Test2Level3CorrectNumber, Test2Level3WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
@@ -416,7 +416,7 @@ export default class Test2Level3 extends Component {
   	render() {
   		return(
 			<div>
-				<PrivateHeader title="Level 1"/>
+				<PrivateHeader title="Level 3"/>
 				<button onClick = {this.stop}><Link to='/Dashboard'>Dashboard</Link></button>
 				<Test2Level3Graph/>
 					<div id="entryDiv">

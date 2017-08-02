@@ -13,14 +13,14 @@ var biquadFilter = audioContext.createBiquadFilter();
 //filter properties - play with this to set filter
 biquadFilter = audioContext.createBiquadFilter(); 
 biquadFilter.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
-biquadFilter.frequency.value = 200; //most important - change this to see if filter working properly - it is
+biquadFilter.frequency.value = 44; //most important - change this to see if filter working properly - it is
 biquadFilter.Q.value = 1;
 biquadFilter.gain.value =6; // gain should be 6 when used in peaking/notch
 biquadFilter.connect(audioContext.destination);
 
 biquadFilter2 = audioContext.createBiquadFilter(); 
 biquadFilter2.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
-biquadFilter2.frequency.value = 2000; //most important - change this to see if filter working properly - it is
+biquadFilter2.frequency.value = 340; //most important - change this to see if filter working properly - it is
 biquadFilter2.Q.value = 1;
 biquadFilter2.gain.value =6; // gain should be 6 when used in peaking/notch
 biquadFilter2.connect(audioContext.destination);
@@ -29,14 +29,14 @@ biquadFilter2.connect(audioContext.destination);
 //filter properties - play with this to set filter
 biquadFilter3 = audioContext.createBiquadFilter(); 
 biquadFilter3.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
-biquadFilter3.frequency.value = 8000; //most important - change this to see if filter working properly - it is
+biquadFilter3.frequency.value = 1500; //most important - change this to see if filter working properly - it is
 biquadFilter3.Q.value = 1;
 biquadFilter3.gain.value =6; // gain should be 6 when used in peaking/notch
 biquadFilter3.connect(audioContext.destination);
 
 biquadFilter4 = audioContext.createBiquadFilter(); 
 biquadFilter4.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
-biquadFilter4.frequency.value = 15000; //most important - change this to see if filter working properly - it is
+biquadFilter4.frequency.value = 8000; //most important - change this to see if filter working properly - it is
 biquadFilter4.Q.value = 1;
 biquadFilter4.gain.value =6; // gain should be 6 when used in peaking/notch
 biquadFilter4.connect(audioContext.destination);
@@ -208,7 +208,7 @@ export default class Test2Level3Graph extends Component {
 
 		return (
 			<div>
-			<h1>Graph 4</h1>
+			<h1>Graph 3</h1>
 
 			<div id="container"></div>
 			

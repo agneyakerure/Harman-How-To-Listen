@@ -212,7 +212,7 @@ export default class Test2Level2 extends Component {
   	}
 
   	filterA = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = "peaking";
 	      filter.frequency.value = 200;
@@ -232,7 +232,7 @@ export default class Test2Level2 extends Component {
   	}
 
   	filterB = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = "peaking";
 	      filter.frequency.value = 2000;
@@ -252,7 +252,7 @@ export default class Test2Level2 extends Component {
   	}
 
   	filterC = (event) => {
-		console.log(array[0].frequency);
+		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
 	      filter.type = "peaking";
 	      filter.frequency.value = 8000;
@@ -327,7 +327,7 @@ export default class Test2Level2 extends Component {
 			if((Test2Level2CorrectNumber % 3) == 0) {
 				incompleteLevel = 3;
 				Meteor.call('test2.Test2Level2Insert',Test2Level2CorrectNumber, Test2Level2WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
-				setTimeout(() => history.push('/Dashboard'), 0); //go forward here
+				setTimeout(() => history.push('/Test2Level3'), 0); //go forward here
 			} else {
 				incompleteLevel = 2;
 				Meteor.call('test2.Test2Level2Insert',Test2Level2CorrectNumber, Test2Level2WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
@@ -388,7 +388,7 @@ export default class Test2Level2 extends Component {
   	render() {
   		return(
 			<div>
-				<PrivateHeader title="Level 1"/>
+				<PrivateHeader title="Level 2"/>
 				<button onClick = {this.stop}><Link to='/Dashboard'>Dashboard</Link></button>
 				<Test2Level2Graph/>
 					<div id="entryDiv">
