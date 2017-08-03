@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Accounts } from 'meteor/accounts-base';
 import { Link } from 'react-router-dom';
-import { Links } from '../../api/links';
+import { Test3 } from '../../api/Test3';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import ValuesList2 from '../ValueList2';
@@ -44,7 +44,7 @@ for (var i = 0; i < hrtfs.length; i++) {
 
 const history = createBrowserHistory({forceRefresh: true});
 var incompleteLevel = 0;
-export default class Test1Level0 extends Component {
+export default class Test3Level0 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -52,18 +52,18 @@ export default class Test1Level0 extends Component {
 			justCopied: false,
 			answer: 5,
 			attemptNumber: 0,
-			level: 1,
+			level: 0,
 			correctNumber: 0,
 			wrongNumber: 0,
-			values:[]
+			Test3:[]
 		};
 	}
 
 	componentDidMount() {
-		this.linksTracker = Tracker.autorun(() => {
-			Meteor.subscribe('values');
-			const values = Links.find("").fetch();
-			this.setState({ values });
+		this.Test3Tracker = Tracker.autorun(() => {
+			Meteor.subscribe('test3');
+			const test3 = Test3.find("").fetch();
+			this.setState({ test3 });
 		});
 	}
 
@@ -82,15 +82,15 @@ export default class Test1Level0 extends Component {
 				this.setState({attemptNumber: this.state.attemptNumber + 1});
 				this.setState({correctNumber: this.state.correctNumber + 1});
 				this.setState({wrongNumber: 0});
-				Meteor.call('links.insert',value, incompleteLevel);
-				setTimeout(() => history.push('/Test1Level1'), 0);
+				Meteor.call('Test3.Test3Level0Insert',value, incompleteLevel);
+				setTimeout(() => history.push('/Test3Level1'), 0);
 			} else {
 				incompleteLevel = 0;
 				console.log("Answer is correct :-D");
 				this.setState({attemptNumber: this.state.attemptNumber + 1});
 				this.setState({correctNumber: this.state.correctNumber + 1});
 				this.setState({wrongNumber: 0});
-				Meteor.call('links.insert',value, incompleteLevel);
+				Meteor.call('Test3.Test3Level0Insert',value, incompleteLevel);
 			}
 			
 
@@ -204,61 +204,25 @@ export default class Test1Level0 extends Component {
 		const value = this.refs.slider1.value;
 		binauralFIRNode.setPosition(value, binauralFIRNode.getPosition().elevation, binauralFIRNode.getPosition().distance);
 		binauralFIRNode.setPosition(binauralFIRNode.getPosition().azimuth, -40, binauralFIRNode.getPosition().distance);
-		// dist.curve = this.makeDistortionCurve(10);
-		// if(isConnectedToFilter) {
-		// 	filter.type = 'lowpass';
-		// 	filter.frequency.value = 440;
-		// 	isConnectedToFilter = true;
-		// }
-		// else {
-		// 	source.connect(filter);
-		// 	filter.connect(gain);
-		// 	filter.type = 'lowpass';
-		// 	filter.frequency.value = 440;
-		// 	isConnectedToFilter = true;
-		// }
+
 	}
 
 	lowpass2 = (event) => {
 
 
-		// if(isConnectedToFilter) {
-		// 	filter.type = 'lowpass';
-		// 	filter.frequency.value = 2000;
-		// 	isConnectedToFilter = true;
-		// }
-		// else {
-		// 	source.connect(filter);
-		// 	filter.connect(gain);
-		// 	filter.type = 'lowpass';
-		// 	filter.frequency.value = 2000;
-		// 	isConnectedToFilter = true;
-		// }
 	}
 
 	flat = (event) => {
 		binauralFIRNode.setPosition(10, binauralFIRNode.getPosition().elevation, binauralFIRNode.getPosition().distance);
 		binauralFIRNode.setPosition(binauralFIRNode.getPosition().azimuth, -40, binauralFIRNode.getPosition().distance);
-		// dist.curve = this.makeDistortionCurve(20);
-		// if(isConnectedToFilter) {
-		// 	filter.type = 'lowpass';
-		// 	filter.frequency.value = 22050;
-		// 	isConnectedToFilter = true;
-		// }
-		// else {
-		// 	source.connect(filter);
-		// 	filter.connect(gain);
-		// 	filter.type = 'lowpass';
-		// 	filter.frequency.value = 22050;
-		// 	isConnectedToFilter = true;
-		// }
+		
 	}
 	render() {
 		return(
 			<div>
 				<PrivateHeader title="Level 0"/>
 				<div>
-					<p>Use Slider</p>
+					<p>Use Slider !!!!!!</p>
 					<form onSubmit={this.onSubmit.bind(this)}>
 						<input type="range" step="0.5" ref="slider1" min="0" max="10" className="Level1Slider1" value={this.state.firstSlider} onChange={this.handleFirstSlider.bind(this)}/>					
 						<button>Submit!</button>

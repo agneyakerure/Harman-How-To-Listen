@@ -447,7 +447,6 @@ export default class Test2Level3 extends Component {
 									<input type = "radio" name = "choice" value= "A"/>A
 									<input type = "radio" name = "choice" value= "B"/>B
 									<input type = "radio" name = "choice" value= "C"/>C
-									<input type = "radio" name = "choice" value= "C"/>C
 									<input type = "radio" name = "choice" value= "D"/>D
 									<div className = "submit-button-contianer">
 										<button className = "button--submit-button" id = "submit"> Submit! </button>

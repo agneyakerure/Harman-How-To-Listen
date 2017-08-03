@@ -34,13 +34,26 @@ import Test2Level8 from '../ui/Graph/Test2Level8';
 import Test2Level9 from '../ui/Graph/Test2Level9';
 import Test2Level10 from '../ui/Graph/Test2Level10';
 
+import Test3Level0 from '../ui/Test3/Test3Level0';
+import Test3Level1 from '../ui/Test3/Test3Level1';
+import Test3Level2 from '../ui/Test3/Test3Level2';
+import Test3Level3 from '../ui/Test3/Test3Level3';
+import Test3Level4 from '../ui/Test3/Test3Level4';
+import Test3Level5 from '../ui/Test3/Test3Level5';
+import Test3Level6 from '../ui/Test3/Test3Level6';
+import Test3Level7 from '../ui/Test3/Test3Level7';
+import Test3Level8 from '../ui/Test3/Test3Level8';
+import Test3Level9 from '../ui/Test3/Test3Level9';
+import Test3Level10 from '../ui/Test3/Test3Level10';
+
 const history = createBrowserHistory({forceRefresh: true});
 const unauthenticatedPages = ['/','/signup','/login','/Login','/SignUp', '/Home'];
-const authenticatedPages = [
+const authenticatedPages = 
+[
 '/Dashboard', 
 '/Test1Level0','/Test1Level1', '/Test1Level2', '/Test1Level3', '/Test1Level4',
-'/Test2Level0','/Test2Level1', '/Test2Level2', '/Test2Level3', '/Test2Level4', '/Test2Level5', '/Test2Level6', '/Test2Level7', '/Test2Level8', '/Test2Level9', '/Test2Level10'
-];
+'/Test2Level0','/Test2Level1', '/Test2Level2', '/Test2Level3', '/Test2Level4', '/Test2Level5', '/Test2Level6', '/Test2Level7', '/Test2Level8', '/Test2Level9', '/Test2Level10', 
+'/Test3Level0','/Test3Level1', '/Test3Level2', '/Test3Level3', '/Test3Level4', '/Test3Level5', '/Test3Level6', '/Test3Level7', '/Test3Level8', '/Test3Level9', '/Test3Level10'];
 export const onAuthChange = (isAuthenticated) => {
   const pathname = history.location.pathname;
   // const pathname = location.pathname;
@@ -88,6 +101,17 @@ export const routes =
           <Route exact path='/Test2Level9' component={Test2Level9}/>
           <Route exact path='/Test2Level10' component={Test2Level10}/>
           
+          <Route exact path='/Test3Level0' component={Test3Level0}/>
+          <Route exact path='/Test3Level1' component={Test3Level1}/>
+          <Route exact path='/Test3Level2' component={Test3Level2}/>
+          <Route exact path='/Test3Level3' component={Test3Level3}/>
+          <Route exact path='/Test3Level4' component={Test3Level4}/>
+          <Route exact path='/Test3Level5' component={Test3Level5}/>
+          <Route exact path='/Test3Level6' component={Test3Level6}/>
+          <Route exact path='/Test3Level7' component={Test3Level7}/>
+          <Route exact path='/Test3Level8' component={Test3Level8}/>
+          <Route exact path='/Test3Level9' component={Test3Level9}/>
+          <Route exact path='/Test3Level10' component={Test3Level10}/>
         </div>
       </Router>
     );

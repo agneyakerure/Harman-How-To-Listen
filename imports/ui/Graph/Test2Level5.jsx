@@ -501,7 +501,6 @@ export default class Test2Level5 extends Component {
 									<input type = "radio" name = "choice" value= "A"/>A
 									<input type = "radio" name = "choice" value= "B"/>B
 									<input type = "radio" name = "choice" value= "C"/>C
-									<input type = "radio" name = "choice" value= "C"/>C
 									<input type = "radio" name = "choice" value= "D"/>D
 									<input type = "radio" name = "choice" value= "E"/>E
 									<input type = "radio" name = "choice" value= "F"/>F

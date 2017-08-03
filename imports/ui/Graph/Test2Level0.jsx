@@ -233,7 +233,7 @@ export default class Test2Level0 extends Component {
 					<button onClick={this.stop}>Stop</button>
 					<button onClick={this.flat}>Flat</button>
 					<button onClick={this.lowpass1}>Lowpass1</button>
-					Level 2 : Attempts: {this.state.attemptNumber}, Wrong Streak: {this.state.wrongNumber}, Correct Streak: {this.state.correctNumber}
+					Level 0 : Attempts: {this.state.attemptNumber}, Wrong Streak: {this.state.wrongNumber}, Correct Streak: {this.state.correctNumber}
 					<Link to='/Dashboard'>Dashboard</Link>
 				</div>
 			</div>

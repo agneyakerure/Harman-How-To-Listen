@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import {Accounts } from 'meteor/accounts-base';
 import { Link } from 'react-router-dom';
-import { Test2 } from '../../api/Test2';
+import { Test3 } from '../../api/Test3';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { createContainer } from 'meteor/react-meteor-data';
 import PrivateHeader from '../PrivateHeader';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { audioContext } from '../Dashboard';
-import  Test2Level10Graph  from './Test2Level10Graph.jsx';
+import  Test3Level10Graph  from './Test3Level10Graph.jsx';
 import Modal from 'react-modal';
 //For React Router
 const history = createBrowserHistory({forceRefresh: true});
 
 //Level Variables
-var Test2Level10CorrectNumber = 0;
-var Test2Level10WrongNumber = 0;
+var Test3Level10CorrectNumber = 0;
+var Test3Level10WrongNumber = 0;
 var incompleteLevel = 10;
-var Test2Attempts = 0;
-var Test2TotalCorrect = 0;
-var Test2TotalWrong = 0;
+var Test3Attempts = 0;
+var Test3TotalCorrect = 0;
+var Test3TotalWrong = 0;
 var level = 10;
 //var a = 2;
 
@@ -84,77 +84,77 @@ var array = [
 		type: "peaking",
 		frequency: 24,
 		q: 1,
-		gain: 6
+		gain: -6
 	}, 
 	{
 		name: "B",
 		type: "peaking",
 		frequency: 40,
 		q: 1,
-		gain: 6
+		gain: -6
 	},
 	{
 		name: "C",
 		type: "peaking",
 		frequency: 90,
 		q: 1,
-		gain: 6
+		gain: -6
 	},
 	{
 		name: "D",
 		type: "peaking",
 		frequency: 160,
 		q: 1,
-		gain: 6
+		gain: -6
 	},
 	{
 		name: "E",
 		type: "peaking",
 		frequency: 300,
 		q: 1,
-		gain: 6
+		gain: -6
 	},
 	{
 		name: "F",
 		type: "peaking",
 		frequency: 610,
 		q: 1,
-		gain: 6
+		gain: -6
 	},
 	{
 		name: "G",
 		type: "peaking",
 		frequency: 1000,
 		q: 1,
-		gain: 6
+		gain: -6
 	},
 	{
 		name: "H",
 		type: "peaking",
 		frequency: 2000,
 		q: 1,
-		gain: 6
+		gain: -6
 	},
 	{
 		name: "I",
 		type: "peaking",
 		frequency: 3600,
 		q: 1,
-		gain: 6
+		gain: -6
 	},
 	{
 		name: "J",
 		type: "peaking",
 		frequency: 7000,
 		q: 1,
-		gain: 6
+		gain: -6
 	},
 	{
 		name: "K",
 		type: "peaking",
 		frequency: 12000,
 		q: 1,
-		gain: 6
+		gain: -6
 	}
 ]
 
@@ -165,14 +165,14 @@ shuffle(array);
 console.log(array[0].frequency);
 
 
-export default class Test2Level10 extends Component {
+export default class Test3Level10 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			
 			isCorrect: "Correct!",
 			level: 10,
-			test2:[],
+			test3:[],
 			graphArray: newArray
 			
 		};
@@ -194,10 +194,10 @@ export default class Test2Level10 extends Component {
 	    y.style.display="none";
         x.style.display="block";
 		this.play();
-		this.test2Tracker = Tracker.autorun(() => {
-			Meteor.subscribe('test2');
-			const test2 = Test2.find({userId: Meteor.userId()}).fetch();
-			this.setState({ test2 });
+		this.Test3Tracker = Tracker.autorun(() => {
+			Meteor.subscribe('test3');
+			const test3 = Test3.find({userId: Meteor.userId()}).fetch();
+			this.setState({ test3 });
 		});
 	}
 
@@ -246,7 +246,7 @@ export default class Test2Level10 extends Component {
 	}
 
 	componentWillUnmount() {
-		this.test2Tracker.stop();
+		this.Test3Tracker.stop();
 	}
 
 	correct = (event) => {
@@ -272,19 +272,19 @@ export default class Test2Level10 extends Component {
   	filterA = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[0].type;
 	      filter.frequency.value = newArray[0].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[0].q;
+	      filter.gain.value = newArray[0].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[0].type;
 	      filter.frequency.value = newArray[0].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[0].q;
+	      filter.gain.value = newArray[0].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -292,19 +292,19 @@ export default class Test2Level10 extends Component {
   	filterB = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[1].type;
 	      filter.frequency.value = newArray[1].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[1].q;
+	      filter.gain.value = newArray[1].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[1].type;
 	      filter.frequency.value = newArray[1].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[1].q;
+	      filter.gain.value = newArray[1].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -312,19 +312,19 @@ export default class Test2Level10 extends Component {
   	filterC = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[2].type;
 	      filter.frequency.value = newArray[2].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[2].q;
+	      filter.gain.value = newArray[2].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[2].type;
 	      filter.frequency.value = newArray[2].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[2].q;
+	      filter.gain.value = newArray[2].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -332,19 +332,19 @@ export default class Test2Level10 extends Component {
   	filterD = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[3].type;
 	      filter.frequency.value = newArray[3].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[3].q;
+	      filter.gain.value = newArray[3].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[3].type;
 	      filter.frequency.value = newArray[3].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[3].q;
+	      filter.gain.value = newArray[3].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -352,19 +352,19 @@ export default class Test2Level10 extends Component {
   	filterE = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[4].type;
 	      filter.frequency.value = newArray[4].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[4].q;
+	      filter.gain.value = newArray[4].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[4].type;
 	      filter.frequency.value = newArray[4].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[4].q;
+	      filter.gain.value = newArray[4].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -372,19 +372,19 @@ export default class Test2Level10 extends Component {
   	filterF = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[5].type;
 	      filter.frequency.value = newArray[5].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[4].q;
+	      filter.gain.value = newArray[5].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[5].type;
 	      filter.frequency.value = newArray[5].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[5].q;
+	      filter.gain.value = newArray[5].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -392,19 +392,19 @@ export default class Test2Level10 extends Component {
   	filterG = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[6].type;
 	      filter.frequency.value = newArray[6].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[6].q;
+	      filter.gain.value = newArray[6].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[6].type;
 	      filter.frequency.value = newArray[6].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[6].q;
+	      filter.gain.value = newArray[6].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -412,19 +412,19 @@ export default class Test2Level10 extends Component {
   	filterH = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[7].type;
 	      filter.frequency.value = newArray[7].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[7].q;
+	      filter.gain.value = newArray[7].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[7].type;
 	      filter.frequency.value = newArray[7].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[7].q;
+	      filter.gain.value = newArray[7].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -432,19 +432,19 @@ export default class Test2Level10 extends Component {
   	filterI = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[8].type;
 	      filter.frequency.value = newArray[8].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[8].q;
+	      filter.gain.value = newArray[8].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[8].type;
 	      filter.frequency.value = newArray[8].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[8].q;
+	      filter.gain.value = newArray[8].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -452,19 +452,19 @@ export default class Test2Level10 extends Component {
   	filterJ = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[9].type;
 	      filter.frequency.value = newArray[9].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[9].q;
+	      filter.gain.value = newArray[9].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[9].type;
 	      filter.frequency.value = newArray[9].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[9].q;
+	      filter.gain.value = newArray[9].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -472,19 +472,19 @@ export default class Test2Level10 extends Component {
   	filterK = (event) => {
 		//console.log(array[0].frequency);
 	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
+	      filter.type = newArray[10].type;
 	      filter.frequency.value = newArray[10].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[10].q;
+	      filter.gain.value = newArray[10].gain;
 	      isConnectedToFilter = true;
 	    }
 	    else {
 	      source.connect(filter);
 	      filter.connect(gain);
-	      filter.type = "peaking";
+	      filter.type = newArray[10].type;
 	      filter.frequency.value = newArray[10].frequency;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
+	      filter.Q.value = newArray[10].q;
+	      filter.gain.value = newArray[10].gain;
 	      isConnectedToFilter = true;
 	   	}
   	}
@@ -507,68 +507,68 @@ export default class Test2Level10 extends Component {
 
   	onModalOk = (event) => {
   		event.preventDefault();
-  		if(this.state.test2[(this.state.test2.length)-1].Test2Attempts == null) {
-			Test2Attempts = 0;
+  		if(this.state.test3[(this.state.test3.length)-1].Test3Attempts == null) {
+			Test3Attempts = 0;
 		} else {
-			Test2Attempts = this.state.test2[(this.state.test2.length)-1].Test2Attempts;
+			Test3Attempts = this.state.test3[(this.state.test3.length)-1].Test3Attempts;
 		}
-		if(this.state.test2[(this.state.test2.length)-1].Test2TotalCorrect == null) {
-			Test2TotalCorrect = 0;
+		if(this.state.test3[(this.state.test3.length)-1].Test3TotalCorrect == null) {
+			Test3TotalCorrect = 0;
 		} else {
-			Test2TotalCorrect = this.state.test2[(this.state.test2.length)-1].Test2TotalCorrect;
+			Test3TotalCorrect = this.state.test3[(this.state.test3.length)-1].Test3TotalCorrect;
 		}
-		if(this.state.test2[(this.state.test2.length)-1].Test2TotalWrong == null) {
-			Test2TotalWrong = 0;
+		if(this.state.test3[(this.state.test3.length)-1].Test3TotalWrong == null) {
+			Test3TotalWrong = 0;
 		} else {
-			Test2TotalWrong = this.state.test2[(this.state.test2.length)-1].Test2TotalWrong;
+			Test3TotalWrong = this.state.test3[(this.state.test3.length)-1].Test3TotalWrong;
 		}
-		if(this.state.test2[(this.state.test2.length)-1].Test2Level10CorrectNumber == null) {
-			Test2Level10CorrectNumber = 0;
+		if(this.state.test3[(this.state.test3.length)-1].Test3Level10CorrectNumber == null) {
+			Test3Level10CorrectNumber = 0;
 		} else {
-			Test2Level10CorrectNumber = this.state.test2[(this.state.test2.length)-1].Test2Level10CorrectNumber;
+			Test3Level10CorrectNumber = this.state.test3[(this.state.test3.length)-1].Test3Level10CorrectNumber;
 		}
-		if(this.state.test2[(this.state.test2.length)-1].Test2Level10WrongNumber == null) {
-			Test2Level10WrongNumber = 0;
+		if(this.state.test3[(this.state.test3.length)-1].Test3Level10WrongNumber == null) {
+			Test3Level10WrongNumber = 0;
 		} else {
-			Test2Level10WrongNumber = this.state.test2[(this.state.test2.length)-1].Test2Level10WrongNumber;
+			Test3Level10WrongNumber = this.state.test3[(this.state.test3.length)-1].Test3Level10WrongNumber;
 		}
-  		Test2Attempts += 1;
+  		Test3Attempts += 1;
     	if(this.state.isCorrect == "Correct") {
-    		Test2TotalCorrect += 1;
-    		Test2Level10WrongNumber = 0;
-    		if(this.state.test2[(this.state.test2.length)-1].Test2Level10CorrectNumber == undefined) {
-				Test2Level10CorrectNumber = 1;
+    		Test3TotalCorrect += 1;
+    		Test3Level10WrongNumber = 0;
+    		if(this.state.test3[(this.state.test3.length)-1].Test3Level10CorrectNumber == undefined) {
+				Test3Level10CorrectNumber = 1;
 			} else {
 				console.log("here");
-				Test2Level10CorrectNumber=(this.state.test2[(this.state.test2.length)-1].Test2Level10CorrectNumber) +1;
+				Test3Level10CorrectNumber=(this.state.test3[(this.state.test3.length)-1].Test3Level10CorrectNumber) +1;
 			}
 
-			if((Test2Level10CorrectNumber % 3) == 0) {
+			if((Test3Level10CorrectNumber % 3) == 0) {
 				incompleteLevel = "Test Complete";
-				Meteor.call('test2.Test2Level10Insert',Test2Level10CorrectNumber, Test2Level10WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				Meteor.call('test3.Test3Level10Insert',Test3Level10CorrectNumber, Test3Level10WrongNumber, incompleteLevel, Test3Attempts, Test3TotalCorrect, Test3TotalWrong);
 				setTimeout(() => history.push('/Dashboard'), 0); //go forward here
 			} else {
 				incompleteLevel = 10;
-				Meteor.call('test2.Test2Level10Insert',Test2Level10CorrectNumber, Test2Level10WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				Meteor.call('test3.Test3Level10Insert',Test3Level10CorrectNumber, Test3Level10WrongNumber, incompleteLevel, Test3Attempts, Test3TotalCorrect, Test3TotalWrong);
 				setTimeout(() => window.location.reload(), 0);
 			}
     	} else {
-    		Test2TotalWrong += 1;
-    		Test2Level10CorrectNumber = 0;
-    		if(this.state.test2[(this.state.test2.length)-1].Test2Level10WrongNumber == undefined) {
-				Test2Level10WrongNumber = 1;
+    		Test3TotalWrong += 1;
+    		Test3Level10CorrectNumber = 0;
+    		if(this.state.test3[(this.state.test3.length)-1].Test3Level10WrongNumber == undefined) {
+				Test3Level10WrongNumber = 1;
 			} else {
 				console.log("here");
-				Test2Level10WrongNumber=(this.state.test2[(this.state.test2.length)-1].Test2Level10WrongNumber) +1;
+				Test3Level10WrongNumber=(this.state.test3[(this.state.test3.length)-1].Test3Level10WrongNumber) +1;
 			}
 
-			if((Test2Level10WrongNumber % 3) == 0) {
+			if((Test3Level10WrongNumber % 3) == 0) {
 				incompleteLevel = 9;
-				Meteor.call('test2.Test2Level10Insert',Test2Level10CorrectNumber, Test2Level10WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
-				setTimeout(() => history.push('/Test2Level8'), 0); //go back here
+				Meteor.call('test3.Test3Level10Insert',Test3Level10CorrectNumber, Test3Level10WrongNumber, incompleteLevel, Test3Attempts, Test3TotalCorrect, Test3TotalWrong);
+				setTimeout(() => history.push('/Test3Level8'), 0); //go back here
 			} else {
 				incompleteLevel = 10;
-				Meteor.call('test2.Test2Level10Insert',Test2Level10CorrectNumber, Test2Level10WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				Meteor.call('test3.Test3Level10Insert',Test3Level10CorrectNumber, Test3Level10WrongNumber, incompleteLevel, Test3Attempts, Test3TotalCorrect, Test3TotalWrong);
 				setTimeout(() => window.location.reload(), 0);
 			}
     	}
@@ -599,17 +599,17 @@ export default class Test2Level10 extends Component {
     	}
   	}
 
-  	test2show = (event) => {
-  		console.log(this.state.test2[(this.state.test2.length)-1]);
+  	Test3show = (event) => {
+  		console.log(this.state.test3[(this.state.test3.length)-1]);
   	}
 
 	
   	render() {
   		var corno;
   		var wrongno;
-  		if(this.state.test2[(this.state.test2.length)-1]) {
-  			corno = this.state.test2[(this.state.test2.length)-1].Test2Level10CorrectNumber;
-  			wrongno = this.state.test2[(this.state.test2.length)-1].Test2Level10WrongNumber;
+  		if(this.state.test3[(this.state.test3.length)-1]) {
+  			corno = this.state.test3[(this.state.test3.length)-1].Test3Level10CorrectNumber;
+  			wrongno = this.state.test3[(this.state.test3.length)-1].Test3Level10WrongNumber;
   		} else {
   			corno = 0;
   			wrongno = 0;
@@ -620,7 +620,7 @@ export default class Test2Level10 extends Component {
 				<div>
 					<div>
 						<div className = "chartBox">
-							<Test2Level10Graph array={this.state.graphArray}/>
+							<Test3Level10Graph array={this.state.graphArray}/>
 						</div>
 						<div className = "graph-form">
 							<div id = "entryDiv">
