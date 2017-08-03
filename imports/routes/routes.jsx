@@ -28,10 +28,19 @@ import Test2Level2 from '../ui/Graph/Test2Level2';
 import Test2Level3 from '../ui/Graph/Test2Level3';
 import Test2Level4 from '../ui/Graph/Test2Level4';
 import Test2Level5 from '../ui/Graph/Test2Level5';
+import Test2Level6 from '../ui/Graph/Test2Level6';
+import Test2Level7 from '../ui/Graph/Test2Level7';
+import Test2Level8 from '../ui/Graph/Test2Level8';
+import Test2Level9 from '../ui/Graph/Test2Level9';
+import Test2Level10 from '../ui/Graph/Test2Level10';
 
 const history = createBrowserHistory({forceRefresh: true});
 const unauthenticatedPages = ['/','/signup','/login','/Login','/SignUp', '/Home'];
-const authenticatedPages = ['/Dashboard', '/Test1Level0','/Test1Level1', '/Test1Level2', '/Test1Level3', '/Test1Level4','/Test2Level0','/Test2Level1', '/Test2Level2', '/Test2Level3', '/Test2Level4', '/Test2Level5', '/Test2Level6', '/Test2Level7', '/Test2Level8', '/Test2Level9', '/Test2Level10'];
+const authenticatedPages = [
+'/Dashboard', 
+'/Test1Level0','/Test1Level1', '/Test1Level2', '/Test1Level3', '/Test1Level4',
+'/Test2Level0','/Test2Level1', '/Test2Level2', '/Test2Level3', '/Test2Level4', '/Test2Level5', '/Test2Level6', '/Test2Level7', '/Test2Level8', '/Test2Level9', '/Test2Level10'
+];
 export const onAuthChange = (isAuthenticated) => {
   const pathname = history.location.pathname;
   // const pathname = location.pathname;
@@ -73,6 +82,11 @@ export const routes =
           <Route exact path='/Test2Level3' component={Test2Level3}/>
           <Route exact path='/Test2Level4' component={Test2Level4}/>
           <Route exact path='/Test2Level5' component={Test2Level5}/>
+          <Route exact path='/Test2Level6' component={Test2Level6}/>
+          <Route exact path='/Test2Level7' component={Test2Level7}/>
+          <Route exact path='/Test2Level8' component={Test2Level8}/>
+          <Route exact path='/Test2Level9' component={Test2Level9}/>
+          <Route exact path='/Test2Level10' component={Test2Level10}/>
           
         </div>
       </Router>

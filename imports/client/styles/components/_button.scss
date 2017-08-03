@@ -17,6 +17,7 @@
 .button--link {
 	display: inline-block;
 	text-decoration: none;
+
 }
 
 .button--pill {
@@ -30,7 +31,6 @@
 }
 
 .button--link-text {
-
 	background: none;
 	border: none;
 	margin: 0;
@@ -38,4 +38,63 @@
 	text-decoration: underline;
 	text-transform: none;
 	color: white;
+}
+
+.dashboard-link-button {
+	background: none;
+	border: none;
+	margin: 2.5rem;
+	padding: 0;
+	text-decoration: underline;
+	text-transform: none;
+	color: white;
+}
+
+.button--submit-button {
+	background-color: transparent;
+	border: 2.5px solid $button-pill-color;
+	border-radius: 10px;
+	color: $button-pill-color;
+	height: 3rem;
+	margin-left: 1.7rem;
+	padding: .3rem .8rem;
+	text-align: center;
+	width: 12rem;
+}
+
+.media-button {
+	background-color: transparent;
+	border: 1px solid $button-pill-color;
+	border-radius: 10px;
+	color: $button-pill-color;
+	height: 3rem;
+	margin-left: 1.7rem;
+	padding: .3rem .8rem;
+	text-align: center;
+	width: 10rem;
+}
+
+.media-button2 {
+	background-color: transparent;
+	border: 1px solid $button-pill-color;
+	border-radius: 10px;
+	color: $button-pill-color;
+	height: 3rem;
+	margin-left: 1.7rem;
+	padding: .3rem .8rem;
+	text-align: center;
+	width: 8rem;
+}
+
+.media-button3 {
+	background-color: transparent;
+	border: 1px solid $button-pill-color;
+	border-radius: 10px;
+	color: $button-pill-color;
+	height: 3rem;
+	margin: 1rem;
+	// margin-left: 1.7rem;
+	padding: .3rem .8rem;
+	text-align: center;
+	width: 4rem;
 }

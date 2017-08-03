@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Accounts } from 'meteor/accounts-base';
 import { PropTypes } from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const PrivateHeader = (props) => {
 	return(

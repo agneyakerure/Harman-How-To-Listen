@@ -10,7 +10,7 @@ import { audioContext } from '../Dashboard';
 // var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 
-export default class Test2Level2Graph extends Component {
+export default class Test2Level8Graph extends Component {
 
 	constructor(props, el) {
 		super(props);
@@ -25,14 +25,14 @@ export default class Test2Level2Graph extends Component {
 		//filter properties - play with this to set filter
 		biquadFilter = audioContext.createBiquadFilter(); 
 		biquadFilter.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
-		biquadFilter.frequency.value = 200; //most important - change this to see if filter working properly - it is
+		biquadFilter.frequency.value = 30; //most important - change this to see if filter working properly - it is
 		biquadFilter.Q.value = 1;
 		biquadFilter.gain.value =6; // gain should be 6 when used in peaking/notch
 		biquadFilter.connect(audioContext.destination);
 
 		biquadFilter2 = audioContext.createBiquadFilter(); 
 		biquadFilter2.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
-		biquadFilter2.frequency.value = 2000; //most important - change this to see if filter working properly - it is
+		biquadFilter2.frequency.value = 70; //most important - change this to see if filter working properly - it is
 		biquadFilter2.Q.value = 1;
 		biquadFilter2.gain.value =6; // gain should be 6 when used in peaking/notch
 		biquadFilter2.connect(audioContext.destination);
@@ -41,19 +41,55 @@ export default class Test2Level2Graph extends Component {
 		//filter properties - play with this to set filter
 		biquadFilter3 = audioContext.createBiquadFilter(); 
 		biquadFilter3.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
-		biquadFilter3.frequency.value = 8000; //most important - change this to see if filter working properly - it is
+		biquadFilter3.frequency.value = 145; //most important - change this to see if filter working properly - it is
 		biquadFilter3.Q.value = 1;
 		biquadFilter3.gain.value =6; // gain should be 6 when used in peaking/notch
 		biquadFilter3.connect(audioContext.destination);
 
-		// biquadFilter4 = audioContext.createBiquadFilter(); 
-		// biquadFilter4.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
-		// biquadFilter4.frequency.value = 15000; //most important - change this to see if filter working properly - it is
-		// biquadFilter4.Q.value = 0.5;
-		// biquadFilter4.gain.value =6; // gain should be 6 when used in peaking/notch
-		// biquadFilter4.connect(audioContext.destination);
+		biquadFilter4 = audioContext.createBiquadFilter(); 
+		biquadFilter4.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
+		biquadFilter4.frequency.value = 350; //most important - change this to see if filter working properly - it is
+		biquadFilter4.Q.value = 1;
+		biquadFilter4.gain.value =6; // gain should be 6 when used in peaking/notch
+		biquadFilter4.connect(audioContext.destination);
 
-		var peaks = [biquadFilter.frequency.value, biquadFilter2.frequency.value, biquadFilter3.frequency.value];
+		biquadFilter5 = audioContext.createBiquadFilter(); 
+		biquadFilter5.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
+		biquadFilter5.frequency.value = 700; //most important - change this to see if filter working properly - it is
+		biquadFilter5.Q.value = 1;
+		biquadFilter5.gain.value =6; // gain should be 6 when used in peaking/notch
+		biquadFilter5.connect(audioContext.destination);
+
+		biquadFilter6 = audioContext.createBiquadFilter(); 
+		biquadFilter6.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
+		biquadFilter6.frequency.value = 1410; //most important - change this to see if filter working properly - it is
+		biquadFilter6.Q.value = 1;
+		biquadFilter6.gain.value =6; // gain should be 6 when used in peaking/notch
+		biquadFilter6.connect(audioContext.destination);
+
+		biquadFilter7 = audioContext.createBiquadFilter(); 
+		biquadFilter7.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
+		biquadFilter7.frequency.value = 2400; //most important - change this to see if filter working properly - it is
+		biquadFilter7.Q.value = 1;
+		biquadFilter7.gain.value =6; // gain should be 6 when used in peaking/notch
+		biquadFilter7.connect(audioContext.destination);
+
+		biquadFilter8 = audioContext.createBiquadFilter(); 
+		biquadFilter8.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
+		biquadFilter8.frequency.value = 5000; //most important - change this to see if filter working properly - it is
+		biquadFilter8.Q.value = 1;
+		biquadFilter8.gain.value =6; // gain should be 6 when used in peaking/notch
+		biquadFilter8.connect(audioContext.destination);
+
+		biquadFilter9 = audioContext.createBiquadFilter(); 
+		biquadFilter9.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
+		biquadFilter9.frequency.value = 11000; //most important - change this to see if filter working properly - it is
+		biquadFilter9.Q.value = 1;
+		biquadFilter9.gain.value =6; // gain should be 6 when used in peaking/notch
+		biquadFilter9.connect(audioContext.destination);
+
+		//DO THISSSSS!!!!!!!
+		var peaks = [biquadFilter.frequency.value, biquadFilter2.frequency.value, biquadFilter3.frequency.value, biquadFilter4.frequency.value, biquadFilter5.frequency.value, biquadFilter6.frequency.value, biquadFilter7.frequency.value, biquadFilter8.frequency.value, biquadFilter9.frequency.value];
 
 		var width = 800;
 
@@ -82,7 +118,13 @@ export default class Test2Level2Graph extends Component {
 	    var magResponse1 = new Float32Array(width);
 	    var magResponse2 = new Float32Array(width);
 	    var magResponse3 = new Float32Array(width);
-	    // var magResponse4 = new Float32Array(width); //create new everytime you add a filter
+	    var magResponse4 = new Float32Array(width);
+	    var magResponse5 = new Float32Array(width);
+	    var magResponse6 = new Float32Array(width);
+	    var magResponse7 = new Float32Array(width);
+	    var magResponse8 = new Float32Array(width);
+	    var magResponse9 = new Float32Array(width);
+	     //create new everytime you add a filter
 	    var phaseResponse = new Float32Array(width);
 	    var nyquist = 0.5 * audioContext.sampleRate;
 	    // First get response.
@@ -100,8 +142,12 @@ export default class Test2Level2Graph extends Component {
 	    biquadFilter.getFrequencyResponse(frequencyHz, magResponse1, phaseResponse);
 	    biquadFilter2.getFrequencyResponse(frequencyHz, magResponse2, phaseResponse);
 	    biquadFilter3.getFrequencyResponse(frequencyHz, magResponse3, phaseResponse);
-	    // biquadFilter4.getFrequencyResponse(frequencyHz, magResponse4, phaseResponse);
-
+	    biquadFilter4.getFrequencyResponse(frequencyHz, magResponse4, phaseResponse);
+	    biquadFilter5.getFrequencyResponse(frequencyHz, magResponse5, phaseResponse);
+	    biquadFilter6.getFrequencyResponse(frequencyHz, magResponse6, phaseResponse);
+	    biquadFilter7.getFrequencyResponse(frequencyHz, magResponse7, phaseResponse);
+	    biquadFilter8.getFrequencyResponse(frequencyHz, magResponse8, phaseResponse);
+	    biquadFilter9.getFrequencyResponse(frequencyHz, magResponse9, phaseResponse);
 
     	var data2 = []
 
@@ -110,8 +156,13 @@ export default class Test2Level2Graph extends Component {
 	      	y: [
 	      	20*Math.log(magResponse1[i])/Math.log(10), 
 	      	20*Math.log(magResponse2[i])/Math.log(10),
-	      	20*Math.log(magResponse3[i])/Math.log(10)
-	      	//add more here
+	      	20*Math.log(magResponse3[i])/Math.log(10),
+	      	20*Math.log(magResponse4[i])/Math.log(10),
+	      	20*Math.log(magResponse5[i])/Math.log(10),
+	      	20*Math.log(magResponse6[i])/Math.log(10),
+	      	20*Math.log(magResponse7[i])/Math.log(10),
+	      	20*Math.log(magResponse8[i])/Math.log(10),
+	      	20*Math.log(magResponse9[i])/Math.log(10)
 	      	]});
 	    }
 
@@ -190,7 +241,7 @@ export default class Test2Level2Graph extends Component {
 		    var a = data[id].y[i]; //get magnitude for that index 
 
 		    focus.append("circle").attr("r", 4.5).attr("cx", x(f)).attr("cy", ydb(a)); //circle
-		    focus.append("text").text(Math.round(100*f)/100+" Hz, ") //label
+		    focus.append("text").text(Math.round(100*f)/100+" Hz") //label
 		    	.attr("x", x(f)-30)
 		    	.attr("y", ydb(a)-7)
 		    	.style("font-size", "12px");
@@ -212,7 +263,7 @@ export default class Test2Level2Graph extends Component {
 		return (
 			<div className = "chart">
 				<div className = "chart__content">
-					<h1 className = "chart__header">Level 2</h1>
+					<h1 className = "chart__header">Level 8</h1>
 					<svg id="chart" width="700" height="400" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet"></svg>
 				</div>
 			</div>

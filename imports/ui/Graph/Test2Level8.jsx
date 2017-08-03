@@ -8,19 +8,19 @@ import { createContainer } from 'meteor/react-meteor-data';
 import PrivateHeader from '../PrivateHeader';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { audioContext } from '../Dashboard';
-import  Test2Level5Graph  from './Test2Level5Graph.jsx';
+import  Test2Level8Graph  from './Test2Level8Graph.jsx';
 import Modal from 'react-modal';
 //For React Router
 const history = createBrowserHistory({forceRefresh: true});
 
 //Level Variables
-var Test2Level5CorrectNumber = 0;
-var Test2Level5WrongNumber = 0;
-var incompleteLevel = 5;
+var Test2Level8CorrectNumber = 0;
+var Test2Level8WrongNumber = 0;
+var incompleteLevel = 8;
 var Test2Attempts = 0;
 var Test2TotalCorrect = 0;
 var Test2TotalWrong = 0;
-var level = 5;
+var level = 8;
 //var a = 2;
 
 //Function to randomize
@@ -82,42 +82,63 @@ var array = [
 	{	
 		name: "A",
 		type: "peaking",
-		frequency: 27,
+		frequency: 30,
 		q: 1,
 		gain: 6
 	}, 
 	{
 		name: "B",
 		type: "peaking",
-		frequency: 100,
+		frequency: 70,
 		q: 1,
 		gain: 6
 	},
 	{
 		name: "C",
 		type: "peaking",
-		frequency: 350,
+		frequency: 145,
 		q: 1,
 		gain: 6
 	},
 	{
 		name: "D",
 		type: "peaking",
-		frequency: 1100,
+		frequency: 350,
 		q: 1,
 		gain: 6
 	},
 	{
 		name: "E",
 		type: "peaking",
-		frequency: 3000,
+		frequency: 700,
 		q: 1,
 		gain: 6
 	},
 	{
 		name: "F",
 		type: "peaking",
-		frequency: 9000,
+		frequency: 1410,
+		q: 1,
+		gain: 6
+	},
+	{
+		name: "G",
+		type: "peaking",
+		frequency: 2400,
+		q: 1,
+		gain: 6
+	},
+	{
+		name: "H",
+		type: "peaking",
+		frequency: 5000,
+		q: 1,
+		gain: 6
+	},
+	{
+		name: "I",
+		type: "peaking",
+		frequency: 11000,
 		q: 1,
 		gain: 6
 	}
@@ -130,14 +151,15 @@ shuffle(array);
 console.log(array[0].frequency);
 
 
-export default class Test2Level5 extends Component {
+export default class Test2Level8 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			
 			isCorrect: "Correct!",
-			level: 5,
-			test2:[]
+			level: 8,
+			test2:[],
+			graphArray: newArray
 			
 		};
 	}
@@ -353,6 +375,66 @@ export default class Test2Level5 extends Component {
 	   	}
   	}
 
+  	filterG = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = "peaking";
+	      filter.frequency.value = newArray[6].frequency;
+	      filter.Q.value = 1;
+	      filter.gain.value = 6;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = "peaking";
+	      filter.frequency.value = newArray[6].frequency;
+	      filter.Q.value = 1;
+	      filter.gain.value = 6;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterH = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = "peaking";
+	      filter.frequency.value = newArray[7].frequency;
+	      filter.Q.value = 1;
+	      filter.gain.value = 6;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = "peaking";
+	      filter.frequency.value = newArray[7].frequency;
+	      filter.Q.value = 1;
+	      filter.gain.value = 6;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterI = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = "peaking";
+	      filter.frequency.value = newArray[8].frequency;
+	      filter.Q.value = 1;
+	      filter.gain.value = 6;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = "peaking";
+	      filter.frequency.value = newArray[8].frequency;
+	      filter.Q.value = 1;
+	      filter.gain.value = 6;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
 
   	flat = (event) => {
 	    if(isConnectedToFilter) {
@@ -386,53 +468,53 @@ export default class Test2Level5 extends Component {
 		} else {
 			Test2TotalWrong = this.state.test2[(this.state.test2.length)-1].Test2TotalWrong;
 		}
-		if(this.state.test2[(this.state.test2.length)-1].Test2Level5CorrectNumber == null) {
-			Test2Level5CorrectNumber = 0;
+		if(this.state.test2[(this.state.test2.length)-1].Test2Level8CorrectNumber == null) {
+			Test2Level8CorrectNumber = 0;
 		} else {
-			Test2Level5CorrectNumber = this.state.test2[(this.state.test2.length)-1].Test2Level5CorrectNumber;
+			Test2Level8CorrectNumber = this.state.test2[(this.state.test2.length)-1].Test2Level8CorrectNumber;
 		}
-		if(this.state.test2[(this.state.test2.length)-1].Test2Level5WrongNumber == null) {
-			Test2Level5WrongNumber = 0;
+		if(this.state.test2[(this.state.test2.length)-1].Test2Level8WrongNumber == null) {
+			Test2Level8WrongNumber = 0;
 		} else {
-			Test2Level5WrongNumber = this.state.test2[(this.state.test2.length)-1].Test2Level5WrongNumber;
+			Test2Level8WrongNumber = this.state.test2[(this.state.test2.length)-1].Test2Level8WrongNumber;
 		}
   		Test2Attempts += 1;
     	if(this.state.isCorrect == "Correct") {
     		Test2TotalCorrect += 1;
-    		Test2Level5WrongNumber = 0;
-    		if(this.state.test2[(this.state.test2.length)-1].Test2Level5CorrectNumber == undefined) {
-				Test2Level5CorrectNumber = 1;
+    		Test2Level8WrongNumber = 0;
+    		if(this.state.test2[(this.state.test2.length)-1].Test2Level8CorrectNumber == undefined) {
+				Test2Level8CorrectNumber = 1;
 			} else {
 				console.log("here");
-				Test2Level5CorrectNumber=(this.state.test2[(this.state.test2.length)-1].Test2Level5CorrectNumber) +1;
+				Test2Level8CorrectNumber=(this.state.test2[(this.state.test2.length)-1].Test2Level8CorrectNumber) +1;
 			}
 
-			if((Test2Level5CorrectNumber % 3) == 0) {
-				incompleteLevel = 6;
-				Meteor.call('test2.Test2Level5Insert',Test2Level5CorrectNumber, Test2Level5WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
-				setTimeout(() => history.push('/Test2Level6'), 0); //go forward here
+			if((Test2Level8CorrectNumber % 3) == 0) {
+				incompleteLevel = 9;
+				Meteor.call('test2.Test2Level8Insert',Test2Level8CorrectNumber, Test2Level8WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				setTimeout(() => history.push('/Test2Level9'), 0); //go forward here
 			} else {
-				incompleteLevel = 5;
-				Meteor.call('test2.Test2Level5Insert',Test2Level5CorrectNumber, Test2Level5WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				incompleteLevel = 8;
+				Meteor.call('test2.Test2Level8Insert',Test2Level8CorrectNumber, Test2Level8WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
 				setTimeout(() => window.location.reload(), 0);
 			}
     	} else {
     		Test2TotalWrong += 1;
-    		Test2Level5CorrectNumber = 0;
-    		if(this.state.test2[(this.state.test2.length)-1].Test2Level5WrongNumber == undefined) {
-				Test2Level5WrongNumber = 1;
+    		Test2Level8CorrectNumber = 0;
+    		if(this.state.test2[(this.state.test2.length)-1].Test2Level8WrongNumber == undefined) {
+				Test2Level8WrongNumber = 1;
 			} else {
 				console.log("here");
-				Test2Level5WrongNumber=(this.state.test2[(this.state.test2.length)-1].Test2Level5WrongNumber) +1;
+				Test2Level8WrongNumber=(this.state.test2[(this.state.test2.length)-1].Test2Level8WrongNumber) +1;
 			}
 
-			if((Test2Level5WrongNumber % 3) == 0) {
-				incompleteLevel = 4;
-				Meteor.call('test2.Test2Level5Insert',Test2Level5CorrectNumber, Test2Level5WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
-				setTimeout(() => history.push('/Test2Level4'), 0); //go back here
+			if((Test2Level8WrongNumber % 3) == 0) {
+				incompleteLevel = 7;
+				Meteor.call('test2.Test2Level8Insert',Test2Level8CorrectNumber, Test2Level8WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				setTimeout(() => history.push('/Test2Level7'), 0); //go back here
 			} else {
-				incompleteLevel = 5;
-				Meteor.call('test2.Test2Level5Insert',Test2Level5CorrectNumber, Test2Level5WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
+				incompleteLevel = 8;
+				Meteor.call('test2.Test2Level8Insert',Test2Level8CorrectNumber, Test2Level8WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
 				setTimeout(() => window.location.reload(), 0);
 			}
     	}
@@ -472,19 +554,19 @@ export default class Test2Level5 extends Component {
   		var corno;
   		var wrongno;
   		if(this.state.test2[(this.state.test2.length)-1]) {
-  			corno = this.state.test2[(this.state.test2.length)-1].Test2Level5CorrectNumber;
-  			wrongno = this.state.test2[(this.state.test2.length)-1].Test2Level5WrongNumber;
+  			corno = this.state.test2[(this.state.test2.length)-1].Test2Level8CorrectNumber;
+  			wrongno = this.state.test2[(this.state.test2.length)-1].Test2Level8WrongNumber;
   		} else {
   			corno = 0;
   			wrongno = 0;
   		}
   		return(
 			<div>
-				<PrivateHeader title="Level 5"/>
+				<PrivateHeader title="Level8"/>
 				<div>
 					<div>
 						<div className = "chartBox">
-							<Test2Level5Graph/>
+							<Test2Level8Graph array={this.state.graphArray}/>
 						</div>
 						<div className = "graph-form">
 							<div id = "entryDiv">
@@ -505,6 +587,9 @@ export default class Test2Level5 extends Component {
 									<input type = "radio" name = "choice" value= "D"/>D
 									<input type = "radio" name = "choice" value= "E"/>E
 									<input type = "radio" name = "choice" value= "F"/>F
+									<input type = "radio" name = "choice" value= "G"/>G
+									<input type = "radio" name = "choice" value= "H"/>H
+									<input type = "radio" name = "choice" value= "I"/>I
 									<div className = "submit-button-contianer">
 										<button className = "button--submit-button" id = "submit"> Submit! </button>
 									</div>
@@ -523,6 +608,9 @@ export default class Test2Level5 extends Component {
 									<button className = "media-button3" onClick = {this.filterD}>D</button>
 									<button className = "media-button3" onClick = {this.filterE}>E</button>
 									<button className = "media-button3" onClick = {this.filterF}>F</button>
+									<button className = "media-button3" onClick = {this.filterG}>G</button>
+									<button className = "media-button3" onClick = {this.filterH}>H</button>
+									<button className = "media-button3" onClick = {this.filterI}>I</button>
 								</div>
 								<button className = "media-button" onClick={this.correct}>EQ</button>
 								<button className = "media-button2" onClick = {this.flat}>Flat</button>

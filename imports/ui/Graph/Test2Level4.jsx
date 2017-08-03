@@ -16,7 +16,7 @@ const history = createBrowserHistory({forceRefresh: true});
 //Level Variables
 var Test2Level4CorrectNumber = 0;
 var Test2Level4WrongNumber = 0;
-var incompleteLevel = 3;
+var incompleteLevel = 4;
 var Test2Attempts = 0;
 var Test2TotalCorrect = 0;
 var Test2TotalWrong = 0;
@@ -442,46 +442,74 @@ export default class Test2Level4 extends Component {
 
 	
   	render() {
+  		var corno;
+  		var wrongno;
+  		if(this.state.test2[(this.state.test2.length)-1]) {
+  			corno = this.state.test2[(this.state.test2.length)-1].Test2Level4CorrectNumber;
+  			wrongno = this.state.test2[(this.state.test2.length)-1].Test2Level4WrongNumber;
+  		} else {
+  			corno = 0;
+  			wrongno = 0;
+  		}
   		return(
 			<div>
-				<PrivateHeader title="Level 4"/>
-				<button onClick = {this.stop}><Link to='/Dashboard'>Dashboard</Link></button>
-				<Test2Level4Graph/>
-					<div id="entryDiv">
-						
-						<p>Use Radio!</p>
-						<form id="form" onSubmit = {this.onSubmit}>
-							<input type = "radio" name = "choice" value= "A"/>A
-							<input type = "radio" name = "choice" value= "B"/>B
-							<input type = "radio" name = "choice" value= "C"/>C
-							<input type = "radio" name = "choice" value= "D"/>D
-							<input type = "radio" name = "choice" value= "E"/>E
-							<button id = "submit"> Submit! </button>
-						</form>
-						<button onClick={this.correct}>EQ</button>
-						<button onClick={this.flat}>Flat</button>
-						<button onClick={this.play}>Play/Pause</button>
-						<button onClick={this.stop}>Stop</button>
-						<button onClick={this.test2show}>Values</button>
-					</div>
-						
-					<div id="submitDiv">
-						<p>{this.state.isCorrect}</p>
-						
-						<button onClick = {this.filterA}>A</button>
-						<button onClick = {this.filterB}>B</button>
-						<button onClick = {this.filterC}>C</button>
-						<button onClick = {this.filterD}>D</button>
-						<button onClick = {this.filterE}>E</button>
+				<PrivateHeader title="level4"/>
+				<div>
+					<div>
+						<div className = "chartBox">
+							<Test2Level4Graph/>
+						</div>
+						<div className = "graph-form">
+							<div id = "entryDiv">
+								<div className = "score-card">
+									Correct: {corno} &ensp; Wrong: {wrongno}
+								</div>
+								<div className = "media-buttons">
+									<button className = "media-button" onClick={this.correct}>EQ</button>
+									<button className = "media-button" onClick={this.flat}>Flat</button>
+									<button className = "media-button" onClick={this.play}>Play/Pause</button>
+									<button className = "media-button" onClick={this.stop}>Stop</button>
+								</div>
+								<form className = "radio-form" id = "form" onSubmit = {this.onSubmit}>
+									<input type = "radio" name = "choice" value= "A"/>A
+									<input type = "radio" name = "choice" value= "B"/>B
+									<input type = "radio" name = "choice" value= "C"/>C
+									<input type = "radio" name = "choice" value= "C"/>C
+									<input type = "radio" name = "choice" value= "D"/>D
+									<input type = "radio" name = "choice" value= "E"/>E
+									<div className = "submit-button-contianer">
+										<button className = "button--submit-button" id = "submit"> Submit! </button>
+									</div>
+								</form>
 
-						<button onClick={this.flat}>Flat</button>
-						<button onClick={this.play}>Play/Pause</button>
-						<button onClick={this.stop}>Stop</button>
-						<button onClick={this.test2show}>Values</button>
-						<div>
-							<button onClick={this.onModalOk}>OK</button>
+								<button className = "dashboard-link-button" onClick = {this.stop}><Link to='/Dashboard'>Dashboard</Link></button>
+							</div>
+							<div id="submitDiv">
+								<div className = "isCorrectBox">
+									<p className = "isCorrect"><b>{this.state.isCorrect}</b></p>
+								</div>
+								<div className = "media-button3-box">
+									<button className = "media-button3" onClick = {this.filterA}>A</button>
+									<button className = "media-button3" onClick = {this.filterB}>B</button>
+									<button className = "media-button3" onClick = {this.filterC}>C</button>
+									<button className = "media-button3" onClick = {this.filterD}>D</button>
+									<button className = "media-button3" onClick = {this.filterE}>E</button>
+								</div>
+								<button className = "media-button" onClick={this.correct}>EQ</button>
+								<button className = "media-button2" onClick = {this.flat}>Flat</button>
+								<button className = "media-button2" onClick = {this.play}>Play/Pause</button>
+								<button className = "media-button2" onClick = {this.stop}>Stop</button>
+								<div className = "submit-button-contianer">
+									<button className = "button--submit-button" onClick={this.onModalOk}>OK</button>
+								</div>
+
+								<div>
+								<button className = "dashboard-link-button" onClick = {this.stop}><Link to = '/Dashboard'>Dashboard</Link></button>
+								</div>
+							</div>
 						</div>
 					</div>
+				</div>
 			</div>
 		)
   	}

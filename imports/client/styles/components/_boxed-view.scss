@@ -9,13 +9,23 @@
 
 .boxed-view__box {
 	background-color: $boxed-view-bg;
+	border-radius: 20px;
 	padding: 2.4rem;
 	text-align: center;
 	width: 24rem;
-	border-radius: 20px;
 }
 
 .boxed-view__form {
 	display: flex;
 	flex-direction: column;
+}
+
+.boxed-view__chartlevel {
+	
+	background-color: $boxed-view-bg;
+	border-radius: 20px;
+	height: 70rem;
+	padding: 2.4rem;
+	text-align: center;
+	width: 90rem;
 }

@@ -25,7 +25,7 @@ var level = 1
 
 //Function to randomize
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+	var currentIndex = array.length, temporaryValue, randomIndex;
 
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
@@ -38,9 +38,9 @@ function shuffle(array) {
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
-  }
+}
 
-  return array;
+return array;
 }
 
 //Audio variables - Web Audio API
@@ -59,7 +59,7 @@ filter.frequency.value=22050;
 gain.gain.value = 0.5;
 
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+	var currentIndex = array.length, temporaryValue, randomIndex;
 
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
@@ -72,26 +72,26 @@ function shuffle(array) {
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
-  }
+}
 
-  return array;
+return array;
 }
 
 var array = [
-	{	
-		name: "A",
-		type: "peaking",
-		frequency: 200,
-		q: 1,
-		gain: 6
-	}, 
-	{
-		name: "B",
-		type: "peaking",
-		frequency: 2000,
-		q: 1,
-		gain: 6
-	}
+{	
+	name: "A",
+	type: "peaking",
+	frequency: 200,
+	q: 1,
+	gain: 6
+}, 
+{
+	name: "B",
+	type: "peaking",
+	frequency: 2000,
+	q: 1,
+	gain: 6
+}
 ]
 
 
@@ -112,10 +112,10 @@ export default class Test2Level1 extends Component {
 	}
 
 	componentWillMount() {
-   		setTimeout(() => {
-     	window.history.forward()
-   		}, 0)
-   		window.onunload=function(){null};
+		setTimeout(() => {
+			window.history.forward()
+		}, 0)
+		window.onunload=function(){null};
 
 	}
 
@@ -123,9 +123,9 @@ export default class Test2Level1 extends Component {
 
 		shuffle(tracks);
 		var x = document.getElementById("entryDiv");
-	    var y = document.getElementById("submitDiv");
-	    y.style.display="none";
-        x.style.display="block";
+		var y = document.getElementById("submitDiv");
+		y.style.display="none";
+		x.style.display="block";
 		this.play();
 		this.test2Tracker = Tracker.autorun(() => {
 			Meteor.subscribe('test2');
@@ -184,82 +184,83 @@ export default class Test2Level1 extends Component {
 
 	correct = (event) => {
 		//console.log(array[0].frequency);
-	    if(isConnectedToFilter) {
-	      filter.type = array[0].type;
-	      filter.frequency.value = array[0].frequency;
-	      filter.Q.value = array[0].q;
-	      filter.gain.value = array[0].gain;
-	      isConnectedToFilter = true;
-	    }
-	    else {
-	      source.connect(filter);
-	      filter.connect(gain);
-	      filter.type = array[0].type;
-	      filter.frequency.value = array[0].frequency;
-	      filter.Q.value = array[0].q;
-	      filter.gain.value = array[0].gain;
-	      isConnectedToFilter = true;
-	   	}
-  	}
+		if(isConnectedToFilter) {
+			filter.type = array[0].type;
+			filter.frequency.value = array[0].frequency;
+			filter.Q.value = array[0].q;
+			filter.gain.value = array[0].gain;
+			isConnectedToFilter = true;
+		}
+		else {
+			source.connect(filter);
+			filter.connect(gain);
+			filter.type = array[0].type;
+			filter.frequency.value = array[0].frequency;
+			filter.Q.value = array[0].q;
+			filter.gain.value = array[0].gain;
+			isConnectedToFilter = true;
+		}
+	}
 
-  	filterA = (event) => {
+	filterA = (event) => {
 		//console.log(array[0].frequency);
-	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
-	      filter.frequency.value = 200;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
-	      isConnectedToFilter = true;
-	    }
-	    else {
-	      source.connect(filter);
-	      filter.connect(gain);
-	      filter.type = "peaking";
-	      filter.frequency.value = 200;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
-	      isConnectedToFilter = true;
-	   	}
-  	}
+		if(isConnectedToFilter) {
+			filter.type = "peaking";
+			filter.frequency.value = 200;
+			filter.Q.value = 1;
+			filter.gain.value = 6;
+			isConnectedToFilter = true;
+		}
+		else {
+			source.connect(filter);
+			filter.connect(gain);
+			filter.type = "peaking";
+			filter.frequency.value = 200;
+			filter.Q.value = 1;
+			filter.gain.value = 6;
+			isConnectedToFilter = true;
+		}
+	}
 
-  	filterB = (event) => {
+	filterB = (event) => {
 		//console.log(array[0].frequency);
-	    if(isConnectedToFilter) {
-	      filter.type = "peaking";
-	      filter.frequency.value = 2000;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
-	      isConnectedToFilter = true;
-	    }
-	    else {
-	      source.connect(filter);
-	      filter.connect(gain);
-	      filter.type = "peaking";
-	      filter.frequency.value = 2000;
-	      filter.Q.value = 1;
-	      filter.gain.value = 6;
-	      isConnectedToFilter = true;
-	   	}
-  	}
+		if(isConnectedToFilter) {
+			filter.type = "peaking";
+			filter.frequency.value = 2000;
+			filter.Q.value = 1;
+			filter.gain.value = 6;
+			isConnectedToFilter = true;
+		}
+		else {
+			source.connect(filter);
+			filter.connect(gain);
+			filter.type = "peaking";
+			filter.frequency.value = 2000;
+			filter.Q.value = 1;
+			filter.gain.value = 6;
+			isConnectedToFilter = true;
+		}
+	}
 
-  	flat = (event) => {
-	    if(isConnectedToFilter) {
-	      filter.type = 'allpass';
-	      filter.frequency.value = 22050;
-	      isConnectedToFilter = true;
-	    }
-	    else {
-	      source.connect(filter);
-	      filter.connect(gain);
-	      filter.type = 'allpass';
-	      filter.frequency.value = 22050;
-	      isConnectedToFilter = true;
-	    	}
-  	}
+	flat = (event) => {
+		if(isConnectedToFilter) {
+			filter.type = 'allpass';
+			filter.frequency.value = 22050;
+			isConnectedToFilter = true;
+		}
+		else {
+			source.connect(filter);
+			filter.connect(gain);
+			filter.type = 'allpass';
+			filter.frequency.value = 22050;
+			isConnectedToFilter = true;
+		}
+	}
 
-  	onModalOk = (event) => {
-  		event.preventDefault();
-  		if(this.state.test2[(this.state.test2.length)-1].Test2Attempts == null) {
+	onModalOk = (event) => {
+		event.preventDefault();
+		this.stop();
+		if(this.state.test2[(this.state.test2.length)-1].Test2Attempts == null) {
 			Test2Attempts = 0;
 		} else {
 			Test2Attempts = this.state.test2[(this.state.test2.length)-1].Test2Attempts;
@@ -284,11 +285,11 @@ export default class Test2Level1 extends Component {
 		} else {
 			Test2Level1WrongNumber = this.state.test2[(this.state.test2.length)-1].Test2Level1WrongNumber;
 		}
-  		Test2Attempts += 1;
-    	if(this.state.isCorrect == "Correct") {
-    		Test2TotalCorrect += 1;
-    		Test2Level1WrongNumber = 0;
-    		if(this.state.test2[(this.state.test2.length)-1].Test2Level1CorrectNumber == undefined) {
+		Test2Attempts += 1;
+		if(this.state.isCorrect == "Correct") {
+			Test2TotalCorrect += 1;
+			Test2Level1WrongNumber = 0;
+			if(this.state.test2[(this.state.test2.length)-1].Test2Level1CorrectNumber == undefined) {
 				Test2Level1CorrectNumber = 1;
 			} else {
 				console.log("here");
@@ -302,10 +303,10 @@ export default class Test2Level1 extends Component {
 				Meteor.call('test2.Test2Level1Insert',Test2Level1CorrectNumber, Test2Level1WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
 				setTimeout(() => window.location.reload(), 0);
 			}
-    	} else {
-    		Test2TotalWrong += 1;
-    		Test2Level1CorrectNumber = 0;
-    		if(this.state.test2[(this.state.test2.length)-1].Test2Level1WrongNumber == undefined) {
+		} else {
+			Test2TotalWrong += 1;
+			Test2Level1CorrectNumber = 0;
+			if(this.state.test2[(this.state.test2.length)-1].Test2Level1WrongNumber == undefined) {
 				Test2Level1WrongNumber = 1;
 			} else {
 				console.log("here");
@@ -319,74 +320,96 @@ export default class Test2Level1 extends Component {
 				Meteor.call('test2.Test2Level1Insert',Test2Level1CorrectNumber, Test2Level1WrongNumber, incompleteLevel, Test2Attempts, Test2TotalCorrect, Test2TotalWrong);
 				setTimeout(() => window.location.reload(), 0);
 			}
-    	}
-  	}
+		}
+	}
 
-  	onSubmit = (event) => {
-  		event.preventDefault();
-  		var choice = document.forms[0];
-  		var x = document.getElementById("entryDiv");
-	    var y = document.getElementById("submitDiv");
-  		for (i = 0; i < choice.length; i++) {
-        	if (choice[i].checked) {
-            	console.log(choice[i].value);
-            	if(choice[i].value == array[0].name) {
-            		this.stop();
-            		this.setState({isCorrect: "Correct"});
-            		x.style.display="none";
-            		y.style.display="block";
-	        	} else {
-	        		this.stop();
-	        		this.setState({isCorrect: "Wrong"});
-	        		x.style.display="none";
-            		y.style.display="block";
-	        	}
-        	}
+	onSubmit = (event) => {
+		event.preventDefault();
+		var choice = document.forms[0];
+		var x = document.getElementById("entryDiv");
+		var y = document.getElementById("submitDiv");
+		for (i = 0; i < choice.length; i++) {
+			if (choice[i].checked) {
+				console.log(choice[i].value);
+				if(choice[i].value == array[0].name) {
+					this.stop();
+					this.setState({isCorrect: "Correct"});
+					x.style.display="none";
+					y.style.display="block";
+				} else {
+					this.stop();
+					this.setState({isCorrect: "Wrong"});
+					x.style.display="none";
+					y.style.display="block";
+				}
+			}
 
-    	}
-  	}
-
-  	test2how = (event) => {
-  		console.log(this.state.test2[(this.state.test2.length)-1]);
-  	}
-
+		}
+	}
 	
-  	render() {
-  		return(
+	render() {
+		var corno;
+  		var wrongno;
+  		if(this.state.test2[(this.state.test2.length)-1]) {
+  			corno = this.state.test2[(this.state.test2.length)-1].Test2Level1CorrectNumber;
+  			wrongno = this.state.test2[(this.state.test2.length)-1].Test2Level1WrongNumber;
+  		} else {
+  			corno = 0;
+  			wrongno = 0;
+  		}
+		return(
 			<div>
 				<PrivateHeader title="Level 1"/>
-				<button onClick = {this.stop}><Link to='/Dashboard'>Dashboard</Link></button>
-				<Test2Level1Graph/>
-					<div id="entryDiv">
-						
-						<p>Use Radio!</p>
-						<form id="form" onSubmit = {this.onSubmit}>
-							<input type = "radio" name = "choice" value= "A"/>A
-							<input type = "radio" name = "choice" value= "B"/>B
-							<button id = "submit"> Submit! </button>
-						</form>
-						<button onClick={this.correct}>EQ</button>
-						<button onClick={this.flat}>Flat</button>
-						<button onClick={this.play}>Play/Pause</button>
-						<button onClick={this.stop}>Stop</button>
-						<button onClick={this.test2how}>Values</button>
-					</div>
-						
-					<div id="submitDiv">
-						<p>{this.state.isCorrect}</p>
-						
-						<button onClick = {this.filterA}>A</button>
-						<button onClick = {this.filterB}>B</button>
-						<button onClick={this.flat}>Flat</button>
-						<button onClick={this.play}>Play/Pause</button>
-						<button onClick={this.stop}>Stop</button>
-						<button onClick={this.test2how}>Values</button>
-						<div>
-							<button onClick={this.onModalOk}>OK</button>
+				<div>
+					<div>
+						<div className = "chartBox">
+							<Test2Level1Graph/>
+						</div>
+						<div className = "graph-form">
+							<div id = "entryDiv">
+								<div className = "score-card">
+									Correct: {corno} &ensp; Wrong: {wrongno}
+								</div>
+								<div className = "media-buttons">
+									<button className = "media-button" onClick={this.correct}>EQ</button>
+									<button className = "media-button" onClick={this.flat}>Flat</button>
+									<button className = "media-button" onClick={this.play}>Play/Pause</button>
+									<button className = "media-button" onClick={this.stop}>Stop</button>
+								</div>
+								<form className = "radio-form" id = "form" onSubmit = {this.onSubmit}>
+									<input type = "radio" name = "choice" value= "A"/>A
+									<input type = "radio" name = "choice" value= "B"/>B
+									<div className = "submit-button-contianer">
+										<button className = "button--submit-button" id = "submit"> Submit! </button>
+									</div>
+								</form>
+
+								<button className = "dashboard-link-button" onClick = {this.stop}><Link to='/Dashboard'>Dashboard</Link></button>
+							</div>
+							<div id="submitDiv">
+								<div className = "isCorrectBox">
+									<p className = "isCorrect"><b>{this.state.isCorrect}</b></p>
+								</div>
+								<div className = "media-button3-box">
+									<button className = "media-button3" onClick = {this.filterA}>A</button>
+									<button className = "media-button3" onClick = {this.filterB}>B</button>
+								</div>
+								<button className = "media-button2" onClick = {this.flat}>Flat</button>
+								<button className = "media-button2" onClick = {this.play}>Play/Pause</button>
+								<button className = "media-button2" onClick = {this.stop}>Stop</button>
+								<div className = "submit-button-contianer">
+									<button className = "button--submit-button" onClick={this.onModalOk}>OK</button>
+								</div>
+
+								<div>
+								<button className = "dashboard-link-button" onClick = {this.stop}><Link to = '/Dashboard'>Dashboard</Link></button>
+								</div>
+							</div>
 						</div>
 					</div>
+				</div>
 			</div>
 		)
-  	}
+	}
 	
 }
