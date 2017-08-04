@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom';
+import LoginHeader from './LoginHeader';
 
 export default class Login extends Component {
 	constructor(props) {
@@ -28,6 +29,8 @@ export default class Login extends Component {
   }
   render() {
     return (
+      <div>
+      <LoginHeader/>
         <div className = "boxed-view">
           <div className = "boxed-view__box">
             <h1>Login!</h1>
@@ -42,6 +45,7 @@ export default class Login extends Component {
 
             <Link to="/SignUp">Create Account!</Link>
           </div>
+        </div>
         </div>
     );
   }

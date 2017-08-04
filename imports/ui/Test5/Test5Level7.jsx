@@ -1,0 +1,598 @@
+import React, { Component } from 'react';
+import {Accounts } from 'meteor/accounts-base';
+import { Link } from 'react-router-dom';
+import { Test5 } from '../../api/Test5';
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { createContainer } from 'meteor/react-meteor-data';
+import PrivateHeader from '../PrivateHeader';
+import createBrowserHistory from 'history/createBrowserHistory';
+import { audioContext } from '../Dashboard';
+import  Test5Level7Graph  from '../Test4/Test4Level7Graph.jsx';
+import Modal from 'react-modal';
+//For React Router
+const history = createBrowserHistory({forceRefresh: true});
+
+//Level Variables
+var Test5Level7CorrectNumber = 0;
+var Test5Level7WrongNumber = 0;
+var incompleteLevel = 7;
+var Test5Attempts = 0;
+var Test5TotalCorrect = 0;
+var Test5TotalWrong = 0;
+var level = 7;
+//var a = 2;
+
+//Function to randomize
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+// 
+//Audio variables - Web Audio API
+var tracks = ['./audio/track1.wav', './audio/track2.wav', './audio/track3.wav', './audio/track4.wav'];
+var startOffset = 0;
+var startTime = 0;
+// var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+var gain = audioContext.createGain();
+var source;
+var request = new XMLHttpRequest();
+var buf;
+var isPlaying = false;
+var isConnectedToFilter = false;
+var filter = audioContext.createBiquadFilter();
+filter.frequency.value=22050;
+gain.gain.value = 0.5;
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+var array = [
+	{	
+		name: "A",
+		type: "highpass",
+		frequency: 45,
+		q: -1,
+		gain: -6
+	}, 
+	{
+		name: "B",
+		type: "highpass",
+		frequency: 100,
+		q: -1,
+		gain: -6
+	},
+	{
+		name: "C",
+		type: "highpass",
+		frequency: 200,
+		q: -1,
+		gain: -6
+	},
+	{
+		name: "D",
+		type: "highpass",
+		frequency: 500,
+		q: -1,
+		gain: -6
+	},
+	{
+		name: "E",
+		type: "highpass",
+		frequency: 1000,
+		q: -1,
+		gain: -6
+	},
+	{
+		name: "F",
+		type: "highpass",
+		frequency: 2000,
+		q: -1,
+		gain: -6
+	},
+	{
+		name: "G",
+		type: "highpass",
+		frequency: 4700,
+		q: -1,
+		gain: -6
+	},
+	{
+		name: "H",
+		type: "highpass",
+		frequency: 10000,
+		q: -1,
+		gain: -6
+	}
+]
+
+var newArray = array.slice();
+
+shuffle(array);
+
+console.log(array[0].frequency);
+
+
+export default class Test5Level7 extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			
+			isCorrect: "Correct!",
+			level: 7,
+			test5:[],
+			graphArray: newArray
+			
+		};
+	}
+
+	componentWillMount() {
+   		setTimeout(() => {
+     	window.history.forward()
+   		}, 0)
+   		window.onunload=function(){null};
+
+	}
+
+	componentDidMount() {
+
+		shuffle(tracks);
+		var x = document.getElementById("entryDiv");
+	    var y = document.getElementById("submitDiv");
+	    y.style.display="none";
+        x.style.display="block";
+		this.play();
+		this.Test5Tracker = Tracker.autorun(() => {
+			Meteor.subscribe('test5');
+			const test5 = Test5.find({userId: Meteor.userId()}).fetch();
+			this.setState({ test5 });
+		});
+	}
+
+	play = (event) =>{
+		
+		if(isPlaying == true) {
+			isPlaying = false;
+			startOffset += audioContext.currentTime - startTime;
+			source.stop();
+		} 
+		else {
+
+			startTime = audioContext.currentTime;
+			source = audioContext.createBufferSource();
+			request.open('GET', tracks[0],  true);
+			request.responseType = 'arraybuffer';
+			request.onload = function() {
+				var audioData = request.response;
+
+				audioContext.decodeAudioData(audioData, function(buffer) {
+					source.buffer = buffer;
+					source.loop = true;
+					source.connect(filter);
+					filter.connect(gain);
+					gain.connect(audioContext.destination);
+					setTimeout(() => source.start(0, startOffset % buffer.duration), 0);
+					isConnectedToFilter = false;
+				},
+				function(e){
+					console.log("Error with decoding audio data" + e.err); 
+				});
+			}
+			request.send();
+			isPlaying = true;
+		}
+	}
+
+	stop = (event) => {
+
+		source.stop(0);
+		source.disconnect();
+		isPlaying = false;
+		startTime = 0;
+		startOffset = 0;
+
+	}
+
+	componentWillUnmount() {
+		this.Test5Tracker.stop();
+	}
+
+	correct = (event) => {
+		console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = array[0].type;
+	      filter.frequency.value = array[0].frequency;
+	      filter.Q.value = array[0].q;
+	      filter.gain.value = array[0].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = array[0].type;
+	      filter.frequency.value = array[0].frequency;
+	      filter.Q.value = array[0].q;
+	      filter.gain.value = array[0].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterA = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = newArray[0].type;
+	      filter.frequency.value = newArray[0].frequency;
+	      filter.Q.value = newArray[0].q;
+	      filter.gain.value = newArray[0].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = newArray[0].type;
+	      filter.frequency.value = newArray[0].frequency;
+	      filter.Q.value = newArray[0].q;
+	      filter.gain.value = newArray[0].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterB = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = newArray[1].type;
+	      filter.frequency.value = newArray[1].frequency;
+	      filter.Q.value = newArray[1].q;
+	      filter.gain.value = newArray[1].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = newArray[1].type;
+	      filter.frequency.value = newArray[1].frequency;
+	      filter.Q.value = newArray[1].q;
+	      filter.gain.value = newArray[1].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterC = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = newArray[2].type;
+	      filter.frequency.value = newArray[2].frequency;
+	      filter.Q.value = newArray[2].q;
+	      filter.gain.value = newArray[2].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = newArray[2].type;
+	      filter.frequency.value = newArray[2].frequency;
+	      filter.Q.value = newArray[2].q;
+	      filter.gain.value = newArray[2].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterD = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = newArray[3].type;
+	      filter.frequency.value = newArray[3].frequency;
+	      filter.Q.value = newArray[3].q;
+	      filter.gain.value = newArray[3].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = newArray[3].type;
+	      filter.frequency.value = newArray[3].frequency;
+	      filter.Q.value = newArray[3].q;
+	      filter.gain.value = newArray[3].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterE = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = newArray[4].type;
+	      filter.frequency.value = newArray[4].frequency;
+	      filter.Q.value = newArray[4].q;
+	      filter.gain.value = newArray[4].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = newArray[4].type;
+	      filter.frequency.value = newArray[4].frequency;
+	      filter.Q.value = newArray[4].q;
+	      filter.gain.value = newArray[4].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterF = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = newArray[5].type;
+	      filter.frequency.value = newArray[5].frequency;
+	      filter.Q.value = newArray[5].q;
+	      filter.gain.value = newArray[5].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = newArray[5].type;
+	      filter.frequency.value = newArray[5].frequency;
+	      filter.Q.value = newArray[5].q;
+	      filter.gain.value = newArray[5].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterG = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = newArray[6].type;
+	      filter.frequency.value = newArray[6].frequency;
+	      filter.Q.value = newArray[6].q;
+	      filter.gain.value = newArray[6].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = newArray[6].type;
+	      filter.frequency.value = newArray[6].frequency;
+	      filter.Q.value = newArray[6].q;
+	      filter.gain.value = newArray[6].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterH = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = newArray[7].type;
+	      filter.frequency.value = newArray[7].frequency;
+	      filter.Q.value = newArray[7].q;
+	      filter.gain.value = newArray[7].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = newArray[7].type;
+	      filter.frequency.value = newArray[7].frequency;
+	      filter.Q.value = newArray[7].q;
+	      filter.gain.value = newArray[7].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	flat = (event) => {
+	    if(isConnectedToFilter) {
+	      filter.type = 'allpass';
+	      filter.frequency.value = 22050;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = 'allpass';
+	      filter.frequency.value = 22050;
+	      isConnectedToFilter = true;
+	    	}
+  	}
+
+  	onModalOk = (event) => {
+  		event.preventDefault();
+  		if(this.state.test5[(this.state.test5.length)-1].Test5Attempts == null) {
+			Test5Attempts = 0;
+		} else {
+			Test5Attempts = this.state.test5[(this.state.test5.length)-1].Test5Attempts;
+		}
+		if(this.state.test5[(this.state.test5.length)-1].Test5TotalCorrect == null) {
+			Test5TotalCorrect = 0;
+		} else {
+			Test5TotalCorrect = this.state.test5[(this.state.test5.length)-1].Test5TotalCorrect;
+		}
+		if(this.state.test5[(this.state.test5.length)-1].Test5TotalWrong == null) {
+			Test5TotalWrong = 0;
+		} else {
+			Test5TotalWrong = this.state.test5[(this.state.test5.length)-1].Test5TotalWrong;
+		}
+		if(this.state.test5[(this.state.test5.length)-1].Test5Level7CorrectNumber == null) {
+			Test5Level7CorrectNumber = 0;
+		} else {
+			Test5Level7CorrectNumber = this.state.test5[(this.state.test5.length)-1].Test5Level7CorrectNumber;
+		}
+		if(this.state.test5[(this.state.test5.length)-1].Test5Level7WrongNumber == null) {
+			Test5Level7WrongNumber = 0;
+		} else {
+			Test5Level7WrongNumber = this.state.test5[(this.state.test5.length)-1].Test5Level7WrongNumber;
+		}
+  		Test5Attempts += 1;
+    	if(this.state.isCorrect == "Correct") {
+    		Test5TotalCorrect += 1;
+    		Test5Level7WrongNumber = 0;
+    		if(this.state.test5[(this.state.test5.length)-1].Test5Level7CorrectNumber == undefined) {
+				Test5Level7CorrectNumber = 1;
+			} else {
+				console.log("here");
+				Test5Level7CorrectNumber=(this.state.test5[(this.state.test5.length)-1].Test5Level7CorrectNumber) +1;
+			}
+
+			if((Test5Level7CorrectNumber % 3) == 0) {
+				incompleteLevel = 8;
+				Meteor.call('test5.Test5Level7Insert',Test5Level7CorrectNumber, Test5Level7WrongNumber, incompleteLevel, Test5Attempts, Test5TotalCorrect, Test5TotalWrong);
+				setTimeout(() => history.push('/Test5Level8'), 0); //go forward here
+			} else {
+				incompleteLevel = 7;
+				Meteor.call('test5.Test5Level7Insert',Test5Level7CorrectNumber, Test5Level7WrongNumber, incompleteLevel, Test5Attempts, Test5TotalCorrect, Test5TotalWrong);
+				setTimeout(() => window.location.reload(), 0);
+			}
+    	} else {
+    		Test5TotalWrong += 1;
+    		Test5Level7CorrectNumber = 0;
+    		if(this.state.test5[(this.state.test5.length)-1].Test5Level7WrongNumber == undefined) {
+				Test5Level7WrongNumber = 1;
+			} else {
+				console.log("here");
+				Test5Level7WrongNumber=(this.state.test5[(this.state.test5.length)-1].Test5Level7WrongNumber) +1;
+			}
+
+			if((Test5Level7WrongNumber % 3) == 0) {
+				incompleteLevel = 6;
+				Meteor.call('test5.Test5Level7Insert',Test5Level7CorrectNumber, Test5Level7WrongNumber, incompleteLevel, Test5Attempts, Test5TotalCorrect, Test5TotalWrong);
+				setTimeout(() => history.push('/Test5Level6'), 0); //go back here
+			} else {
+				incompleteLevel = 7;
+				Meteor.call('test5.Test5Level7Insert',Test5Level7CorrectNumber, Test5Level7WrongNumber, incompleteLevel, Test5Attempts, Test5TotalCorrect, Test5TotalWrong);
+				setTimeout(() => window.location.reload(), 0);
+			}
+    	}
+    	
+  	}
+
+  	onSubmit = (event) => {
+  		event.preventDefault();
+  		var choice = document.forms[0];
+  		var x = document.getElementById("entryDiv");
+	    var y = document.getElementById("submitDiv");
+  		for (i = 0; i < choice.length; i++) {
+        	if (choice[i].checked) {
+            	console.log(choice[i].value);
+            	if(choice[i].value == array[0].name) {
+            		this.stop();
+            		this.setState({isCorrect: "Correct"});
+            		x.style.display="none";
+            		y.style.display="block";
+	        	} else {
+	        		this.stop();
+	        		this.setState({isCorrect: "Wrong"});
+	        		x.style.display="none";
+            		y.style.display="block";
+	        	}
+        	}
+
+    	}
+  	}
+
+	
+  	render() {
+  		var corno;
+  		var wrongno;
+  		if(this.state.test5[(this.state.test5.length)-1]) {
+  			corno = this.state.test5[(this.state.test5.length)-1].Test5Level7CorrectNumber;
+  			wrongno = this.state.test5[(this.state.test5.length)-1].Test5Level7WrongNumber;
+  		} else {
+  			corno = 0;
+  			wrongno = 0;
+  		}
+  		return(
+			<div>
+				<PrivateHeader title="Level 2"/>
+				<div>
+					<div>
+						<div className = "chartBox">
+							<Test5Level7Graph array={this.state.graphArray}/>
+						</div>
+						<div className = "graph-form">
+							<div id = "entryDiv">
+								<div className = "score-card">
+									Correct: {corno} &ensp; Wrong: {wrongno}
+								</div>
+								<div className = "media-buttons">
+									<button className = "media-button" onClick={this.correct}>EQ</button>
+									<button className = "media-button" onClick={this.flat}>Flat</button>
+									<button className = "media-button" onClick={this.play}>Play/Pause</button>
+									<button className = "media-button" onClick={this.stop}>Stop</button>
+								</div>
+								<form className = "radio-form" id = "form" onSubmit = {this.onSubmit}>
+									<input type = "radio" name = "choice" value= "A"/>A
+									<input type = "radio" name = "choice" value= "B"/>B
+									<input type = "radio" name = "choice" value= "C"/>C
+									<input type = "radio" name = "choice" value= "D"/>D
+									<input type = "radio" name = "choice" value= "E"/>E
+									<input type = "radio" name = "choice" value= "F"/>F
+									<input type = "radio" name = "choice" value= "G"/>G
+									<input type = "radio" name = "choice" value= "H"/>H
+									<div className = "submit-button-contianer">
+										<button className = "button--submit-button" id = "submit"> Submit! </button>
+									</div>
+								</form>
+
+								<button className = "dashboard-link-button" onClick = {this.stop}><Link to='/Dashboard'>Dashboard</Link></button>
+							</div>
+							<div id="submitDiv">
+								<div className = "isCorrectBox">
+									<p className = "isCorrect"><b>{this.state.isCorrect}</b></p>
+								</div>
+								<div className = "media-button3-box">
+									<button className = "media-button3" onClick = {this.filterA}>A</button>
+									<button className = "media-button3" onClick = {this.filterB}>B</button>
+									<button className = "media-button3" onClick = {this.filterC}>C</button>
+									<button className = "media-button3" onClick = {this.filterD}>D</button>
+									<button className = "media-button3" onClick = {this.filterE}>E</button>
+									<button className = "media-button3" onClick = {this.filterF}>F</button>
+									<button className = "media-button3" onClick = {this.filterG}>G</button>
+									<button className = "media-button3" onClick = {this.filterH}>H</button>
+								</div>
+								<button className = "media-button" onClick={this.correct}>EQ</button>
+								<button className = "media-button2" onClick = {this.flat}>Flat</button>
+								<button className = "media-button2" onClick = {this.play}>Play/Pause</button>
+								<button className = "media-button2" onClick = {this.stop}>Stop</button>
+								<div className = "submit-button-contianer">
+									<button className = "button--submit-button" onClick={this.onModalOk}>OK</button>
+								</div>
+
+								<div>
+								<button className = "dashboard-link-button" onClick = {this.stop}><Link to = '/Dashboard'>Dashboard</Link></button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		)
+  	}
+	
+}

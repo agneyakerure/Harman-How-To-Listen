@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import {Accounts } from 'meteor/accounts-base';
 import { Link } from 'react-router-dom';
-import { Test2 } from '../../api/Test2';
+import { Test5 } from '../../api/Test5';
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// import ValuesList2 from '../ValueList2';
+import { createContainer } from 'meteor/react-meteor-data';
 import PrivateHeader from '../PrivateHeader';
 import { audioContext } from '../Dashboard';
 import createBrowserHistory from 'history/createBrowserHistory';
@@ -40,7 +44,8 @@ for (var i = 0; i < hrtfs.length; i++) {
 
 const history = createBrowserHistory({forceRefresh: true});
 var incompleteLevel = 0;
-export default class Test2Level0 extends Component {
+
+export default class Test5Level0 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -48,25 +53,25 @@ export default class Test2Level0 extends Component {
 			justCopied: false,
 			answer: 5,
 			attemptNumber: 0,
-			level: 1,
+			level: 0,
 			correctNumber: 0,
 			wrongNumber: 0,
-			test2:[]
+			test5:[]
 		};
 	}
 
 	componentDidMount() {
-		this.test2Tracker = Tracker.autorun(() => {
-			Meteor.subscribe('test2');
-			const test2 = Test2.find("").fetch();
-			this.setState({ test2 });
+		this.Test5Tracker = Tracker.autorun(() => {
+			Meteor.subscribe('test5');
+			const test5 = Test5.find("").fetch();
+			this.setState({ test5 });
 		});
 	}
 
 	onSubmit(e) {
 		e.preventDefault();
 		const value = this.state.firstSlider;
-		incompleteLevel = 1;
+		incompleteLevel = 0;
 		
 		if(value == this.state.answer) {
 			
@@ -78,15 +83,15 @@ export default class Test2Level0 extends Component {
 				this.setState({attemptNumber: this.state.attemptNumber + 1});
 				this.setState({correctNumber: this.state.correctNumber + 1});
 				this.setState({wrongNumber: 0});
-				Meteor.call('test2.Test2Level0Insert',value, incompleteLevel);
-				setTimeout(() => history.push('/Test2Level1'), 0);
+				Meteor.call('test5.Test5Level0Insert',value, incompleteLevel);
+				setTimeout(() => history.push('/Test5Level1'), 0);
 			} else {
 				incompleteLevel = 0;
 				console.log("Answer is correct :-D");
 				this.setState({attemptNumber: this.state.attemptNumber + 1});
 				this.setState({correctNumber: this.state.correctNumber + 1});
 				this.setState({wrongNumber: 0});
-				Meteor.call('test2.Test2Level0Insert',value, incompleteLevel);
+				Meteor.call('test5.Test5Level0Insert',value, incompleteLevel);
 			}
 			
 
@@ -218,7 +223,7 @@ export default class Test2Level0 extends Component {
 			<div>
 				<PrivateHeader title="Level 0"/>
 				<div>
-					<p>Use Slider</p>
+					<p>Use Slidersjnsdkjfns</p>
 					<form onSubmit={this.onSubmit.bind(this)}>
 						<input type="range" step="0.5" ref="slider1" min="0" max="10" className="Level1Slider1" value={this.state.firstSlider} onChange={this.handleFirstSlider.bind(this)}/>					
 						<button>Submit!</button>

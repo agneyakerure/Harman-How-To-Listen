@@ -58,17 +58,17 @@ import Test4Level8 from '../ui/Test4/Test4Level8';
 import Test4Level9 from '../ui/Test4/Test4Level9';
 import Test4Level10 from '../ui/Test4/Test4Level10';
 
-// import Test5Level0 from '../ui/Test5/Test5Level0';
-// import Test5Level1 from '../ui/Test5/Test5Level1';
-// import Test5Level2 from '../ui/Test5/Test5Level2';
-// import Test5Level3 from '../ui/Test5/Test5Level3';
-// import Test5Level4 from '../ui/Test5/Test5Level4';
-// import Test5Level5 from '../ui/Test5/Test5Level5';
-// import Test5Level6 from '../ui/Test5/Test5Level6';
-// import Test5Level7 from '../ui/Test5/Test5Level7';
-// import Test5Level8 from '../ui/Test5/Test5Level8';
-// import Test5Level9 from '../ui/Test5/Test5Level9';
-// import Test5Level10 from '../ui/Test5/Test5Level10';
+import Test5Level0 from '../ui/Test5/Test5Level0';
+import Test5Level1 from '../ui/Test5/Test5Level1';
+import Test5Level2 from '../ui/Test5/Test5Level2';
+import Test5Level3 from '../ui/Test5/Test5Level3';
+import Test5Level4 from '../ui/Test5/Test5Level4';
+import Test5Level5 from '../ui/Test5/Test5Level5';
+import Test5Level6 from '../ui/Test5/Test5Level6';
+import Test5Level7 from '../ui/Test5/Test5Level7';
+import Test5Level8 from '../ui/Test5/Test5Level8';
+import Test5Level9 from '../ui/Test5/Test5Level9';
+import Test5Level10 from '../ui/Test5/Test5Level10';
 
 // import Test6Level0 from '../ui/Test6/Test6Level0';
 // import Test6Level1 from '../ui/Test6/Test6Level1';
@@ -192,29 +192,30 @@ export const routes =
           <Route exact path='/Test4Level9' component={Test4Level9}/>
           <Route exact path='/Test4Level10' component={Test4Level10}/>
 
-          {/*<Route exact path='/Test5Level0' component={Test4Level0}/>
-          <Route exact path='/Test5Level1' component={Test4Level1}/>
-          <Route exact path='/Test5Level2' component={Test4Level2}/>
-          <Route exact path='/Test5Level3' component={Test4Level3}/>
-          <Route exact path='/Test5Level4' component={Test4Level4}/>
-          <Route exact path='/Test5Level5' component={Test4Level5}/>
-          <Route exact path='/Test5Level6' component={Test4Level6}/>
-          <Route exact path='/Test5Level7' component={Test4Level7}/>
-          <Route exact path='/Test5Level8' component={Test4Level8}/>
-          <Route exact path='/Test5Level9' component={Test4Level9}/>
-          <Route exact path='/Test5Level10' component={Test4Level10}/>
+          <Route exact path='/Test5Level0' component={Test5Level0}/>
+          <Route exact path='/Test5Level1' component={Test5Level1}/>
+          <Route exact path='/Test5Level2' component={Test5Level2}/>
+          <Route exact path='/Test5Level3' component={Test5Level3}/>
+          <Route exact path='/Test5Level5' component={Test5Level5}/>
+          <Route exact path='/Test5Level6' component={Test5Level6}/>
+          <Route exact path='/Test5Level7' component={Test5Level7}/>
+          <Route exact path='/Test5Level8' component={Test5Level8}/>
+          <Route exact path='/Test5Level9' component={Test5Level9}/>
+          <Route exact path='/Test5Level10' component={Test5Level10}/>
 
-          <Route exact path='/Test6Level0' component={Test5Level0}/>
-          <Route exact path='/Test6Level1' component={Test5Level1}/>
-          <Route exact path='/Test6Level2' component={Test5Level2}/>
-          <Route exact path='/Test6Level3' component={Test5Level3}/>
-          <Route exact path='/Test6Level4' component={Test5Level4}/>
-          <Route exact path='/Test6Level5' component={Test5Level5}/>
-          <Route exact path='/Test6Level6' component={Test5Level6}/>
-          <Route exact path='/Test6Level7' component={Test5Level7}/>
-          <Route exact path='/Test6Level8' component={Test5Level8}/>
-          <Route exact path='/Test6Level9' component={Test5Level9}/>
-          <Route exact path='/Test6Level10' component={Test5Level10}/>
+          {/*<Route exact path='/Test5Level4' component={Test5Level4}/>
+
+          {/*<Route exact path='/Test6Level0' component={Test6Level0}/>
+          {/*<Route exact path='/Test6Level1' component={Test6Level1}/>
+          {/*<Route exact path='/Test6Level2' component={Test6Level2}/>
+          {/*<Route exact path='/Test6Level3' component={Test6Level3}/>
+          {/*<Route exact path='/Test6Level4' component={Test6Level4}/>
+          {/*<Route exact path='/Test6Level5' component={Test6Level5}/>
+          {/*<Route exact path='/Test6Level6' component={Test6Level6}/>
+          {/*<Route exact path='/Test6Level7' component={Test6Level7}/>
+          {/*<Route exact path='/Test6Level8' component={Test6Level8}/>
+          {/*<Route exact path='/Test6Level9' component={Test6Level9}/>
+          {/*<Route exact path='/Test6Level10' component={Test6Level10}/>
 
           <Route exact path='/Test7Level0' component={Test6Level0}/>
           <Route exact path='/Test7Level1' component={Test6Level1}/>

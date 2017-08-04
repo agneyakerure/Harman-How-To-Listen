@@ -225,7 +225,7 @@ var width = 800;
 		return (
 			<div className = "chart">
 				<div className = "chart__content">
-					<h1 className = "chart__header">Level 1</h1>
+					<h1 className = "chart__header">Level 5</h1>
 					<svg id="chart" width="700" height="400" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet"></svg>
 				</div>
 			</div>

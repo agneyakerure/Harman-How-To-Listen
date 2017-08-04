@@ -4,13 +4,17 @@
 	margin-top: $space;
 	margin-bottom: $space;
 	padding: $space;
+
+	//margin: 3rem auto;
+  //max-width: 50rem;
+  //text-align: center;
 }
 
 .item--level {
 	//border: 2px solid;
 	display: inline-block;
 	margin: $space;
-	margin-left: 3rem;
+	margin-left: 15rem;
 	width: 5rem;
 }
 
