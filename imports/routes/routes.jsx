@@ -55,8 +55,8 @@ import Test4Level5 from '../ui/Test4/Test4Level5';
 import Test4Level6 from '../ui/Test4/Test4Level6';
 import Test4Level7 from '../ui/Test4/Test4Level7';
 import Test4Level8 from '../ui/Test4/Test4Level8';
-// import Test4Level9 from '../ui/Test4/Test4Level9';
-// import Test4Level10 from '../ui/Test4/Test4Level10';
+import Test4Level9 from '../ui/Test4/Test4Level9';
+import Test4Level10 from '../ui/Test4/Test4Level10';
 
 // import Test5Level0 from '../ui/Test5/Test5Level0';
 // import Test5Level1 from '../ui/Test5/Test5Level1';
@@ -189,10 +189,10 @@ export const routes =
           <Route exact path='/Test4Level6' component={Test4Level6}/>
           <Route exact path='/Test4Level7' component={Test4Level7}/>
           <Route exact path='/Test4Level8' component={Test4Level8}/>
-          {/*<Route exact path='/Test4Level9' component={Test4Level9}/>
+          <Route exact path='/Test4Level9' component={Test4Level9}/>
           <Route exact path='/Test4Level10' component={Test4Level10}/>
 
-          <Route exact path='/Test5Level0' component={Test4Level0}/>
+          {/*<Route exact path='/Test5Level0' component={Test4Level0}/>
           <Route exact path='/Test5Level1' component={Test4Level1}/>
           <Route exact path='/Test5Level2' component={Test4Level2}/>
           <Route exact path='/Test5Level3' component={Test4Level3}/>
