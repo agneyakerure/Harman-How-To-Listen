@@ -25,8 +25,8 @@ export default class Home extends Component {
 				<p>The listener’s task is to identify, classify or rate these effects according to a number of well-defined perceptual
 				 attributes and scales. The software automatically adjusts the difficulty of each training task based on the listener’s
 				  performance.</p>
-				<div className="graph-form">
-					<p><button className = "button"><Link to="/Login" className="linked-button">App </Link></button></p>
+				<div className="home-graph-form">
+					<p><button className = "button"><Link to="/Login" className="home-linked-button">App </Link></button></p>
 				</div>
 				<footer className="home-footer">
 						© 2017 HARMAN International. All Rights Reserved.

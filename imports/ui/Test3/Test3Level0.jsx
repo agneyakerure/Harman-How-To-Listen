@@ -4,16 +4,50 @@ import { Link } from 'react-router-dom';
 import { Test3 } from '../../api/Test3';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import ValuesList2 from '../ValueList2';
 import { createContainer } from 'meteor/react-meteor-data';
 import PrivateHeader from '../PrivateHeader';
-import { audioContext } from '../Dashboard';
 import createBrowserHistory from 'history/createBrowserHistory';
+import { audioContext } from '../Dashboard';
+// import  Test3Level0Graph  from './Test3Level0Graph.jsx';
+import Modal from 'react-modal';
+//For React Router
+const history = createBrowserHistory({forceRefresh: true});
 
+//Level Variables
+var Test3Level1CorrectNumber = 0;
+var Test3Level1WrongNumber = 0;
+var incompleteLevel = 1;
+var Test3Attempts = 0;
+var Test3TotalCorrect = 0;
+var Test3TotalWrong = 0;
+var level = 1
+//var a = 2;
 
+//Function to randomize
+function shuffle(array) {
+	var currentIndex = array.length, temporaryValue, randomIndex;
 
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+}
+
+return array;
+}
+
+//Audio variables - Web Audio API
+var tracks = ['./audio/track1.wav', './audio/track2.wav', './audio/track3.wav', './audio/track4.wav'];
 var startOffset = 0;
 var startTime = 0;
+// var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 var gain = audioContext.createGain();
 var source;
 var request = new XMLHttpRequest();
@@ -21,100 +55,61 @@ var buf;
 var isPlaying = false;
 var isConnectedToFilter = false;
 var filter = audioContext.createBiquadFilter();
-var dist = audioContext.createWaveShaper();
-var dycomp = audioContext.createDynamicsCompressor();
-var convolver = audioContext.createConvolver();
-var binauralFIRNode = new BinauralFIR({
-        audioContext: audioContext
-    });
-binauralFIRNode.HRTFDataset = hrtfs;
 filter.frequency.value=22050;
 gain.gain.value = 0.5;
 
-for (var i = 0; i < hrtfs.length; i++) {
-        var buffer = audioContext.createBuffer(2, 512, 44100);
-        var bufferChannelLeft = buffer.getChannelData(0);
-        var bufferChannelRight = buffer.getChannelData(1);
-        for (var e = 0; e < hrtfs[i].fir_coeffs_left.length; e++) {
-            bufferChannelLeft[e] = hrtfs[i].fir_coeffs_left[e];
-            bufferChannelRight[e] = hrtfs[i].fir_coeffs_right[e];
-        }
-        hrtfs[i].buffer = buffer;
-    }
+function shuffle(array) {
+	var currentIndex = array.length, temporaryValue, randomIndex;
 
-const history = createBrowserHistory({forceRefresh: true});
-var incompleteLevel = 0;
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
 
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+}
+
+return array;
+}
+
+var array = [
+{	
+	name: "A",
+	type: "peaking",
+	frequency: 200,
+	q: 1,
+	gain: -6
+}, 
+{
+	name: "B",
+	type: "peaking",
+	frequency: 2000,
+	q: 1,
+	gain: -6
+}
+]
+
+var newArray = array.slice();
+
+shuffle(array);
+
+console.log(array[0].frequency);
 export default class Test3Level0 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			firstSlider:0,
-			justCopied: false,
-			answer: 5,
-			attemptNumber: 0,
-			level: 0,
-			correctNumber: 0,
-			wrongNumber: 0,
-			test3:[]
+			isOpen: false,
+			isCorrect: "Correct!",
+			level: 1,
+			test3:[],
+			graphArray: newArray
+			
 		};
-	}
-
-	componentDidMount() {
-		this.Test3Tracker = Tracker.autorun(() => {
-			Meteor.subscribe('test3');
-			const test3 = Test3.find("").fetch();
-			this.setState({ test3 });
-		});
-	}
-
-	onSubmit(e) {
-		e.preventDefault();
-		const value = this.state.firstSlider;
-		incompleteLevel = 1;
-		
-		if(value == this.state.answer) {
-			
-			// console.log("Attempt Number: ", this.state.attemptNumber);
-			// console.log("Correct Number: ", this.state.correctNumber);
-			if(this.state.correctNumber == 2) {
-				incompleteLevel = 1;
-				console.log("Answer is correct :-D");
-				this.setState({attemptNumber: this.state.attemptNumber + 1});
-				this.setState({correctNumber: this.state.correctNumber + 1});
-				this.setState({wrongNumber: 0});
-				Meteor.call('test3.Test3Level0Insert',value, incompleteLevel);
-				setTimeout(() => history.push('/Test3Level1'), 0);
-			} else {
-				incompleteLevel = 0;
-				console.log("Answer is correct :-D");
-				this.setState({attemptNumber: this.state.attemptNumber + 1});
-				this.setState({correctNumber: this.state.correctNumber + 1});
-				this.setState({wrongNumber: 0});
-				Meteor.call('test3.Test3Level0Insert',value, incompleteLevel);
-			}
-			
-
-		} else {
-			console.log("Answer is incorrect :-(");
-			this.setState({attemptNumber: this.state.attemptNumber + 1});
-			this.setState({wrongNumber: this.state.wrongNumber + 1});
-			this.setState({correctNumber: 0});
-			// console.log("Attempt Number: ",  this.state.attemptNumber);
-			// console.log("Wrong Number: ", this.state.wrongNumber);
-			//window.location.reload();		
-		}
-	}
-
-	componentWillUnmount() {
-		
-		audioContext.close();
-	}
-
-	buttonBoy = (event) => {
-		event.preventDefault();
-		dist.curve = this.makeDistortionCurve(0);
-		
 	}
 
 	componentWillMount() {
@@ -122,15 +117,21 @@ export default class Test3Level0 extends Component {
 			window.history.forward()
 		}, 0)
 		window.onunload=function(){null};
+
 	}
 
-	handleFirstSlider = (event) => {
-		event.preventDefault();
-		const value = this.refs.slider1.value;
-		this.setState({
-			firstSlider: value, 
+	componentDidMount() {
+
+		shuffle(tracks);
+		var x = document.getElementById("entryDiv");
+		x.style.display="block";
+		//this.play();
+		this.Test3Tracker = Tracker.autorun(() => {
+			Meteor.subscribe('test3');
+			const test3 = Test3.find({userId: Meteor.userId()}).fetch();
+			this.setState({ test3 });
 		});
-	};
+	}
 
 	play = (event) =>{
 		
@@ -143,7 +144,7 @@ export default class Test3Level0 extends Component {
 
 			startTime = audioContext.currentTime;
 			source = audioContext.createBufferSource();
-			request.open('GET', './audio/traction.wav',  true);
+			request.open('GET', tracks[0],  true);
 			request.responseType = 'arraybuffer';
 			request.onload = function() {
 				var audioData = request.response;
@@ -151,14 +152,9 @@ export default class Test3Level0 extends Component {
 				audioContext.decodeAudioData(audioData, function(buffer) {
 					source.buffer = buffer;
 					source.loop = true;
-					source.connect(binauralFIRNode.input);
-					binauralFIRNode.connect(audioContext.destination);
-					// gain.connect(audioContext.destination);
-					// convolver.connect(audioContext.destination);
-					// source.start(0, startOffset % buffer.duration);
-					binauralFIRNode.setPosition(0, 0, 1);
-					
-					
+					source.connect(filter);
+					filter.connect(gain);
+					gain.connect(audioContext.destination);
 					setTimeout(() => source.start(0, startOffset % buffer.duration), 0);
 					isConnectedToFilter = false;
 				},
@@ -171,20 +167,6 @@ export default class Test3Level0 extends Component {
 		}
 	}
 
-	makeDistortionCurve(amount) {
-  		var k = typeof amount === 'number' ? amount : 50,
-    	n_samples = 44100,
-    	curve = new Float32Array(n_samples),
-    	deg = Math.PI / 180,
-    	i = 0,
-    	x;
-  		for ( ; i < n_samples; ++i ) {
-    		x = i * 2 / n_samples - 1;
-    		curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
-  		}
-  		return curve;
-	};
-
 	stop = (event) => {
 
 		source.stop(0);
@@ -192,53 +174,307 @@ export default class Test3Level0 extends Component {
 		isPlaying = false;
 		startTime = 0;
 		startOffset = 0;
-		audioContext.close();
 
 	}
 
-	handleSlider = (event, value) => {
-		gain.gain.value = value;
-	};
+	componentWillUnmount() {
+		this.Test3Tracker.stop();
+	}
 
-	lowpass1 = (event) => {
+	filterA = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = newArray[0].type;
+	      filter.frequency.value = newArray[0].frequency;
+	      filter.Q.value = newArray[0].q;
+	      filter.gain.value = newArray[0].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = newArray[0].type;
+	      filter.frequency.value = newArray[0].frequency;
+	      filter.Q.value = newArray[0].q;
+	      filter.gain.value = newArray[0].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	filterB = (event) => {
+		//console.log(array[0].frequency);
+	    if(isConnectedToFilter) {
+	      filter.type = newArray[1].type;
+	      filter.frequency.value = newArray[1].frequency;
+	      filter.Q.value = newArray[1].q;
+	      filter.gain.value = newArray[1].gain;
+	      isConnectedToFilter = true;
+	    }
+	    else {
+	      source.connect(filter);
+	      filter.connect(gain);
+	      filter.type = newArray[1].type;
+	      filter.frequency.value = newArray[1].frequency;
+	      filter.Q.value = newArray[1].q;
+	      filter.gain.value = newArray[1].gain;
+	      isConnectedToFilter = true;
+	   	}
+  	}
+
+  	flat = (event) => {
+		if(isConnectedToFilter) {
+			filter.type = 'allpass';
+			filter.frequency.value = 22050;
+			isConnectedToFilter = true;
+		}
+		else {
+			source.connect(filter);
+			filter.connect(gain);
+			filter.type = 'allpass';
+			filter.frequency.value = 22050;
+			isConnectedToFilter = true;
+		}
+	}
+
+
+	onModalOk = (event) => {
 		event.preventDefault();
-		const value = this.refs.slider1.value;
-		binauralFIRNode.setPosition(value, binauralFIRNode.getPosition().elevation, binauralFIRNode.getPosition().distance);
-		binauralFIRNode.setPosition(binauralFIRNode.getPosition().azimuth, -40, binauralFIRNode.getPosition().distance);
-
+		//this.stop();
+		Meteor.call('test3.Test3Level0Insert',0, 1);
+				setTimeout(() => history.push('/Test3Level1'), 0);
 	}
 
-	lowpass2 = (event) => {
-
-
-	}
-
-	flat = (event) => {
-		binauralFIRNode.setPosition(10, binauralFIRNode.getPosition().elevation, binauralFIRNode.getPosition().distance);
-		binauralFIRNode.setPosition(binauralFIRNode.getPosition().azimuth, -40, binauralFIRNode.getPosition().distance);
-		
-	}
+	
 	render() {
 		return(
 			<div>
-				<PrivateHeader title="Level 0"/>
+				<PrivateHeader title="Level 1"/>
 				<div>
-					<p>Use Slider</p>
-					<form onSubmit={this.onSubmit.bind(this)}>
-						<input type="range" step="0.5" ref="slider1" min="0" max="10" className="Level1Slider1" value={this.state.firstSlider} onChange={this.handleFirstSlider.bind(this)}/>					
-						<button>Submit!</button>
-					</form>
-					{this.state.firstSlider}
-					<button onClick={this.buttonBoy}>{this.state.justCopied ? 'Am I there?' : ':P'}</button>
-					<button onClick={this.play}>Play/Pause</button>
-					<button onClick={this.stop}>Stop</button>
-					<button onClick={this.flat}>Flat</button>
-					<button onClick={this.lowpass1}>Lowpass1</button>
-					Level 0 : Attempts: {this.state.attemptNumber}, Wrong Streak: {this.state.wrongNumber}, Correct Streak: {this.state.correctNumber}
-					<Link to='/Dashboard'>Dashboard</Link>
+					<div>
+						<div className = "chartBox">
+							<Test3Level0Graph array={this.props.newArray}/>
+						</div>
+						<div className = "graph-form">
+							<div id = "entryDiv">
+								<div className = "score-card">
+									
+								</div>
+								<div className = "media-buttons">
+									<button className = "level0-media-button" onClick={this.filterA}>A</button>
+									<button className = "level0-media-button" onClick={this.filterB}>B</button>
+									<button className = "level0-media-button" onClick={this.flat}>Flat</button>
+									<button className = "level0-media-button" onClick={this.play}>Play/Pause</button>
+									<button className = "level0-media-button" onClick={this.stop}>Stop</button>
+								</div>
+								<p>Compare the unequalized version of the sound (FLAT) to the equalized version (EQ), and determine
+								 which frequency band is affected by the equalization. Enter your response by clicking on the numbered
+								  button that corresponds to the affected frequency band, and then hit the DONE button.</p>
+								<form className = "level0-radio-form" id = "form">
+									<div className = "submit-button-contianer">
+										<button className = "button--submit-button" onClick={this.onModalOk}>OK</button>
+									</div>
+								<button className = "dashboard-link-button" onClick = {this.stop}><Link to = '/Dashboard'>Dashboard</Link></button>
+
+								</form>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-			)
+		)
 	}
 	
+}
+
+class Test3Level0Graph extends Component {
+
+	constructor(props, el) {
+		super(props);
+		this.el = el;
+		
+	}
+	
+	componentDidMount() {
+
+		var gain = audioContext.createGain();
+		var biquadFilter = audioContext.createBiquadFilter();
+
+		//filter properties - play with this to set filter
+		biquadFilter = audioContext.createBiquadFilter(); 
+		biquadFilter.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
+		biquadFilter.frequency.value = 2000; //most important - change this to see if filter working properly - it is
+		biquadFilter.Q.value = 1;
+		biquadFilter.gain.value =-6; // gain should be 6 when used in peaking/notch
+		biquadFilter.connect(audioContext.destination);
+
+		biquadFilter2 = audioContext.createBiquadFilter(); 
+		biquadFilter2.type = "peaking"; //most important - can be highpass, lowpass, peaking, notch
+		biquadFilter2.frequency.value = 200; //most important - change this to see if filter working properly - it is
+		biquadFilter2.Q.value = 1;
+		biquadFilter2.gain.value =-6; // gain should be 6 when used in peaking/notch
+		biquadFilter2.connect(audioContext.destination);
+
+		var peaks = [biquadFilter.frequency.value, biquadFilter2.frequency.value]; 
+		//add cut off frequency values here as you add more filters
+
+
+		var width = 800; 
+
+		var w = 700;
+		var h = 400;
+		var ymargin = 50;
+		var xmargin = 50;
+
+		var svg = d3.select("svg") //append svg element to body		
+		   .classed("svg-container", true) //container class to make it responsive
+		   .append("svg")
+		   //responsive SVG needs these 2 attributes and no width and height attr
+		   .attr("preserveAspectRatio", "xMinYMin meet")
+		   .attr("viewBox", "0 0 700 400")
+		   //class to make it responsive
+		   .classed("svg-content-responsive", true); 
+
+		var x = d3.scaleLog() //set log scale for x values
+		          .base(10) 
+		         .range([xmargin,w-xmargin/2]);
+
+		var getIndex= d3.bisector(function(d){return d.x}).left; //this gives the index of frequency f in array data
+		
+		
+		var noctaves = 11;
+	    
+	    var frequencyHz = new Float32Array(width);
+	    var magResponse1 = new Float32Array(width);
+	    var magResponse2 = new Float32Array(width);
+	    // var magResponse3 = new Float32Array(width); //create new everytime you add a filter
+	    var phaseResponse = new Float32Array(width);
+	    var nyquist = 0.5 * audioContext.sampleRate;
+	    // First get response.
+	    for (var i = 0; i < width; ++i) {
+	        var f = i / width;
+	        
+	        // Convert to log frequency scale (octaves).
+	        f = nyquist * Math.pow(2.0, noctaves * (f - 1.0));
+	        
+	        frequencyHz[i] = f;
+	    }
+
+	    //list of reponses, add here
+
+	    biquadFilter.getFrequencyResponse(frequencyHz, magResponse1, phaseResponse);
+	    biquadFilter2.getFrequencyResponse(frequencyHz, magResponse2, phaseResponse);
+	    // biquadFilter3.getFrequencyResponse(frequencyHz, magResponse3, phaseResponse);
+
+	    var data2 = []
+
+	    for(var i=0; i<width; ++i){ //create list with elements x (frequency) and y(magresponse1, magresponse2 ...) add to this list when you add new filter
+	      data2.push({x:frequencyHz[i], y: [20*Math.log(magResponse1[i])/Math.log(10), 
+	      	20*Math.log(magResponse2[i])/Math.log(10)
+	      	//add more here
+	      	]});
+	    }
+
+	    //THAT'S IT! NO NEED TO CHANGE REST OF CODE
+
+	    range = 10; //can be changed
+
+	    data = data2.filter(function(d,i){
+	      return d.y[0] > -range && d.y[0] < range; //not required for peaking filter for now
+	    })
+
+		 x.domain([ d3.min(data, function(d){ //set domain of xscale
+	              return(d.x);
+	            }), 
+	              d3.max(data, function(d){
+	              return(d.x);
+	             })]);
+
+	  	var ydb = d3.scaleLinear() //scale for y axis
+	               .domain([-range, range])
+	               .range([h-ymargin,ymargin]);
+
+	    g = svg.append("g"); //create group
+
+		
+		g.append("g") //create x axis
+	        .attr("class", "axis")
+	        .attr("transform", "translate(0, "+ (h-ymargin) +")")
+	        .call(d3.axisBottom(x)
+	        .tickValues([1, 10, 100, 1000, 10000, 22050])
+	        .tickFormat(d3.format(",.0f")));
+	               
+		g.append("g") //create y axis
+		    .attr("class", "axis")
+		    .attr("transform", "translate("+ xmargin +", 0)")
+		    .call(d3.axisLeft(ydb));
+
+		g.append("text") //append xlabel
+	        .attr("class", "label")
+	        .attr("x", w / 2 )
+	        .attr("y",  h-10)
+	        .style("text-anchor", "middle")
+	        .text("Frequency (Hz)");
+
+	    g.append("text") //append ylabel
+		    .attr("class", "label")
+		    .attr("transform", "rotate(-90)")
+		    .attr("y", 15)
+		    .attr("x",0 - (h / 2))
+		    .text("Amplitude (dB)"); 
+
+	    function drawLine(k) { //function to draw line
+	    	var line = d3.line() 
+		 			.x(function(d,i){
+		 				return x(d.x);
+		 			})
+		 			.y(function(d,i){
+		 				return ydb(d.y[k]);
+		 			}); 
+
+		 	g.append("path")
+			.datum(data)
+			.style("stroke", "steelblue")
+			.style("stroke-width", 2)
+			.attr("d", line);
+	    }
+
+		var focus = svg.append("g") //variable for creation of red circle and associated Text
+	      .attr("class", "focus");
+
+		for (var i=0; i < peaks.length; i++) {
+
+			drawLine(i); //function to draw line. defined above
+			var f = peaks[i]; 
+		    var id = getIndex(data, f); //get index in array for peak frequency
+		    var a = data[id].y[i]; //get magnitude for that index 
+
+		    focus.append("circle").attr("r", 4.5).attr("cx", x(f)).attr("cy", ydb(a)); //circle
+		    focus.append("text").text(Math.round(100*f)/100+" Hz") //label
+		    	.attr("x", x(f)-30)
+		    	.attr("y", ydb(a)-7)
+		    	.style("font-size", "12px");
+
+		    focus.append("text").text(String.fromCharCode(64+peaks.length-i)) //option A,B - get from ASCII
+		    	.attr("x", x(f))
+		    	.attr("y", ydb(a)-20)
+		    	.style("font-weight", "bold")
+		    	.style("font-size", "15px");
+	 	}	
+	}
+
+	componentWillUnmount() {
+		//this.el.close();
+	}
+
+	render() {
+
+		return (
+			<div className = "chart">
+				<div className = "chart__content">
+					<h1 className = "chart__header">Dips - Introduction</h1>
+					<svg id="chart" width="700" height="400" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet"></svg>
+				</div>
+			</div>
+		);
+	}
 }

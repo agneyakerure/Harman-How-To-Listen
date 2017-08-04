@@ -94,6 +94,13 @@ input[type="radio"]{
   // border: 5px solid;
 }
 
+.home-graph-form {
+  margin: 9rem auto;
+  max-width: 50rem;
+  text-align: center;
+  // border: 5px solid;
+}
+
 .submit-button-contianer {
   margin: 2.5rem $space;
 }
@@ -122,6 +129,12 @@ input[type="radio"]{
   width: auto;
 }
 
+.level0-radio-form {
+  margin: 2rem;
+  padding-top: 0.5rem;
+  width: auto;
+}
+
 .media-button3-box {
   //border: 2px solid;
   margin-bottom: 1.5rem;
@@ -137,7 +150,8 @@ input[type="radio"]{
 }
 
 .home-footer {
-  margin-top: 84%;
+  text-align: center;
+  margin-top: 75%;
 }
 /*DO NOT CHANGE VERY IMPORTANT ------ END*/
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Accounts } from 'meteor/accounts-base';
+import LoginHeader from './LoginHeader';
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -38,6 +39,8 @@ export default class SignUp extends Component {
   }
   render() {
     return (
+      <div>
+      <LoginHeader/>
         <div className = "boxed-view">
           <div className = "boxed-view__box">
             <h1>Join!</h1>
@@ -52,6 +55,7 @@ export default class SignUp extends Component {
             <Link to="/Login">Already have an account? </Link>
           </div>
         </div>
+      </div>
     );
   }
 }
