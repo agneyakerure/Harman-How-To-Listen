@@ -347,6 +347,10 @@ export default class Test3Level1 extends Component {
 
 		}
 	}
+
+	value = () => {
+		console.log("INCOMPLETE LEVEL: ", this.state.test3[(this.state.test3.length)-1].Test3IncompleteLevel);
+	}
 	
 	render() {
 		var corno;
@@ -376,6 +380,7 @@ export default class Test3Level1 extends Component {
 									<button className = "media-button" onClick={this.flat}>Flat</button>
 									<button className = "media-button" onClick={this.play}>Play/Pause</button>
 									<button className = "media-button" onClick={this.stop}>Stop</button>
+									<button className = "media-button" onClick={this.value}>Value</button>
 								</div>
 								<form className = "radio-form" id = "form" onSubmit = {this.onSubmit}>
 									<input type = "radio" name = "choice" value= "A"/>A

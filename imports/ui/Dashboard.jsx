@@ -5,6 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom';
 import { Links } from '../api/links';
 import { Test2 } from '../api/Test2';
+import { Test3 } from '../api/Test3';
 import PrivateHeader from './PrivateHeader';
 
 Test1Links = ['/Test1Level0', '/Test1Level1', '/Test1Level2', '/Test1Level3', '/Test1Level4'];
@@ -50,7 +51,7 @@ export default class Dashboard extends Component {
 			Meteor.subscribe('test3');
 			const values = Links.find({userId: Meteor.userId()}).fetch();
 			const test2 = Test2.find({userId: Meteor.userId()}).fetch();
-			const test3 = Test2.find({userId: Meteor.userId()}).fetch();
+			const test3 = Test3.find({userId: Meteor.userId()}).fetch();
 			this.setState({ values });
 			this.setState({ test2 });
 			this.setState({ test3 });
@@ -190,7 +191,7 @@ export default class Dashboard extends Component {
 
 
 		if(!this.state.test3[(this.state.test3.length)-1]) {
-			console.log("here!");
+			console.log("here - undefined hai!");
 			this.setState({Test3Link: '/Test3Level0'});
 			this.setState({Test3Correct: 0});
 			this.setState({Test3Attempts: 0});

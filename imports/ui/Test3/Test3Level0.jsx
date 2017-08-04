@@ -44,6 +44,7 @@ for (var i = 0; i < hrtfs.length; i++) {
 
 const history = createBrowserHistory({forceRefresh: true});
 var incompleteLevel = 0;
+
 export default class Test3Level0 extends Component {
 	constructor(props) {
 		super(props);
@@ -55,7 +56,7 @@ export default class Test3Level0 extends Component {
 			level: 0,
 			correctNumber: 0,
 			wrongNumber: 0,
-			Test3:[]
+			test3:[]
 		};
 	}
 
@@ -82,7 +83,7 @@ export default class Test3Level0 extends Component {
 				this.setState({attemptNumber: this.state.attemptNumber + 1});
 				this.setState({correctNumber: this.state.correctNumber + 1});
 				this.setState({wrongNumber: 0});
-				Meteor.call('Test3.Test3Level0Insert',value, incompleteLevel);
+				Meteor.call('test3.Test3Level0Insert',value, incompleteLevel);
 				setTimeout(() => history.push('/Test3Level1'), 0);
 			} else {
 				incompleteLevel = 0;
@@ -90,7 +91,7 @@ export default class Test3Level0 extends Component {
 				this.setState({attemptNumber: this.state.attemptNumber + 1});
 				this.setState({correctNumber: this.state.correctNumber + 1});
 				this.setState({wrongNumber: 0});
-				Meteor.call('Test3.Test3Level0Insert',value, incompleteLevel);
+				Meteor.call('test3.Test3Level0Insert',value, incompleteLevel);
 			}
 			
 
@@ -222,7 +223,7 @@ export default class Test3Level0 extends Component {
 			<div>
 				<PrivateHeader title="Level 0"/>
 				<div>
-					<p>Use Slider !!!!!!</p>
+					<p>Use Slider</p>
 					<form onSubmit={this.onSubmit.bind(this)}>
 						<input type="range" step="0.5" ref="slider1" min="0" max="10" className="Level1Slider1" value={this.state.firstSlider} onChange={this.handleFirstSlider.bind(this)}/>					
 						<button>Submit!</button>
